@@ -1,9 +1,8 @@
 ﻿using System.Linq.Expressions;
 
-
-namespace IGeneralMedicalDal
+namespace IGeneralMedicalBll
 {
-    public interface IBaseDal<TEntity> where TEntity : class
+    public interface IBaseBll<TEntity> where TEntity : class
     {
         /// <summary>
         /// 提交当前单元操作的更改
