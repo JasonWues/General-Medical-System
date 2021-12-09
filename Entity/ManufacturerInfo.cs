@@ -5,7 +5,7 @@ namespace Entity
     /// <summary>
     /// 生产厂家
     /// </summary>
-    internal class ManufacturerInfo : BaseId
+    public class ManufacturerInfo : BaseId
     {
         /// <summary>
         /// 厂家名称
