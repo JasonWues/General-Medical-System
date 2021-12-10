@@ -20,7 +20,7 @@ namespace Entity
         public string DrugId { get; set; }
 
         /// <summary>
-        ///数量
+        /// 数量
         /// </summary>
         public int Count { get; set; }
 
