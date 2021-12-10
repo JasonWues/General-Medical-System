@@ -2,6 +2,9 @@
 
 namespace Entity
 {
+    /// <summary>
+    /// 角色表
+    /// </summary>
     public class RoleInfo : BaseId
     {
         /// <summary>
