@@ -27,7 +27,8 @@ namespace Entity
         /// <summary>
         /// 性别
         /// </summary>
-        public int Sex { get; set; }
+        [Column(TypeName = "int")]
+        public string Sex { get; set; }
 
         /// <summary>
         /// 状态
