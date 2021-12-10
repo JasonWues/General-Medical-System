@@ -37,7 +37,7 @@ namespace Entity
         /// <summary>
         /// 挂号金额
         /// </summary>
-        public decimal Registeredprice { get; set; }
+        public decimal RegisteredPrice { get; set; }
 
         /// <summary>
         /// 手机号

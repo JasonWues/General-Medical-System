@@ -12,15 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\GeneralMedicalBll\GeneralMedicalBll.csproj" />
     <ProjectReference Include="..\GeneralMedicalDal\GeneralMedicalDal.csproj" />
     <ProjectReference Include="..\IGeneralMedicalBll\IGeneralMedicalBll.csproj" />
     <ProjectReference Include="..\IGeneralMedicalDal\IGeneralMedicalDal.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
 </Project>

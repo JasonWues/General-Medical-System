@@ -1,5 +1,7 @@
 using Entity;
+using GeneralMedicalBll;
 using GeneralMedicalDal;
+using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,7 @@ builder.Services.AddDbContext<GeneralMedicalContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-//“¿¿µ◊¢»ÎDal≤„
+#region ioc
 builder.Services.AddScoped<IDoctorInfoDal, DoctorInfoDal>();
 builder.Services.AddScoped<IBehospitalizedDal, BehospitalizedDal>();
 builder.Services.AddScoped<IDepartmentInfoDal, DepartmentInfoDal>();
@@ -27,6 +29,23 @@ builder.Services.AddScoped<IPatientInfoDal, PatientInfoDal>();
 builder.Services.AddScoped<IRegisterDal, RegisterDal>();
 builder.Services.AddScoped<IRoleInfoDal, RoleInfoDal>();
 builder.Services.AddScoped<IWardInfoDal, WardInfoDal>();
+
+builder.Services.AddScoped<IDoctorInfoBll, DoctorInfoBll>();
+builder.Services.AddScoped<IBehospitalizedBll, BehospitalizedBll>();
+builder.Services.AddScoped<IDepartmentInfoBll, DepartmentInfoBll>();
+builder.Services.AddScoped<IDiagnosisInfo_DrugInfoBll, DiagnosisInfo_DrugInfoBll>();
+builder.Services.AddScoped<IDiagnosisInfoBll, DiagnosisInfoBll>();
+builder.Services.AddScoped<IDoctorInfo_RoleInfoBll, DoctorInfo_RoleInfoBll>();
+builder.Services.AddScoped<IDrugInfo_ManufacturerInfoBll, DrugInfo_ManufacturerInfoBll>();
+builder.Services.AddScoped<IDrugInfo_PatientInfoBll, DrugInfo_PatientInfoBll>();
+builder.Services.AddScoped<IDrugInfoBll, DrugInfoBll>();
+builder.Services.AddScoped<IDrugstorageBll, DrugstorageBll>();
+builder.Services.AddScoped<IManufacturerInfoBll, ManufacturerInfoBll>();
+builder.Services.AddScoped<IPatientInfoBll, PatientInfoBll>();
+builder.Services.AddScoped<IRegisterBll, RegisterBll>();
+builder.Services.AddScoped<IRoleInfoBll, RoleInfoBll>();
+builder.Services.AddScoped<IWardInfoBll, WardInfoBll>();
+#endregion
 
 builder.Services.AddSwaggerGen();
 

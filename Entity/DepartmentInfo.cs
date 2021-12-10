@@ -11,7 +11,7 @@ namespace Entity
         /// 科室名称
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string Departmentname { get; set; }
+        public string DepartmentName { get; set; }
 
         /// <summary>
         /// 主管Id
