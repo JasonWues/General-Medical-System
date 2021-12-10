@@ -6,14 +6,12 @@ namespace Entity
     {
         public GeneralMedicalContext(DbContextOptions<GeneralMedicalContext> options) : base(options)
         {
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(@"server=DESKTOP-QOGKNNM\SQLEXPRESS;database=CompanySystem;uid=sa;pwd=123456;");
             optionsBuilder.UseSqlServer("server=.;database=GeneralMedicalSystem;Integrated Security=true;");
-
         }
 
         public DbSet<Behospitalized> Behospitalized { get; set; }
@@ -26,7 +24,7 @@ namespace Entity
         public DbSet<DrugInfo_ManufacturerInfo> Info_ManufacturerInfo { get; set; }
         public DbSet<DrugInfo_PatientInfo> DrugInfo_PatientInfo { get; set; }
         public DbSet<Drugstorage> Drugstorage { get; set; }
-        public DbSet<ManufacturerInfo>  ManufacturerInfo { get; set; }
+        public DbSet<ManufacturerInfo> ManufacturerInfo { get; set; }
         public DbSet<PatientInfo> PatientInfo { get; set; }
         public DbSet<Register> Register { get; set; }
         public DbSet<RoleInfo> RoleInfo { get; set; }

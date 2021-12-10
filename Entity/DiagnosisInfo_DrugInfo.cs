@@ -2,6 +2,7 @@
  * @date : 2021-12-9
  * @desc : 诊断药品关联表
  */
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity

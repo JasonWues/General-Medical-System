@@ -4,11 +4,11 @@
  * @date : 2021-12-9
  * @desc : 住院表
  */
+
 namespace Entity
 {
     public class Behospitalized : BaseId
     {
-
         /// <summary>
         /// 患者Id
         /// </summary>

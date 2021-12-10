@@ -1,10 +1,5 @@
 ﻿using Entity;
 using IGeneralMedicalDal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeneralMedicalDal
 {
@@ -13,8 +8,9 @@ namespace GeneralMedicalDal
     /// </summary>
     public class DoctorInfo_RoleinfoDal : BaseDal<DoctorInfo_RoleInfo>, IDoctorInfo_RoleInfoDal
     {
-        GeneralMedicalContext _DbContext;
-        public DoctorInfo_RoleinfoDal(GeneralMedicalContext DbContext):base(DbContext)
+        private GeneralMedicalContext _DbContext;
+
+        public DoctorInfo_RoleinfoDal(GeneralMedicalContext DbContext) : base(DbContext)
         {
             _DbContext = DbContext;
         }

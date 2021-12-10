@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 
-
 namespace IGeneralMedicalDal
 {
     public interface IBaseDal<TEntity> where TEntity : class
@@ -94,7 +93,6 @@ namespace IGeneralMedicalDal
         /// <param name="whereFunc">过滤条件</param>
         /// <returns></returns>
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> whereFunc);
-
 
         /// <summary>
         /// 去重查询

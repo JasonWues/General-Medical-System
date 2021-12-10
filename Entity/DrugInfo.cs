@@ -37,6 +37,7 @@ namespace Entity
         /// <summary>
         /// 价格
         /// </summary>
+        [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
         /// <summary>

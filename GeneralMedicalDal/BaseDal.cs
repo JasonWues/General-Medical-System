@@ -1,7 +1,6 @@
 ﻿using Entity;
 using IGeneralMedicalDal;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
 
 namespace GeneralMedicalDal
@@ -9,6 +8,7 @@ namespace GeneralMedicalDal
     public class BaseDal<TEntity> : IBaseDal<TEntity> where TEntity : BaseId
     {
         private readonly GeneralMedicalContext _DbContext;
+
         public BaseDal(GeneralMedicalContext DbContext)
         {
             _DbContext = DbContext;
@@ -71,7 +71,7 @@ namespace GeneralMedicalDal
         public bool Update(TEntity entity)
         {
             var entry = _DbContext.Entry(entity);
-            if(entry.State == EntityState.Detached)
+            if (entry.State == EntityState.Detached)
             {
                 entry.State = EntityState.Modified;
             }

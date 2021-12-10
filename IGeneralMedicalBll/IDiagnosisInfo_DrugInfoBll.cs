@@ -1,13 +1,8 @@
 ﻿using Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IGeneralMedicalBll
 {
-    public interface  IDiagnosisInfo_DrugInfoBll:IBaseBll<DiagnosisInfo_DrugInfo>
+    public interface IDiagnosisInfo_DrugInfoBll : IBaseBll<DiagnosisInfo_DrugInfo>
     {
     }
 }

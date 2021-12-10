@@ -94,7 +94,6 @@ namespace IGeneralMedicalBll
         /// <returns></returns>
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> whereFunc);
 
-
         /// <summary>
         /// 去重查询
         /// </summary>

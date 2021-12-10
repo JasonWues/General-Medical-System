@@ -25,7 +25,7 @@ namespace GeneralMedicalBll
 
         public async Task<bool> AddAsync(TEntity entity)
         {
-           return await _iBaseDal.AddAsync(entity);
+            return await _iBaseDal.AddAsync(entity);
         }
 
         public bool Any(Expression<Func<TEntity, bool>> whereFunc)
@@ -45,7 +45,7 @@ namespace GeneralMedicalBll
 
         public bool Delete(string Id)
         {
-           return _iBaseDal.Delete(Id);
+            return _iBaseDal.Delete(Id);
         }
 
         public async Task<bool> DeleteAsync(TEntity entity)
@@ -77,7 +77,6 @@ namespace GeneralMedicalBll
         {
             return _iBaseDal.GetAll();
         }
-
 
         public int SaveChanges()
         {

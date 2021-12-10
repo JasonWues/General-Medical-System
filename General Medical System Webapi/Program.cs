@@ -14,6 +14,7 @@ builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
 
 #region ioc
+
 builder.Services.AddScoped<IDoctorInfoDal, DoctorInfoDal>();
 builder.Services.AddScoped<IBehospitalizedDal, BehospitalizedDal>();
 builder.Services.AddScoped<IDepartmentInfoDal, DepartmentInfoDal>();
@@ -45,7 +46,8 @@ builder.Services.AddScoped<IPatientInfoBll, PatientInfoBll>();
 builder.Services.AddScoped<IRegisterBll, RegisterBll>();
 builder.Services.AddScoped<IRoleInfoBll, RoleInfoBll>();
 builder.Services.AddScoped<IWardInfoBll, WardInfoBll>();
-#endregion
+
+#endregion ioc
 
 builder.Services.AddSwaggerGen();
 
@@ -57,7 +59,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 

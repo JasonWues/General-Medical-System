@@ -27,6 +27,5 @@ namespace Entity
         /// 病房状态
         /// </summary>
         public int Status { get; set; }
-
     }
 }

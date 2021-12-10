@@ -37,6 +37,7 @@ namespace Entity
         /// <summary>
         /// 挂号金额
         /// </summary>
+        [Column(TypeName = "money")]
         public decimal RegisteredPrice { get; set; }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Entity
         /// <summary>
         /// 软删除
         /// </summary>
-        public bool Isdelete { get; set; }
+        public bool IsDelete { get; set; }
 
         /// <summary>
         /// 删除时间

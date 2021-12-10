@@ -17,7 +17,7 @@ namespace Entity
         /// 主管Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string LeaderId { get; set; }
+        public string? LeaderId { get; set; }
 
         /// <summary>
         /// 挂号数量

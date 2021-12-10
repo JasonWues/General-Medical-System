@@ -11,7 +11,7 @@ namespace Entity
         /// <summary>
         /// 主键
         /// </summary>
-        
+
         [Key]
         [Column(TypeName = "varchar(36)")]
         public string Id { get; set; }

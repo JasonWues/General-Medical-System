@@ -1,9 +1,4 @@
 ﻿using Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IGeneralMedicalBll
 {
@@ -12,6 +7,5 @@ namespace IGeneralMedicalBll
     /// </summary>
     public interface IWardInfoBll : IBaseBll<WardInfo>
     {
-
     }
 }
