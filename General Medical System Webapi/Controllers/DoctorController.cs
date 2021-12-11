@@ -35,8 +35,9 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
-            var list = await _doctorInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
-            if (list.Count != 0) return ApiResultHelp<List<DoctorInfo>>.SuccessResult(list);
+            var doctors = await _doctorInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
+            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
             return ApiResultHelp.ErrorResult(404,"无数据");
         }
 
