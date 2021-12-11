@@ -14,17 +14,6 @@ namespace Entity
             optionsBuilder.UseSqlServer("server=.;database=GeneralMedicalSystem;Integrated Security=true;");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<DoctorInfo>()
-                .Property(x => x.Sex)
-                .HasConversion(x => x == "男" ? 0 : 1, x => x == 0 ? "男" : "女");
-
-            modelBuilder.Entity<PatientInfo>()
-                .Property(x => x.Sex)
-                .HasConversion(x => x == "男" ? 0 : 1, x => x == 0 ? "男" : "女");
-        }
-
         public DbSet<Behospitalized> Behospitalized { get; set; }
         public DbSet<DepartmentInfo> DepartmentInfo { get; set; }
         public DbSet<DiagnosisInfo> DiagnosisInfo { get; set; }

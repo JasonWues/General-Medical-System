@@ -1,22 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Entity
+﻿namespace Entity.DTO
 {
-    /// <summary>
-    /// 医生表
-    /// </summary>
-    public class DoctorInfo : BaseId
+    public class DoctorInfoDto
     {
+        public string Id { get; set; }
         /// <summary>
         /// 部门Id
         /// </summary>
-        [Column(TypeName = "varchar(36)")]
         public string? DepartmentId { get; set; }
 
         /// <summary>
         /// 医生姓名
         /// </summary>
-        [Column(TypeName = "nvarchar(18)")]
         public string DoctorName { get; set; }
 
         /// <summary>
@@ -27,7 +21,7 @@ namespace Entity
         /// <summary>
         /// 性别
         /// </summary>
-        public int Sex { get; set; }
+        public string Sex { get; set; }
 
         /// <summary>
         /// 状态
@@ -37,28 +31,16 @@ namespace Entity
         /// <summary>
         /// 挂号金额
         /// </summary>
-        [Column(TypeName = "money")]
-        public decimal RegisteredPrice { get; set; }
+        public int RegisteredPrice { get; set; }
 
         /// <summary>
         /// 手机号
         /// </summary>
-        [Column(TypeName = "varchar(18)")]
         public string Phonenum { get; set; }
 
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime Createtime { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        public bool IsDelete { get; set; }
-
-        /// <summary>
-        /// 删除时间
-        /// </summary>
-        public DateTime Deletetime { get; set; }
+        public string Createtime { get; set; }
     }
 }

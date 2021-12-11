@@ -1,5 +1,8 @@
 ﻿using Entity;
+using Entity.DTO;
 using IGeneralMedicalBll;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Utility;
@@ -10,18 +13,22 @@ namespace General_Medical_System_Webapi.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IDoctorInfoBll _doctorInfoBll;
 
-        public DoctorController(IDoctorInfoBll doctorInfoBll)
+        public DoctorController(IMapper mapper,IDoctorInfoBll doctorInfoBll)
         {
+            _mapper = mapper;
             _doctorInfoBll = doctorInfoBll;
         }
 
         [HttpGet]
         public async Task<ApiResult> Query()
-        {
-            var list = await _doctorInfoBll.GetAll().ToListAsync();
-            if (list.Count != 0) return ApiResultHelp<List<DoctorInfo>>.SuccessResult(list);
+        {          
+            var doctors = await _doctorInfoBll.GetAll().ToListAsync();
+            //使用Mapster转换成Dto
+            var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
+            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

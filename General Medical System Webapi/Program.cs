@@ -3,6 +3,9 @@ using GeneralMedicalBll;
 using GeneralMedicalDal;
 using IGeneralMedicalBll;
 using IGeneralMedicalDal;
+using Mapster;
+using MapsterMapper;
+using Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,7 @@ builder.Services.AddDbContext<GeneralMedicalContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-#region ioc
+#region IOC
 
 builder.Services.AddScoped<IDoctorInfoDal, DoctorInfoDal>();
 builder.Services.AddScoped<IBehospitalizedDal, BehospitalizedDal>();
@@ -48,6 +51,15 @@ builder.Services.AddScoped<IRoleInfoBll, RoleInfoBll>();
 builder.Services.AddScoped<IWardInfoBll, WardInfoBll>();
 
 #endregion ioc
+
+#region Mapster
+
+TypeAdapterConfig config = new TypeAdapterConfig();
+config.Scan(typeof(DtoRegister).Assembly);
+builder.Services.AddSingleton(config);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
+
+#endregion
 
 builder.Services.AddSwaggerGen();
 
