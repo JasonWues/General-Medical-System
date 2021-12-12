@@ -8,7 +8,7 @@ namespace Entity
     public class DoctorInfo : BaseId
     {
         /// <summary>
-        /// 部门Id
+        /// 科室Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
         public string? DepartmentId { get; set; }
@@ -45,6 +45,12 @@ namespace Entity
         /// </summary>
         [Column(TypeName = "varchar(18)")]
         public string Phonenum { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [Column(TypeName = "varchar(36)")]
+        public string Password { get; set; }
 
         /// <summary>
         /// 添加时间

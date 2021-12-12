@@ -50,7 +50,7 @@ builder.Services.AddScoped<IRegisterBll, RegisterBll>();
 builder.Services.AddScoped<IRoleInfoBll, RoleInfoBll>();
 builder.Services.AddScoped<IWardInfoBll, WardInfoBll>();
 
-#endregion ioc
+#endregion IOC
 
 #region Mapster
 
@@ -59,7 +59,7 @@ config.Scan(typeof(DtoRegister).Assembly);
 builder.Services.AddSingleton(config);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-#endregion
+#endregion Mapster
 
 builder.Services.AddSwaggerGen();
 

@@ -1,6 +1,6 @@
 ﻿namespace Entity.DTO
 {
-    public class DoctorInfoDto
+    public record DoctorInfoDto
     {
         public string Id { get; set; }
         /// <summary>
@@ -26,7 +26,7 @@
         /// <summary>
         /// 状态
         /// </summary>
-        public int Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// 挂号金额

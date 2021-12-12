@@ -83,6 +83,7 @@
         public static ApiResult<T> SuccessResult(T t)
         {
             var result = new ApiResult<T>();
+            result.Success = true;
             result.Code = 200;
             result.ResultObject = t.GetType().Name;
             result.Data = t;

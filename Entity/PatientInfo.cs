@@ -38,7 +38,7 @@ namespace Entity
         /// <summary>
         /// 密码
         /// </summary>
-        [Column(TypeName = "varchar(18)")]
+        [Column(TypeName = "varchar(36)")]
         public string Password { get; set; }
 
         /// <summary>
