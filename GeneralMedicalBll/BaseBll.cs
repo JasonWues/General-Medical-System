@@ -98,9 +98,29 @@ namespace GeneralMedicalBll
             return await _iBaseDal.UpdateAsync(entity);
         }
 
+        public bool Update(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities)
+        {
+            return _iBaseDal.Update(whereFunc, entities);
+        }
+
+        public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities)
+        {
+            return await _iBaseDal.UpdateAsync(whereFunc, entities);
+        }
+
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> whereFunc)
         {
             return _iBaseDal.Where(whereFunc);
+        }
+
+        public bool Delete(List<TEntity> entities)
+        {
+            return _iBaseDal.Delete(entities);
+        }
+
+        public async Task<bool> DeleteAsync(List<TEntity> entities)
+        {
+            return await _iBaseDal.DeleteAsync(entities);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace General_Medical_System_Webapi.Controllers
             _roleInfoBll = roleInfoBll;
         }
 
-
         /// <summary>
         /// 查询全部
         /// </summary>
@@ -77,7 +76,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id,string rolename, string? description,string? authority)
+        public async Task<ApiResult> Update(string id, string rolename, string? description, string? authority)
         {
             var RoleInfo = await _roleInfoBll.FindAsync(id);
             if (RoleInfo != null)
@@ -85,7 +84,6 @@ namespace General_Medical_System_Webapi.Controllers
                 RoleInfo.RoleName = rolename;
                 RoleInfo.Description = description;
                 RoleInfo.Authority = authority;
-                
 
                 if (await _roleInfoBll.UpdateAsync(RoleInfo))
                 {
@@ -115,6 +113,4 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
     }
-
 }
-

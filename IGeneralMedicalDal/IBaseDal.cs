@@ -127,5 +127,35 @@ namespace IGeneralMedicalDal
         /// <param name="Id">主键Id</param>
         /// <returns></returns>
         Task<TEntity> FindAsync(string Id);
+
+        /// <summary>
+        /// 批量更新
+        /// </summary>
+        /// <param name="whereFunc">修改条件</param>
+        /// <param name="entities">实体集合</param>
+        /// <returns></returns>
+        bool Update(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities);
+
+        /// <summary>
+        /// 批量更新(异步)
+        /// </summary>
+        /// <param name="whereFunc">修改条件</param>
+        /// <param name="entities">实体集合</param>
+        /// <returns></returns>
+        Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities);
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        bool Delete(List<TEntity> entities);
+
+        /// <summary>
+        /// 批量删除(异步)
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task<bool> DeleteAsync(List<TEntity> entities);
     }
 }

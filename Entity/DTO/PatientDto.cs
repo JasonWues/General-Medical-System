@@ -2,13 +2,14 @@
 {
     public record PatientDto
     {
+        public string Id { get; set; }
         /// <summary>
         /// 病房Id
         /// </summary>
         public string? WardId { get; set; }
 
         /// <summary>
-        /// 医生姓名
+        /// 患者姓名
         /// </summary>
         public string PatientName { get; set; }
 
@@ -26,11 +27,6 @@
         /// 手机号码
         /// </summary>
         public string Phonenum { get; set; }
-
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
 
         /// <summary>
         /// 患者状态

@@ -1,9 +1,8 @@
-﻿
-namespace Entity.DTO
+﻿namespace Entity.DTO
 {
     public record ManufacturerInfoDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// 厂家名称
         /// </summary>
@@ -13,7 +12,7 @@ namespace Entity.DTO
         /// <summary>
         /// 联系人
         /// </summary>
-     
+
         public string Contactperson { get; set; }
 
         /// <summary>
@@ -25,11 +24,11 @@ namespace Entity.DTO
         /// <summary>
         /// 状态
         /// </summary>
-        public int Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime Createtime { get; set; }
+        public string Createtime { get; set; }
     }
 }

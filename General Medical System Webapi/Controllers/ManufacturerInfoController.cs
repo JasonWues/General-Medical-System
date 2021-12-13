@@ -2,7 +2,6 @@
 using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Utility;
@@ -15,11 +14,13 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IManufacturerInfoBll _manufacturerInfoBll;
+
         public ManufacturerInfoController(IMapper mapper, IManufacturerInfoBll manufacturerInfoBll)
         {
-            _mapper= mapper;    
-            _manufacturerInfoBll= manufacturerInfoBll;  
+            _mapper = mapper;
+            _manufacturerInfoBll = manufacturerInfoBll;
         }
+
         /// <summary>
         /// 查询全部
         /// </summary>
@@ -28,8 +29,8 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query()
         {
-            var manufacturerInfos= await _manufacturerInfoBll.GetAll().ToListAsync();
-            var ManufacturerInfoDtos=_mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
+            var manufacturerInfos = await _manufacturerInfoBll.GetAll().ToListAsync();
+            var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
             if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
@@ -41,11 +42,11 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         ///  Get api/manufacturerInfo/1
         [HttpGet("{id}")]
-        public async Task<ApiResult>Query(string id)
+        public async Task<ApiResult> Query(string id)
         {
-            var manufacturerInfos=await _manufacturerInfoBll.GetEntities.Where(m => m.Id == id).ToListAsync();
+            var manufacturerInfos = await _manufacturerInfoBll.GetEntities.Where(m => m.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var ManufacturerInfoDtos= _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
+            var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
 
             if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos);
 
@@ -59,11 +60,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         ///  Get api/manufacturerInfo
         [HttpPost]
-        public async Task<ApiResult>Add(ManufacturerInfo manufacturerInfo)
+        public async Task<ApiResult> Add(ManufacturerInfo manufacturerInfo)
         {
             if (await _manufacturerInfoBll.AddAsync(manufacturerInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
+
         /// <summary>
         /// 按照id更新部分数据
         /// </summary>
@@ -74,16 +76,16 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="Status"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public async Task<ApiResult>Update(string id,string ManufacturerName,string Contactperson,string Phonenum,int Status)
+        public async Task<ApiResult> Update(string id, string ManufacturerName, string Contactperson, string Phonenum, int Status)
         {
-           var manufacturerInfo= await _manufacturerInfoBll.FindAsync(id);
-            if(manufacturerInfo != null)
+            var manufacturerInfo = await _manufacturerInfoBll.FindAsync(id);
+            if (manufacturerInfo != null)
             {
                 manufacturerInfo.ManufacturerName = ManufacturerName;
                 manufacturerInfo.Contactperson = Contactperson;
                 manufacturerInfo.Phonenum = Phonenum;
                 manufacturerInfo.Status = Status;
-                if(await _manufacturerInfoBll.UpdateAsync(manufacturerInfo))
+                if (await _manufacturerInfoBll.UpdateAsync(manufacturerInfo))
                 {
                     return ApiResultHelp.SuccessResult();
                 }
@@ -99,9 +101,9 @@ namespace General_Medical_System_Webapi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ApiResult>Delete(string id)
+        public async Task<ApiResult> Delete(string id)
         {
-            if(await _manufacturerInfoBll.DeleteAsync(id))return ApiResultHelp.SuccessResult();
+            if (await _manufacturerInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
     }

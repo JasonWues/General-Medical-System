@@ -15,7 +15,7 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IMapper _mapper;
         private readonly IPatientInfoBll _patientInfoBll;
 
-        public PatientController(IMapper mapper,IPatientInfoBll patientInfoBll)
+        public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll)
         {
             _mapper = mapper;
             _patientInfoBll = patientInfoBll;
@@ -74,7 +74,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Update api/Patient/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id,string wardId,string patientName,string phonenum,string status)
+        public async Task<ApiResult> Update(string id, string wardId, string patientName, string phonenum, string status)
         {
             var PatientInfo = await _patientInfoBll.FindAsync(id);
             if (PatientInfo != null)
@@ -84,7 +84,7 @@ namespace General_Medical_System_Webapi.Controllers
                 PatientInfo.Phonenum = phonenum;
                 PatientInfo.Status = status;
 
-                if(await _patientInfoBll.UpdateAsync(PatientInfo))
+                if (await _patientInfoBll.UpdateAsync(PatientInfo))
                 {
                     return ApiResultHelp.SuccessResult();
                 }
@@ -95,7 +95,7 @@ namespace General_Medical_System_Webapi.Controllers
             }
             else
             {
-                return ApiResultHelp.ErrorResult(404,"没有这个患者");
+                return ApiResultHelp.ErrorResult(404, "没有这个患者");
             }
         }
 

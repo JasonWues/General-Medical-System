@@ -5,9 +5,9 @@ using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 using Mapster;
 using MapsterMapper;
-using Utility;
 using Serilog;
 using Serilog.Events;
+using Utility;
 
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -92,7 +92,7 @@ try
 
     app.Run();
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     Log.Fatal(ex, "Host terminated unexpectedly");
 }
@@ -100,4 +100,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-

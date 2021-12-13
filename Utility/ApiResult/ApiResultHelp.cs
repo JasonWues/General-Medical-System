@@ -15,7 +15,6 @@
                 Message = "Success",
                 ResultObject = string.Empty
             };
-
         }
 
         /// <summary>
@@ -32,7 +31,6 @@
                 Message = "Success",
                 ResultObject = resultObject
             };
-
         }
 
         /// <summary>
@@ -49,7 +47,6 @@
                 Message = "Success",
                 ResultObject = resultObject
             };
-
         }
 
         /// <summary>
@@ -67,10 +64,7 @@
                 Message = errorMessage,
                 ResultObject = string.Empty
             };
-
         }
-
-
     }
 
     public class ApiResultHelp<T>

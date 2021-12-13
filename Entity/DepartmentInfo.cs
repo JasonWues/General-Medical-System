@@ -7,6 +7,8 @@ namespace Entity
     /// </summary>
     public class DepartmentInfo : BaseId
     {
+        public string Id { get; set; }
+
         /// <summary>
         /// 科室名称
         /// </summary>
@@ -32,6 +34,6 @@ namespace Entity
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime Createtime { get;set; }
+        public DateTime Createtime { get; set; }
     }
 }

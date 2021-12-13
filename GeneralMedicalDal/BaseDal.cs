@@ -69,6 +69,18 @@ namespace GeneralMedicalDal
             return false;
         }
 
+        public bool Delete(List<TEntity> entities)
+        {
+            _DbContext.RemoveRange(entities);
+            return _DbContext.SaveChanges() > 0;
+        }
+
+        public async Task<bool> DeleteAsync(List<TEntity> entities)
+        {
+            _DbContext.RemoveRange(entities);
+            return await _DbContext.SaveChangesAsync() > 0;
+        }
+
         public bool Update(TEntity entity)
         {
             var entry = _DbContext.Entry(entity);
@@ -136,9 +148,14 @@ namespace GeneralMedicalDal
             return _DbContext.Set<TEntity>().Where(whereFunc);
         }
 
-        public async Task<bool> UpdateAsync(List<TEntity> entities)
+        public bool Update(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities)
         {
-            return await _DbContext.Set<TEntity>().BatchUpdateAsync(entities) > 0 ;
+            return _DbContext.Set<TEntity>().Where(whereFunc).BatchUpdate(entities) > 0;
+        }
+
+        public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, List<TEntity> entities)
+        {
+            return await _DbContext.Set<TEntity>().Where(whereFunc).BatchUpdateAsync(entities) > 0;
         }
     }
 }

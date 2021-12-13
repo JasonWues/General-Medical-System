@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Utility;
 
-
 namespace General_Medical_System_Webapi.Controllers
 {
     [Route("v1/api/[controller]")]
@@ -15,7 +14,8 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDepartmentInfoBll _departmentInfoBll;
-        public DepartmentController(IMapper mapper,IDepartmentInfoBll departmentInfoBll)
+
+        public DepartmentController(IMapper mapper, IDepartmentInfoBll departmentInfoBll)
         {
             _mapper = mapper;
             _departmentInfoBll = departmentInfoBll;
@@ -31,8 +31,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var departments = await _departmentInfoBll.GetAll().ToListAsync();
             var departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
-            if(departmentDtos.Count != 0)return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos);
-            return ApiResultHelp.ErrorResult(404,"无数据");
+            if (departmentDtos.Count != 0) return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos);
+            return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id,string departmentName,string leaderId,int count,bool status)
+        public async Task<ApiResult> Update(string id, string departmentName, string leaderId, int count, bool status)
         {
             var DepartmentInfo = await _departmentInfoBll.FindAsync(id);
             if (DepartmentInfo != null)
