@@ -1,4 +1,5 @@
-﻿using Entity;
+﻿using EFCore.BulkExtensions;
+using Entity;
 using IGeneralMedicalDal;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -133,6 +134,11 @@ namespace GeneralMedicalDal
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> whereFunc)
         {
             return _DbContext.Set<TEntity>().Where(whereFunc);
+        }
+
+        public async Task<bool> UpdateAsync(List<TEntity> entities)
+        {
+            return await _DbContext.Set<TEntity>().BatchUpdateAsync(entities) > 0 ;
         }
     }
 }
