@@ -2,6 +2,9 @@
 
 namespace Entity
 {
+    /// <summary>
+    /// 数据库上下文
+    /// </summary>
     public class GeneralMedicalContext : DbContext
     {
         public GeneralMedicalContext(DbContextOptions<GeneralMedicalContext> options) : base(options)
