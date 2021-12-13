@@ -8,6 +8,9 @@ using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
 {
+    /// <summary>
+    /// 患者控制器
+    /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase

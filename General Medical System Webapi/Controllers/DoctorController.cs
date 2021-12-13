@@ -12,6 +12,9 @@ namespace General_Medical_System_Webapi.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
+        /// <summary>
+        /// 医生控制器
+        /// </summary>
         private readonly IMapper _mapper;
         private readonly IDoctorInfoBll _doctorInfoBll;
 

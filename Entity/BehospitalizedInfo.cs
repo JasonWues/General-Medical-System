@@ -3,21 +3,21 @@
 namespace Entity
 {
     /// <summary>
-    /// 医生角色关联表 没有控制器
+    /// 住院表
     /// </summary>
-    public class DoctorInfo_RoleInfo : BaseId
+    public class BehospitalizedInfo : BaseId
     {
         /// <summary>
-        /// 医生Id
+        /// 患者Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string DoctorId { get; set; }
+        public string PatientId { get; set; }
 
         /// <summary>
-        /// 角色Id
+        /// 病房Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string RoleId { get; set; }
+        public string WardId { get; set; }
 
         /// <summary>
         /// 添加时间

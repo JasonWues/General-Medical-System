@@ -2,7 +2,7 @@
 
 namespace IGeneralMedicalBll
 {
-    public interface IBehospitalizedBll : IBaseBll<Behospitalized>
+    public interface IBehospitalizedBll : IBaseBll<BehospitalizedInfo>
     {
     }
 }

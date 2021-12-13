@@ -1,24 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-/*
- * @date : 2021-12-9
- * @desc : 住院表
- */
-
-namespace Entity
+﻿namespace Entity.DTO
 {
-    public class Behospitalized : BaseId
+    public record BehospitalizedInfoDto
     {
         /// <summary>
         /// 患者Id
         /// </summary>
-        [Column(TypeName = "varchar(36)")]
         public string PatientId { get; set; }
 
         /// <summary>
         /// 病房Id
         /// </summary>
-        [Column(TypeName = "varchar(36)")]
         public string WardId { get; set; }
 
         /// <summary>

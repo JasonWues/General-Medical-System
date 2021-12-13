@@ -14,7 +14,7 @@ namespace Entity
             optionsBuilder.UseSqlServer("server=.;database=GeneralMedicalSystem;Integrated Security=true;");
         }
 
-        public DbSet<Behospitalized> Behospitalized { get; set; }
+        public DbSet<BehospitalizedInfo> Behospitalized { get; set; }
         public DbSet<DepartmentInfo> DepartmentInfo { get; set; }
         public DbSet<DiagnosisInfo> DiagnosisInfo { get; set; }
         public DbSet<DiagnosisInfo_DrugInfo> DiagnosisInfo_DrugInfo { get; set; }

@@ -1,12 +1,11 @@
-﻿/*
- * @date : 2021-12-9
- * @desc : 诊断药品关联表 没有控制器
- */
-
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
 {
+    /// <summary>
+    /// 诊断药品关联表 没有控制器
+    /// </summary>
     public class DiagnosisInfo_DrugInfo : BaseId
     {
         /// <summary>
