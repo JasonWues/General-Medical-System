@@ -36,7 +36,7 @@ namespace Entity.DTO
         /// <summary>
         /// 类别
         /// </summary>
-        public string Type { get; set; }
+        public int Type { get; set; }
 
         /// <summary>
         /// 价格
