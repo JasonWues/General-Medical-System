@@ -107,7 +107,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         /// Delete api/Doctor/1
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {
             if (await _doctorInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();

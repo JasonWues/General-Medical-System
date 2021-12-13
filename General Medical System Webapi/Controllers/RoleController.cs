@@ -108,7 +108,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         /// Delete api/Role/1
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {
             if (await _roleInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();

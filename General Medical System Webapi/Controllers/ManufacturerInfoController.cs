@@ -9,7 +9,7 @@ using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/api/[controller]")]
     [ApiController]
     public class ManufacturerInfoController : ControllerBase
     {
@@ -73,7 +73,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="Phonenum"></param>
         /// <param name="Status"></param>
         /// <returns></returns>
-        [HttpPost("{id}")]
+        [HttpPatch("{id}")]
         public async Task<ApiResult>Update(string id,string ManufacturerName,string Contactperson,string Phonenum,int Status)
         {
            var manufacturerInfo= await _manufacturerInfoBll.FindAsync(id);
@@ -98,7 +98,7 @@ namespace General_Medical_System_Webapi.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ApiResult>Delete(string id)
         {
             if(await _manufacturerInfoBll.DeleteAsync(id))return ApiResultHelp.SuccessResult();

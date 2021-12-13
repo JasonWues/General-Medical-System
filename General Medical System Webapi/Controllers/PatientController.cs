@@ -73,7 +73,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="status"></param>
         /// <returns></returns>
         /// Update api/Patient/1
-        [HttpGet("{id}")]
+        [HttpPatch("{id}")]
         public async Task<ApiResult> Update(string id,string wardId,string patientName,string phonenum,string status)
         {
             var PatientInfo = await _patientInfoBll.FindAsync(id);
@@ -105,7 +105,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         /// Delete api/Patient/1
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {
             if (await _patientInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
