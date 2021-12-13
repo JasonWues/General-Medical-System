@@ -10,12 +10,12 @@ namespace General_Medical_System_Webapi.Controllers
 {
     [Route("v1/api/[controller]")]
     [ApiController]
-    public class ManufacturerInfoController : ControllerBase
+    public class ManufacturerController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IManufacturerInfoBll _manufacturerInfoBll;
 
-        public ManufacturerInfoController(IMapper mapper, IManufacturerInfoBll manufacturerInfoBll)
+        public ManufacturerController(IMapper mapper, IManufacturerInfoBll manufacturerInfoBll)
         {
             _mapper = mapper;
             _manufacturerInfoBll = manufacturerInfoBll;

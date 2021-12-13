@@ -30,9 +30,12 @@ namespace Utility
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
             //Role
-            config.NewConfig<RoleInfo,RoleInfoDto>()
+            config.NewConfig<RoleInfo, RoleInfoDto>()
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
+            //Drugstorage
+            config.NewConfig<Drugstorage, DrugstorageDto>()
+                .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
         }
     }
 }
