@@ -1,6 +1,6 @@
 ﻿/*
  * @date : 2021-12-9
- * @desc : 医生角色关联表
+ * @desc : 医生角色关联表 没有控制器
  */
 
 using System.ComponentModel.DataAnnotations.Schema;
