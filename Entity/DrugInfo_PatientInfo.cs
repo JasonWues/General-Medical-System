@@ -2,7 +2,7 @@
 
 /*
  * @date : 2021-12-9
- * @desc : 患者药品关联表
+ * @desc : 患者药品关联表 没有控制器
  */
 
 namespace Entity

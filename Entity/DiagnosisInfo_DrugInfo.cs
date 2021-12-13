@@ -1,6 +1,6 @@
 ﻿/*
  * @date : 2021-12-9
- * @desc : 诊断药品关联表
+ * @desc : 诊断药品关联表 没有控制器
  */
 
 using System.ComponentModel.DataAnnotations.Schema;
