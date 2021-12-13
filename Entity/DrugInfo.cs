@@ -47,6 +47,11 @@ namespace Entity
         public string ManufacturerName { get; set; }
 
         /// <summary>
+        /// 添加时间
+        /// </summary>
+        public DateTime Createtime { get; set; }
+
+        /// <summary>
         /// 软删除
         /// </summary>
         public bool IsDelete { get; set; }

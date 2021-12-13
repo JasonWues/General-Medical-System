@@ -26,7 +26,7 @@
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime Createtime { get; set; }
+        public string Createtime { get; set; }
 
     }
 }
