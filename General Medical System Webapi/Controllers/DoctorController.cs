@@ -8,7 +8,7 @@ using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/api/[controller]")]
     [ApiController]
     public class DoctorController : ControllerBase
     {
