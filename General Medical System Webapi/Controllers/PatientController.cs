@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient
         [HttpGet]
-        public async Task<ApiResult> Query()
+        public async Task<ApiResult> Query(int page, int limit)
         {
-            var patients = await _patientInfoBll.GetAll().ToListAsync();
+            var patients = await _patientInfoBll.GetAll().OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
@@ -45,9 +45,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id)
+        public async Task<ApiResult> Query(string id, int page, int limit)
         {
-            var patients = await _patientInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var patients = await _patientInfoBll.GetEntities.OrderBy(x => x.Status).Where(x => x.Id == id).Skip((page - 1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
