@@ -9,6 +9,7 @@ using Serilog;
 using Serilog.Events;
 using Utility;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -24,6 +25,15 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog();
+
+    builder.Services.AddCors(opt =>
+    {
+        opt.AddPolicy(name: MyAllowSpecificOrigins,
+            builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
+    });
 
     builder.Services.AddControllers();
     builder.Services.AddDbContext<GeneralMedicalContext>();
@@ -85,6 +95,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.UseCors(MyAllowSpecificOrigins);
 
     app.UseAuthorization();
 
