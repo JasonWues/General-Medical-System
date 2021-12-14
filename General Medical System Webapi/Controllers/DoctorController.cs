@@ -4,6 +4,7 @@ using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -30,7 +31,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Doctor
         [HttpGet]
-        public async Task<ApiResult> Query(int page,int limit)
+        public async Task<ApiResult> Query(string? name,string? phonenum,int page,int limit)
         {
             var doctors = await _doctorInfoBll.GetAll().OrderBy(x => x.Status).Skip((page-1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
@@ -87,7 +88,7 @@ namespace General_Medical_System_Webapi.Controllers
                 DoctorInfo.DepartmentId = departmentId;
                 DoctorInfo.Status = status;
                 DoctorInfo.RegisteredPrice = registeredPrice;
-                DoctorInfo.Phonenum = phonenum;
+                DoctorInfo.PhoneNum = phonenum;
 
                 if (await _doctorInfoBll.UpdateAsync(DoctorInfo))
                 {

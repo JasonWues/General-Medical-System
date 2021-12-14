@@ -44,7 +44,7 @@ namespace Entity
         /// 手机号
         /// </summary>
         [Column(TypeName = "varchar(18)")]
-        public string Phonenum { get; set; }
+        public string PhoneNum { get; set; }
 
         /// <summary>
         /// 密码
