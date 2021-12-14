@@ -33,7 +33,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(string? name,string? phonenum,int page,int limit)
         {
-            var doctors = await _doctorInfoBll.GetAll().OrderBy(x => x.Status).Skip((page-1) * limit).Take(limit).ToListAsync();
+            var doctors = await _doctorInfoBll.GetAll().Where("DoctorName.Contains(@0) && PhoneNum.Contains(@1)", name, phonenum).OrderBy(x => x.Status).Skip((page-1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
             if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
