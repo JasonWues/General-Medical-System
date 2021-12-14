@@ -29,9 +29,10 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Drug
         [HttpGet]
-        public async Task<ApiResult> Query()
+        public async Task<ApiResult> Query(int page,int limit)
         {
-            var drugs = await _drugInfoBll.GetAll().ToListAsync();
+            var drugs = await _drugInfoBll.GetAll().OrderBy(x => x.Type).Skip((page-1) * limit).ToListAsync();
+            //使用Mapster转换成Dto
             var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
             if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
@@ -44,9 +45,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Drug/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id)
+        public async Task<ApiResult> Query(string id,int page,int limit)
         {
-            var drugs = await _drugInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var drugs = await _drugInfoBll.GetEntities.OrderBy(x => x.Type).Where(x => x.Id == id).Skip((page - 1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
             if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos);

@@ -8,13 +8,13 @@ using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
 {
+    /// <summary>
+    /// 医生控制器
+    /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
     public class DoctorController : ControllerBase
     {
-        /// <summary>
-        /// 医生控制器
-        /// </summary>
         private readonly IMapper _mapper;
         private readonly IDoctorInfoBll _doctorInfoBll;
 
