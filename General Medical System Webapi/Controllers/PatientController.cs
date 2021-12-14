@@ -45,9 +45,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id, int page, int limit)
+        public async Task<ApiResult> Query(string id)
         {
-            var patients = await _patientInfoBll.GetEntities.OrderBy(x => x.Status).Where(x => x.Id == id).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            var patients = await _patientInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
@@ -84,7 +84,7 @@ namespace General_Medical_System_Webapi.Controllers
             {
                 PatientInfo.WardId = wardId;
                 PatientInfo.PatientName = patientName;
-                PatientInfo.Phonenum = phonenum;
+                PatientInfo.PhoneNum = phonenum;
                 PatientInfo.Status = status;
 
                 if (await _patientInfoBll.UpdateAsync(PatientInfo))

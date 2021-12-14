@@ -4,7 +4,6 @@ using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Dynamic.Core;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -31,9 +30,10 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Doctor
         [HttpGet]
-        public async Task<ApiResult> Query(string? name,string? phonenum,int page,int limit)
+        public async Task<ApiResult> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
-            var doctors = await _doctorInfoBll.GetAll().Where("DoctorName.Contains(@0) && PhoneNum.Contains(@1)", name, phonenum).OrderBy(x => x.Status).Skip((page-1) * limit).Take(limit).ToListAsync();
+            var doctors = await _doctorInfoBll.Query(page,limit,doctorName,phoneNum);
+                
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
             if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
@@ -47,12 +47,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Doctor/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id, int page, int limit)
+        public async Task<ApiResult> Query(string id)
         {
-            var doctors = await _doctorInfoBll.GetEntities.OrderBy(x => x.Status).Where(x => x.Id == id).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            var doctors = await _doctorInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
-            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
+            var doctorDtos = _mapper.Map<DoctorInfoDto>(doctors);
+            if (doctorDtos != null) return ApiResultHelp<DoctorInfoDto>.SuccessResult(doctorDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -80,7 +80,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string? departmentId, int status, decimal registeredPrice, string phonenum)
+        public async Task<ApiResult> Update(string id, string? departmentId, int status, decimal registeredPrice, string phoneNum)
         {
             var DoctorInfo = await _doctorInfoBll.FindAsync(id);
             if (DoctorInfo != null)
@@ -88,7 +88,7 @@ namespace General_Medical_System_Webapi.Controllers
                 DoctorInfo.DepartmentId = departmentId;
                 DoctorInfo.Status = status;
                 DoctorInfo.RegisteredPrice = registeredPrice;
-                DoctorInfo.PhoneNum = phonenum;
+                DoctorInfo.PhoneNum = phoneNum;
 
                 if (await _doctorInfoBll.UpdateAsync(DoctorInfo))
                 {

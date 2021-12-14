@@ -36,7 +36,7 @@
         /// <summary>
         /// 手机号
         /// </summary>
-        public string Phonenum { get; set; }
+        public string PhoneNum { get; set; }
 
         /// <summary>
         /// 添加时间
