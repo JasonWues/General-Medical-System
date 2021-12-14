@@ -29,9 +29,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey()
+        public async Task<ApiResult> Qurey(int page,int limit)
         {
-            var dirugstorages = await _dirugstorageBll.GetAll().ToListAsync();
+            var dirugstorages = await _dirugstorageBll.GetAll().OrderBy(x => x.Createtime).Skip((page-1)* limit).Take(limit).ToListAsync();   
             var drugstorageDtos = _mapper.Map<List<DrugstorageDto>>(dirugstorages);
             if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugstorageDto>>.SuccessResult(drugstorageDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");

@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/manufacturerInfo
         [HttpGet]
-        public async Task<ApiResult> Query()
+        public async Task<ApiResult> Query(int page ,int limit)
         {
-            var manufacturerInfos = await _manufacturerInfoBll.GetAll().ToListAsync();
+            var manufacturerInfos = await _manufacturerInfoBll.GetAll().OrderBy(m=>m.Createtime).Skip((page-1)*limit).Take(limit).ToListAsync();
             var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
             if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
@@ -45,9 +45,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         ///  Get api/manufacturerInfo/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id)
+        public async Task<ApiResult> Query(string id ,int page, int limit)
         {
-            var manufacturerInfos = await _manufacturerInfoBll.GetEntities.Where(m => m.Id == id).ToListAsync();
+            var manufacturerInfos = await _manufacturerInfoBll.GetEntities.OrderBy(m => m.Status).Where(m => m.Id == id).Skip((page-1)*limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
 
