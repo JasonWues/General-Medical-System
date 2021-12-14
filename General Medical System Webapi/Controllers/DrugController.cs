@@ -101,7 +101,7 @@ namespace General_Medical_System_Webapi.Controllers
             }
             else
             {
-                return ApiResultHelp.ErrorResult(404, "没有这个科室");
+                return ApiResultHelp.ErrorResult(404, "没有这个药品");
             }
         }
 
