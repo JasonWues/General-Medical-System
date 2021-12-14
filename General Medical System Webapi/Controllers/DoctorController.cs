@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Doctor
         [HttpGet]
-        public async Task<ApiResult> Query()
+        public async Task<ApiResult> Query(int page,int limit)
         {
-            var doctors = await _doctorInfoBll.GetAll().ToListAsync();
+            var doctors = await _doctorInfoBll.GetAll().OrderBy(x => x.Status).Skip((page-1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
             if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
@@ -46,9 +46,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Doctor/1
         [HttpGet("{id}")]
-        public async Task<ApiResult> Query(string id)
+        public async Task<ApiResult> Query(string id, int page, int limit)
         {
-            var doctors = await _doctorInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var doctors = await _doctorInfoBll.GetEntities.OrderBy(x => x.Status).Where(x => x.Id == id).Skip((page - 1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
             if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
