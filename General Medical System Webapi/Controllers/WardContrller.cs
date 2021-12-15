@@ -9,33 +9,33 @@ using Utility;
 namespace General_Medical_System_Webapi.Controllers
 {
     /// <summary>
-    /// 角色控制器
+    /// 病房控制器
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class WardController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IRoleInfoBll _roleInfoBll;
+        private readonly IWardInfoBll _wardInfoBll;
 
-        public RoleController(IMapper mapper, IRoleInfoBll roleInfoBll)
+        public WardController(IMapper mapper, IWardInfoBll wardInfoBll)
         {
             _mapper = mapper;
-            _roleInfoBll = roleInfoBll;
+            _wardInfoBll = wardInfoBll;
         }
 
         /// <summary>
         /// 查询全部
         /// </summary>
         /// <returns></returns>
-        /// Get api/Role
+        /// Get api/Ward
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit)
         {
-            var roles = await _roleInfoBll.GetAll().OrderBy(x => x.Sort).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            var wards = await _wardInfoBll.GetAll().OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
             //使用Mapster转换成Dto
-            var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
-            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
+            var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
+            if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -44,27 +44,27 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// Get api/Role/1
+        /// Get api/Ward/1
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
-            var roles = await _roleInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var wards = await _wardInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
-            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
+            var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
+            if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="roleInfo"></param>
+        /// <param name="wardInfo"></param>
         /// <returns></returns>
-        /// post api/Role
+        /// post api/Ward
         [HttpPost]
-        public async Task<ApiResult> Add(RoleInfo roleInfo)
+        public async Task<ApiResult> Add(WardInfo wardInfo)
         {
-            if (await _roleInfoBll.AddAsync(roleInfo)) return ApiResultHelp.SuccessResult();
+            if (await _wardInfoBll.AddAsync(wardInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
 
@@ -72,22 +72,24 @@ namespace General_Medical_System_Webapi.Controllers
         /// 按照id更新部分数据
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="rolename"></param>
-        /// <param name="description"></param>
-        /// <param name="authority"></param>
+        /// <param name="wardTitle"></param>
+        /// <param name="type"></param>
+        /// <param name="num"></param>
+        /// <param name="status"></param>
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string rolename, string? description, string? authority)
+        public async Task<ApiResult> Update(string id, string wardTitle,int type,int num,int status)
         {
-            var RoleInfo = await _roleInfoBll.FindAsync(id);
-            if (RoleInfo != null)
+            var WardInfo = await _wardInfoBll.FindAsync(id);
+            if (WardInfo != null)
             {
-                RoleInfo.RoleName = rolename;
-                RoleInfo.Description = description;
-                RoleInfo.Authority = authority;
+                WardInfo.WardTitle = wardTitle;
+                WardInfo.Type = type;
+                WardInfo.Num = num;
+                WardInfo.Status = status;
 
-                if (await _roleInfoBll.UpdateAsync(RoleInfo))
+                if (await _wardInfoBll.UpdateAsync(WardInfo))
                 {
                     return ApiResultHelp.SuccessResult();
                 }
@@ -107,11 +109,11 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// Delete api/Role/1
+        /// Delete api/Ward/1
         [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {
-            if (await _roleInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
+            if (await _wardInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
     }
