@@ -30,10 +30,10 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Ward
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit)
+        public async Task<ApiResult> Query(int page, int limit, string wardTitle, string? type)
         {
-            var wards = await _wardInfoBll.GetAll().OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
-            //使用Mapster转换成Dto
+            var wards = await _wardInfoBll.Query(page, limit, wardTitle, type);
+                //使用Mapster转换成Dto
             var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
             if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
