@@ -7,5 +7,6 @@ namespace IGeneralMedicalBll
     /// </summary>
     public interface IWardInfoBll : IBaseBll<WardInfo>
     {
+        Task<List<WardInfo>> Query(int page, int limit, string wardTitle, string? type);
     }
 }
