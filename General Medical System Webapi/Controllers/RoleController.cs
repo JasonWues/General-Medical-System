@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Role
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit)
+        public async Task<ApiResult> Query(int page, int limit,string? roleName)
         {
-            var roles = await _roleInfoBll.GetAll().OrderBy(x => x.Sort).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            var roles = await _roleInfoBll.Query(page, limit, roleName);
             //使用Mapster转换成Dto
             var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
             if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
@@ -48,7 +48,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
-            var roles = await _roleInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var roles = await _roleInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
             var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
             if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
