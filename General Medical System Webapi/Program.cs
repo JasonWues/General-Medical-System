@@ -56,6 +56,7 @@ try
     builder.Services.AddScoped<IRegisterDal, RegisterDal>();
     builder.Services.AddScoped<IRoleInfoDal, RoleInfoDal>();
     builder.Services.AddScoped<IWardInfoDal, WardInfoDal>();
+    builder.Services.AddScoped<IMenuInfoDal, MenuInfoDal>();
 
     builder.Services.AddScoped<IDoctorInfoBll, DoctorInfoBll>();
     builder.Services.AddScoped<IBehospitalizedBll, BehospitalizedBll>();
@@ -72,6 +73,7 @@ try
     builder.Services.AddScoped<IRegisterBll, RegisterBll>();
     builder.Services.AddScoped<IRoleInfoBll, RoleInfoBll>();
     builder.Services.AddScoped<IWardInfoBll, WardInfoBll>();
+    builder.Services.AddScoped<IMenuInfoBll, MenuInfoBll>();
 
     #endregion IOC
 

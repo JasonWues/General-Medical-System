@@ -32,5 +32,6 @@ namespace Entity
         public DbSet<Register> Register { get; set; }
         public DbSet<RoleInfo> RoleInfo { get; set; }
         public DbSet<WardInfo> WardInfo { get; set; }
+        public DbSet<MenuInfo> MenuInfo { get; set; }
     }
 }
