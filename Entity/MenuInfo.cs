@@ -24,13 +24,12 @@ namespace Entity
         /// 链接
         /// </summary>
         [Column(TypeName = "varchar(128)")]
-        public string? Herf { get; set; }
+        public string? Href { get; set; }
 
         /// <summary>
         /// 打开类型 当 type 为 1 时，openType 生效，_iframe 正常打开 _blank 新建浏览器标签页
         /// </summary>
         public string? Opentype { get; set; }
 
-        public List<MenuInfo>? ChildMenuInfo { get; set; }
     }
 }

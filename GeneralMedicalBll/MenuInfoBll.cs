@@ -13,7 +13,28 @@ namespace GeneralMedicalBll
             _iBaseDal = menuInfoDal;
         }
 
-        public async Task<ParentMenuInfoDto> Query()
+        public void RecursionMenu(List<ParentMenuInfoDto> parentMenuDtoInfos,List<MenuInfo> menus)
+        {
+            foreach (var item in parentMenuDtoInfos)
+            {
+                var childMenus = menus.Where(x => x.ParentId == item.Id).Select(x => new ParentMenuInfoDto
+                {
+                    Id = x.Id,
+                    Href = x.Href,
+                    Icon = x.Icon,
+                    Title = x.Title,
+                    Type = x.Type,
+                    Opentype = x.Opentype,
+                }).ToList();
+
+                item.Children = childMenus;
+
+                RecursionMenu(childMenus, menus);
+            }
+        }
+
+
+        public async Task<List<ParentMenuInfoDto>> GetMenuJson()
         {
             var allMenuInfo = await _iBaseDal.GetAll().OrderBy(x => x.Sort).ToListAsync();
 
@@ -24,13 +45,38 @@ namespace GeneralMedicalBll
                 Title = x.Title,
                 Icon = x.Icon,
                 Type = x.Type,
-                Herf = x.Herf
+                Href = x.Href,
+
             }).ToList();
 
-            foreach (var item in parentMenuInfoDtos)
+            foreach (var parentMenuInfoDto in parentMenuInfoDtos)
             {
-                var
+                var childMenus = allMenuInfo.Where(x => x.ParentId == parentMenuInfoDto.Id).Select(x => new ParentMenuInfoDto
+                {
+                    Id = x.Id,
+                    Href = x.Href,
+                    Icon = x.Icon,
+                    Title = x.Title,
+                    Type = x.Type,
+                    Opentype = x.Opentype 
+                }).ToList();
+                parentMenuInfoDto.Children = childMenus;
+                RecursionMenu(parentMenuInfoDto.Children, allMenuInfo);
             }
+
+            return parentMenuInfoDtos;
+        }
+
+        public async Task<List<MenuInfo>> Query(int page, int limit,string title)
+        {
+            var menuInfo = _iBaseDal.GetAll();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                menuInfo = menuInfo.Where(x => x.Title.Contains(title));
+            }
+            
+            return await menuInfo.Skip((page-1) * limit).Take(limit).ToListAsync();
         }
     }
 }
