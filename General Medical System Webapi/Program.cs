@@ -7,19 +7,19 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Events;
+using System.Text;
 using Utility;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+Console.OutputEncoding = Encoding.Unicode;
 Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
                 .ReadFrom.Configuration(new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build())
                 .CreateLogger();
 
-Log.Information("Starting web host");
+Log.Information("启动主机");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,7 +111,7 @@ app.Run();
 static void InitDB()
 {
     var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer("server=.;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;").Options;
-    using(GeneralMedicalContext context = new(contextOptions))
+    using (GeneralMedicalContext context = new(contextOptions))
     {
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
@@ -128,12 +128,12 @@ static void InitDB()
 
         context.MenuInfo.AddRange(parentMenu, new MenuInfo()
         {
-            Id= Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "医生管理",
             Href = "../Doctor/Table.html",
             Icon = "",
-            Type= 1,
+            Type = 1,
             Opentype = "_iframe"
         });
 
