@@ -32,9 +32,9 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit,string? PatientName)
         {
-            var patients = await _patientInfoBll.Query(page, limit, PatientName);
+            var (patients,count) = await _patientInfoBll.Query(page, limit, PatientName);
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
-            if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
+            if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -49,8 +49,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var patients = await _patientInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var patientDtos = _mapper.Map<List<PatientDto>>(patients);
-            if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
+            var patientDtos = _mapper.Map<PatientDto>(patients);
+            if (patientDtos != null) return ApiResultHelp<PatientDto>.SuccessResult(patientDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

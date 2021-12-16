@@ -12,6 +12,7 @@ namespace Utility
             //Doctor
             config.NewConfig<DoctorInfo, DoctorInfoDto>()
                 .Map(dest => dest.Sex, src => src.Sex == 0 ? "男" : "女")
+                .Map(dest => dest.Status,src => src.Status == 0 ? "正常" : "休假")
                 .Map(dest => dest.RegisteredPrice, src => (int)src.RegisteredPrice)
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 

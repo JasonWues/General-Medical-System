@@ -14,21 +14,19 @@ namespace GeneralMedicalBll
         {
             _iBaseDal = wardInfoDal;
         }
-        public async Task<List<WardInfo>> Query(int page, int limit, string wardTitle, string? type)
+        public async Task<(List<WardInfo>,int count)> Query(int page, int limit, string? wardTitle)
         {
             var wardInfo = _iBaseDal.GetEntities;
+
+            int count = await wardInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(wardTitle))
             {
                 wardInfo = wardInfo.Where(x => x.WardTitle.Contains(wardTitle));
+                count = await wardInfo.CountAsync();
             }
 
-            if (!string.IsNullOrEmpty(type))
-            {
-                wardInfo = wardInfo.Where(x => x.Type.Equals(type));
-            }
-
-            return await wardInfo.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            return (await wardInfo.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }

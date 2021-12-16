@@ -30,11 +30,11 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Department
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string? departmentName)
+        public async Task<ApiResult> Query(int page, int limit, string? departmentName)
         {
-            var departments = await _departmentInfoBll.Query(page,limit,departmentName);
+            var (departments, count) = await _departmentInfoBll.Query(page, limit, departmentName);
             var departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
-            if (departmentDtos.Count != 0) return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos);
+            if (departmentDtos.Count != 0) return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -49,8 +49,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var departments = await _departmentInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
-            if (departmentDtos.Count != 0) return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos);
+            var departmentDtos = _mapper.Map<DepartmentDto>(departments);
+            if (departmentDtos != null) return ApiResultHelp<DepartmentDto>.SuccessResult(departmentDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

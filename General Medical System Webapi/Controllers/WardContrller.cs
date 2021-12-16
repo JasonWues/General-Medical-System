@@ -30,12 +30,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Ward
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit, string? wardTitle, string? type)
+        public async Task<ApiResult> Query(int page, int limit, string? wardTitle)
         {
-            var wards = await _wardInfoBll.Query(page, limit, wardTitle, type);
-                //使用Mapster转换成Dto
+            var (wards, count) = await _wardInfoBll.Query(page, limit, wardTitle);
+            //使用Mapster转换成Dto
             var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
-            if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos);
+            if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -50,8 +50,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var wards = await _wardInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
-            if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos);
+            var wardDtos = _mapper.Map<WardInfoDto>(wards);
+            if (wardDtos != null) return ApiResultHelp<WardInfoDto>.SuccessResult(wardDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -79,7 +79,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string wardTitle,int type,int num,int status)
+        public async Task<ApiResult> Update(string id, string wardTitle, int type, int num, int status)
         {
             var WardInfo = await _wardInfoBll.FindAsync(id);
             if (WardInfo != null)

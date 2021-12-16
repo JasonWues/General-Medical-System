@@ -12,21 +12,25 @@ namespace GeneralMedicalBll
             _iBaseDal = doctorInfoDal;
         }
 
-        public async Task<List<DoctorInfo>> Query(int page, int limit, string? doctorName, string? phoneNum)
+        public async Task<(List<DoctorInfo> doctorInfos,int count)> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
             var doctorInfo = _iBaseDal.GetEntities;
+
+            int count = await doctorInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(doctorName))
             {
                 doctorInfo = doctorInfo.Where(x => x.DoctorName.Contains(doctorName));
+                count = await doctorInfo.CountAsync();
             }
 
             if (!string.IsNullOrEmpty(phoneNum))
             {
                 doctorInfo = doctorInfo.Where(x => x.PhoneNum.Contains(phoneNum));
+                count = await doctorInfo.CountAsync();
             }
 
-            return await doctorInfo.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            return (await doctorInfo.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
         }
     }
 }

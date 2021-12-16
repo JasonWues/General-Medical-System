@@ -7,8 +7,6 @@ namespace Entity
     /// </summary>
     public class DepartmentInfo : BaseId
     {
-        public string Id { get; set; }
-
         /// <summary>
         /// 科室名称
         /// </summary>

@@ -6,6 +6,6 @@ namespace IGeneralMedicalBll
     public interface IMenuInfoBll : IBaseBll<MenuInfo>
     {
         Task<List<ParentMenuInfoDto>> GetMenuJson();
-        Task<List<MenuInfo>> Query(int page, int limit, string title);
+        Task<(List<MenuInfo> menuInfos, int count)> Query(int page, int limit, string? title);
     }
 }

@@ -12,7 +12,7 @@
             {
                 Code = 200,
                 Success = true,
-                Message = "Success",
+                Message = "成功",
                 ResultObject = string.Empty
             };
         }
@@ -28,7 +28,7 @@
             {
                 Code = 200,
                 Success = true,
-                Message = "Success",
+                Message = "成功",
                 ResultObject = resultObject
             };
         }
@@ -44,7 +44,7 @@
             {
                 Code = 200,
                 Success = true,
-                Message = "Success",
+                Message = "成功",
                 ResultObject = resultObject
             };
         }
@@ -74,11 +74,13 @@
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static ApiResult<T> SuccessResult(T t)
+        public static ApiResult<T> SuccessResult(T t,int? count = 0)
         {
             var result = new ApiResult<T>();
             result.Success = true;
+            result.Message = "成功";
             result.Code = 200;
+            result.Count = count;
             result.ResultObject = t.GetType().Name;
             result.Data = t;
             return result;

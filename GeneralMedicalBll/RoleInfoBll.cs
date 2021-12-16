@@ -15,16 +15,19 @@ namespace GeneralMedicalBll
             _iBaseDal = roleInfoDal;
         }
 
-        public async Task<List<RoleInfo>> Query(int page, int limit, string? roleName)
+        public async Task<(List<RoleInfo> roleInfos,int count)> Query(int page, int limit, string? roleName)
         {
             var roleInfo = _iBaseDal.GetEntities;
+
+            int count = await roleInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(roleName))
             {
                 roleInfo = roleInfo.Where(x => x.RoleName.Contains(roleName));
+                count = await roleInfo.CountAsync();
             }
 
-            return await roleInfo.OrderBy(x => x.Sort).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            return (await roleInfo.OrderBy(x => x.Sort).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
         }
     }
 }

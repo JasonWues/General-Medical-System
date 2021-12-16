@@ -67,16 +67,19 @@ namespace GeneralMedicalBll
             return parentMenuInfoDtos;
         }
 
-        public async Task<List<MenuInfo>> Query(int page, int limit,string title)
+        public async Task<(List<MenuInfo> menuInfos,int count)> Query(int page, int limit,string? title)
         {
-            var menuInfo = _iBaseDal.GetAll();
+            var menuInfo = _iBaseDal.GetEntities;
+
+            int count = await menuInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(title))
             {
                 menuInfo = menuInfo.Where(x => x.Title.Contains(title));
+                count = await menuInfo.CountAsync();
             }
             
-            return await menuInfo.Skip((page-1) * limit).Take(limit).ToListAsync();
+            return (await menuInfo.Skip((page-1) * limit).Take(limit).ToListAsync(),count);
         }
     }
 }

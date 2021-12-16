@@ -7,6 +7,6 @@ namespace IGeneralMedicalBll
     /// </summary>
     public interface IRoleInfoBll : IBaseBll<RoleInfo>
     {
-        Task<List<RoleInfo>> Query(int page, int limit, string? roleName);
+        Task<(List<RoleInfo> roleInfos, int count)> Query(int page, int limit, string? roleName);
     }
 }

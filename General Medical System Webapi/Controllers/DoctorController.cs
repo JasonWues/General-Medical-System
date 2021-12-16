@@ -32,11 +32,11 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
-            var doctors = await _doctorInfoBll.Query(page,limit,doctorName,phoneNum);
+            var (doctors,count) = await _doctorInfoBll.Query(page,limit,doctorName,phoneNum);
                 
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
-            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos);
+            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -65,6 +65,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(DoctorInfo doctorInfo)
         {
+            doctorInfo.Createtime = DateTime.Now;
             if (await _doctorInfoBll.AddAsync(doctorInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }

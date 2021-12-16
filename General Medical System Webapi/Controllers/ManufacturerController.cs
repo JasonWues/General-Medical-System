@@ -32,10 +32,10 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page ,int limit,string? ManufacturerName,string? Contactperson)
         {
-            var manufacturerInfos = await _manufacturerInfoBll.Query(page, limit, ManufacturerName, Contactperson);
+            var (manufacturerInfos,count) = await _manufacturerInfoBll.Query(page, limit, ManufacturerName, Contactperson);
             //使用Mapster转换成Dto
             var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
-            if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos);
+            if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -50,9 +50,9 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var manufacturerInfos = await _manufacturerInfoBll.GetEntities.Where(m => m.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var ManufacturerInfoDtos = _mapper.Map<List<ManufacturerInfoDto>>(manufacturerInfos);
+            var ManufacturerInfoDtos = _mapper.Map<ManufacturerInfoDto>(manufacturerInfos);
 
-            if (ManufacturerInfoDtos.Count != 0) return ApiResultHelp<List<ManufacturerInfoDto>>.SuccessResult(ManufacturerInfoDtos);
+            if (ManufacturerInfoDtos != null) return ApiResultHelp<ManufacturerInfoDto>.SuccessResult(ManufacturerInfoDtos);
 
             return ApiResultHelp.ErrorResult(404, "无数据");
         }

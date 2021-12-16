@@ -32,10 +32,10 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit,string? roleName)
         {
-            var roles = await _roleInfoBll.Query(page, limit, roleName);
+            var (roles,count) = await _roleInfoBll.Query(page, limit, roleName);
             //使用Mapster转换成Dto
             var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
-            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
+            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -50,8 +50,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var roles = await _roleInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
-            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos);
+            var roleDtos = _mapper.Map<RoleInfoDto>(roles);
+            if (roleDtos != null) return ApiResultHelp<RoleInfoDto>.SuccessResult(roleDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

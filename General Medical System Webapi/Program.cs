@@ -86,7 +86,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-InitDB();
+//InitDB();
 
 builder.Services.AddSwaggerGen();
 
@@ -111,7 +111,7 @@ app.Run();
 static void InitDB()
 {
     Log.Information("创建数据库");
-    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer(@"server=DESKTOP-045Q8KF;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;uid=sa;pwd=123456;").Options;
+    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer(@"server=.;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;").Options;
     using (GeneralMedicalContext context = new(contextOptions))
     {
         context.Database.EnsureDeleted();

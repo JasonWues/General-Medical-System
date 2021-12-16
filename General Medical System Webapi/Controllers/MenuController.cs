@@ -13,13 +13,11 @@ namespace General_Medical_System_Webapi.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private readonly IMenuInfoBll _menuInfoBll;
-        private readonly  IMapper _mapper;   
+        private readonly IMenuInfoBll _menuInfoBll; 
 
-        public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
+        public MenuController(IMenuInfoBll menuInfoBll)
         {
             _menuInfoBll = menuInfoBll;
-            _mapper = mapper;
         }
 
         [HttpGet("MenuJson")]
@@ -46,8 +44,10 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit,string? title)
         {
-            var menuInfo = await _menuInfoBll.Query(page, limit, title);
-            if (menuInfo != null) return ApiResultHelp<List<MenuInfo>>.SuccessResult(menuInfo);
+            var (menuInfo,count) = await _menuInfoBll.Query(page, limit, title);
+
+            if (menuInfo.Count != 0) return ApiResultHelp<List<MenuInfo>>.SuccessResult(menuInfo,count);
+
             return ApiResultHelp.ErrorResult(404,"无数据");
         }
 

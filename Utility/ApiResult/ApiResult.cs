@@ -15,6 +15,11 @@
         public string Message { get; set; }
 
         /// <summary>
+        /// 数据总数
+        /// </summary>
+        public int? Count { get; set; }
+
+        /// <summary>
         /// 服务器回应的返回值对象(API调用失败则返回异常对象)
         /// </summary>
         public object ResultObject { get; set; }

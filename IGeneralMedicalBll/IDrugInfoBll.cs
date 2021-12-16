@@ -4,6 +4,6 @@ namespace IGeneralMedicalBll
 {
     public interface IDrugInfoBll : IBaseBll<DrugInfo>
     {
-        Task<List<DrugInfo>> Query(int page, int limit, string? drugTitle);
+        Task<(List<DrugInfo> drugInfos, int count)> Query(int page, int limit, string? drugTitle);
     }
 }

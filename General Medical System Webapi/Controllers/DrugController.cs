@@ -31,11 +31,10 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page,int limit,string? drugTitle)
         {
-            var drugs = await _drugInfoBll.Query(page, limit, drugTitle);
-            //var drugs = await _drugInfoBll.GetAll().OrderBy(x => x.Type).Skip((page-1) * limit).ToListAsync();
+            var (drugs,count) = await _drugInfoBll.Query(page, limit, drugTitle);
             //使用Mapster转换成Dto
             var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
-            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos);
+            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -50,8 +49,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var drugs = await _drugInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
             //使用Mapster转换成Dto
-            var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
-            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos);
+            var drugDtos = _mapper.Map<DrugDto>(drugs);
+            if (drugDtos != null) return ApiResultHelp<DrugDto>.SuccessResult(drugDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -67,9 +66,6 @@ namespace General_Medical_System_Webapi.Controllers
             if (await _drugInfoBll.AddAsync(drugInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
-
-
-
 
 
         /// <summary>
