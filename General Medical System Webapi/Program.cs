@@ -217,6 +217,7 @@ static void InitDB()
             Type = 1,
             Opentype = "_iframe"
         });
+        #endregion
 
         #region 初始化病房数据
         context.WardInfo.AddRange(new WardInfo()
