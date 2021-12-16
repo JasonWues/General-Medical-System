@@ -125,7 +125,7 @@ static void InitDB()
             Href = "",
             Sort = 0
         };
-
+        #region 初始化菜单
         context.MenuInfo.AddRange(parentMenu, new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
@@ -135,7 +135,92 @@ static void InitDB()
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "科室管理",
+            Href = "../Department/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "药品管理",
+            Href = "../Drug/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "药品库存管理",
+            Href = "../Drugstorage/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "制造商管理",
+            Href = "../Manufacturer/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "科室管理",
+            Href = "../Department/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "菜单管理",
+            Href = "../Menu/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "患者管理",
+            Href = "../Patient/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "角色管理",
+            Href = "../Role/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
+        }, new MenuInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ParentId = parentMenu.Id,
+            Title = "病房管理",
+            Href = "../Ward/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe"
         });
+
+
+
+        #endregion
 
         context.SaveChanges();
     }
