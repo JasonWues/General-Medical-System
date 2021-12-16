@@ -11,10 +11,7 @@
 
         public string Title { get; set; }
 
-        /// <summary>
-        /// 0: 目录 1: 菜单
-        /// </summary>
-        public int Type { get; set; }
+        public string Type { get; set; }
         /// <summary>
         /// 图标
         /// </summary>

@@ -15,13 +15,11 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMenuInfoBll _menuInfoBll; 
-        private readonly IMapper _mapper;
 
         public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
         {
             _mapper = mapper;
             _menuInfoBll = menuInfoBll;
-            _mapper = mapper;
         }
 
         [HttpGet("MenuJson")]
