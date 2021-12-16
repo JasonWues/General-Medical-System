@@ -13,11 +13,15 @@ namespace General_Medical_System_Webapi.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IMenuInfoBll _menuInfoBll; 
+        private readonly IMapper _mapper;
 
-        public MenuController(IMenuInfoBll menuInfoBll)
+        public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
         {
+            _mapper = mapper;
             _menuInfoBll = menuInfoBll;
+            _mapper = mapper;
         }
 
         [HttpGet("MenuJson")]
@@ -46,10 +50,30 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var (menuInfo,count) = await _menuInfoBll.Query(page, limit, title);
 
-            if (menuInfo.Count != 0) return ApiResultHelp<List<MenuInfo>>.SuccessResult(menuInfo,count);
+            var menuInfoDtos = _mapper.Map<List<MenuInfoDto>>(menuInfo);
+
+            if (menuInfoDtos.Count != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfoDtos, count);
 
             return ApiResultHelp.ErrorResult(404,"无数据");
         }
+
+        /// <summary>
+        /// 根据Id查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// Get api/Doctor/1
+        [HttpGet("{id}")]
+        public async Task<ApiResult> Query(string id)
+        {
+            var menuInfos = await _menuInfoBll.FindAsync(id);
+            //使用Mapster转换成Dto
+            var menuDtos = _mapper.Map<MenuDto>(menuInfos);
+            if (menuDtos != null) return ApiResultHelp<MenuDto>.SuccessResult(menuDtos);
+            return ApiResultHelp.ErrorResult(404, "无数据");
+        }
+
+
 
         /// <summary>
         /// 添加

@@ -77,7 +77,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Update api/Patient/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string wardId, string patientName, string phonenum, string status)
+        public async Task<ApiResult> Update(string id, string wardId, string patientName, string phonenum, int status)
         {
             var PatientInfo = await _patientInfoBll.FindAsync(id);
             if (PatientInfo != null)

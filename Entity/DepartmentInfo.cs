@@ -27,7 +27,7 @@ namespace Entity
         /// <summary>
         /// 科室状态
         /// </summary>
-        public bool Status { get; set; }
+        public int Status { get; set; }
 
         /// <summary>
         /// 创建时间

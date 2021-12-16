@@ -45,7 +45,7 @@ namespace Entity
         /// 患者状态
         /// </summary>
         [Column(TypeName = "nvarchar(12)")]
-        public string? Status { get; set; }
+        public int? Status { get; set; }
 
         /// <summary>
         /// 创建时间
