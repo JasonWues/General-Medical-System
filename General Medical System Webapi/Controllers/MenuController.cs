@@ -13,10 +13,12 @@ namespace General_Medical_System_Webapi.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IMenuInfoBll _menuInfoBll; 
 
-        public MenuController(IMenuInfoBll menuInfoBll)
+        public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
         {
+            _mapper = mapper;
             _menuInfoBll = menuInfoBll;
         }
 
@@ -46,7 +48,9 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var (menuInfo,count) = await _menuInfoBll.Query(page, limit, title);
 
-            if (menuInfo.Count != 0) return ApiResultHelp<List<MenuInfo>>.SuccessResult(menuInfo,count);
+            var menuInfoDtos = _mapper.Map<List<MenuInfoDto>>(menuInfo);
+
+            if (menuInfoDtos.Count != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfoDtos, count);
 
             return ApiResultHelp.ErrorResult(404,"无数据");
         }

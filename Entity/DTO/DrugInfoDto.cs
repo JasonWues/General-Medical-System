@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.DTO
 {
-    public record DrugDto
+    public record DrugInfoDto
     {
         /// <summary>
         /// 药品Id
@@ -36,7 +36,7 @@ namespace Entity.DTO
         /// <summary>
         /// 类别
         /// </summary>
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 价格

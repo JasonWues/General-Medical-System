@@ -33,8 +33,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var (drugs,count) = await _drugInfoBll.Query(page, limit, drugTitle);
             //使用Mapster转换成Dto
-            var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
-            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos,count);
+            var drugDtos = _mapper.Map<List<DrugInfoDto>>(drugs);
+            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugInfoDto>>.SuccessResult(drugDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -49,8 +49,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var drugs = await _drugInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var drugDtos = _mapper.Map<DrugDto>(drugs);
-            if (drugDtos != null) return ApiResultHelp<DrugDto>.SuccessResult(drugDtos);
+            var drugDtos = _mapper.Map<DrugInfoDto>(drugs);
+            if (drugDtos != null) return ApiResultHelp<DrugInfoDto>.SuccessResult(drugDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
