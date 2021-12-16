@@ -30,7 +30,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Ward
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit, string wardTitle, string? type)
+        public async Task<ApiResult> Query(int page, int limit, string? wardTitle, string? type)
         {
             var wards = await _wardInfoBll.Query(page, limit, wardTitle, type);
                 //使用Mapster转换成Dto

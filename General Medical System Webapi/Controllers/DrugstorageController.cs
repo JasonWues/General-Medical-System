@@ -29,7 +29,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey(int page,int limit,string applicanId)
+        public async Task<ApiResult> Qurey(int page,int limit,string? applicanId)
         {
             //var dirugstorages = await _dirugstorageBll.GetAll().OrderBy(x => x.Createtime).Skip((page-1)* limit).Take(limit).ToListAsync();   
             var drugstorages = await _drugstorageBll.Query(page, limit, applicanId);

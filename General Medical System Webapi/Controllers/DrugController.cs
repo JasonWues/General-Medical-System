@@ -29,9 +29,10 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Drug
         [HttpGet]
-        public async Task<ApiResult> Query(int page,int limit)
+        public async Task<ApiResult> Query(int page,int limit,string drugTitle)
         {
-            var drugs = await _drugInfoBll.GetAll().OrderBy(x => x.Type).Skip((page-1) * limit).ToListAsync();
+            var drugs = await _drugInfoBll.Query(page, limit, drugTitle);
+            //var drugs = await _drugInfoBll.GetAll().OrderBy(x => x.Type).Skip((page-1) * limit).ToListAsync();
             //使用Mapster转换成Dto
             var drugDtos = _mapper.Map<List<DrugDto>>(drugs);
             if (drugDtos.Count != 0) return ApiResultHelp<List<DrugDto>>.SuccessResult(drugDtos);

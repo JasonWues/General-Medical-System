@@ -30,7 +30,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string PatientName)
+        public async Task<ApiResult> Query(int page, int limit,string? PatientName)
         {
             var patients = await _patientInfoBll.Query(page, limit, PatientName);
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);

@@ -44,7 +44,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="title"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string title)
+        public async Task<ApiResult> Query(int page, int limit,string? title)
         {
             var menuInfo = await _menuInfoBll.Query(page, limit, title);
             if (menuInfo != null) return ApiResultHelp<List<MenuInfo>>.SuccessResult(menuInfo);
