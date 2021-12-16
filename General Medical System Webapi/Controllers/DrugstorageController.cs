@@ -11,7 +11,7 @@ namespace General_Medical_System_Webapi.Controllers
     /// <summary>
     /// 药品仓库控制器
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("v1/api/[controller]")]
     [ApiController]
     public class DrugstorageController : ControllerBase
     {

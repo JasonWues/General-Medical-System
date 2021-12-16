@@ -29,7 +29,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Drug
         [HttpGet]
-        public async Task<ApiResult> Query(int page,int limit,string drugTitle)
+        public async Task<ApiResult> Query(int page,int limit,string? drugTitle)
         {
             var drugs = await _drugInfoBll.Query(page, limit, drugTitle);
             //var drugs = await _drugInfoBll.GetAll().OrderBy(x => x.Type).Skip((page-1) * limit).ToListAsync();
@@ -58,7 +58,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="doctorInfo"></param>
+        /// <param name="drugInfo"></param>
         /// <returns></returns>
         /// post api/Drug
         [HttpPost]
@@ -68,14 +68,21 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
 
+
+
+
+
         /// <summary>
         /// 按照id更新部分数据
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="departmentName"></param>
-        /// <param name="leaderId"></param>
-        /// <param name="count"></param>
-        /// <param name="status"></param>
+        /// <param name="drugTitle"></param>
+        /// <param name="unit"></param>
+        /// <param name="stock"></param>
+        /// <param name="warningcount"></param>
+        /// <param name="type"></param>
+        /// <param name="price"></param>
+        /// <param name="manufacturerName"></param>
         /// <returns></returns>
         /// Patch api/Drug/1
         [HttpPatch("{id}")]
