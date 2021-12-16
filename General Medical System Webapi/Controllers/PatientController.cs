@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit)
+        public async Task<ApiResult> Query(int page, int limit,string PatientName)
         {
-            var patients = await _patientInfoBll.GetAll().OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync();
+            var patients = await _patientInfoBll.Query(page, limit, PatientName);
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
