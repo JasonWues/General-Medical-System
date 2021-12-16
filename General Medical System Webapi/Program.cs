@@ -86,7 +86,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-//InitDB();
+InitDB();
 
 builder.Services.AddSwaggerGen();
 
@@ -110,12 +110,13 @@ app.Run();
 
 static void InitDB()
 {
-    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer("server=.;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;").Options;
+    Log.Information("创建数据库");
+    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer(@"server=DESKTOP-QOGKNNM\SQLEXPRESS;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;uid=sa;pwd=123456;").Options;
     using (GeneralMedicalContext context = new(contextOptions))
     {
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-
+            
         MenuInfo parentMenu = new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
@@ -123,7 +124,7 @@ static void InitDB()
             Type = 0,
             Icon = "",
             Href = "",
-            Sort = 0
+            Sort = 200
         };
         #region 初始化菜单
         context.MenuInfo.AddRange(parentMenu, new MenuInfo()
@@ -132,6 +133,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "医生管理",
             Href = "../Doctor/Table.html",
+            Sort = 200,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -141,6 +143,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "科室管理",
             Href = "../Department/Table.html",
+            Sort = 201,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -150,6 +153,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "药品管理",
             Href = "../Drug/Table.html",
+            Sort = 202,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -159,6 +163,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "药品库存管理",
             Href = "../Drugstorage/Table.html",
+            Sort = 203,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -168,6 +173,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "制造商管理",
             Href = "../Manufacturer/Table.html",
+            Sort = 204,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -177,6 +183,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "科室管理",
             Href = "../Department/Table.html",
+            Sort = 205,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -186,6 +193,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "菜单管理",
             Href = "../Menu/Table.html",
+            Sort = 206,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -195,6 +203,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "患者管理",
             Href = "../Patient/Table.html",
+            Sort = 207,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -204,6 +213,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "角色管理",
             Href = "../Role/Table.html",
+            Sort = 208,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
@@ -213,6 +223,7 @@ static void InitDB()
             ParentId = parentMenu.Id,
             Title = "病房管理",
             Href = "../Ward/Table.html",
+            Sort = 209,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
