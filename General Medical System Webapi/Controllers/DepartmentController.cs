@@ -47,7 +47,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
-            var departments = await _departmentInfoBll.GetEntities.Where(x => x.Id == id).ToListAsync();
+            var departments = await _departmentInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
             var departmentDtos = _mapper.Map<DepartmentDto>(departments);
             if (departmentDtos != null) return ApiResultHelp<DepartmentDto>.SuccessResult(departmentDtos);

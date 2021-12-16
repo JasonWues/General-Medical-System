@@ -13,6 +13,7 @@ using Utility;
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 Console.OutputEncoding = Encoding.Unicode;
 Log.Logger = new LoggerConfiguration()
+                .Enrich.WithThreadId()
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")

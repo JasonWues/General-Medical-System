@@ -48,7 +48,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
-            var manufacturerInfos = await _manufacturerInfoBll.GetEntities.Where(m => m.Id == id).ToListAsync();
+            var manufacturerInfos = await _manufacturerInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
             var ManufacturerInfoDtos = _mapper.Map<ManufacturerInfoDto>(manufacturerInfos);
 
