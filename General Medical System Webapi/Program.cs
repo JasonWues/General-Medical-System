@@ -119,7 +119,7 @@ static void InitDB()
         MenuInfo parentMenu = new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
-            Title = "医院空间",
+            Title = "医院管理",
             Type = 0,
             Icon = "",
             Href = "",
@@ -136,6 +136,24 @@ static void InitDB()
             Type = 1,
             Opentype = "_iframe"
         });
+
+        #region 初始化病房数据
+        context.WardInfo.AddRange(new WardInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            WardTitle = "101",
+            Type = 0,
+            Num = 3,
+            Status = 0
+        }, new WardInfo
+        {
+            Id = Guid.NewGuid().ToString(),
+            WardTitle = "102",
+            Type = 1,
+            Num = 2,
+            Status = 1
+        });
+        #endregion
 
         context.SaveChanges();
     }

@@ -16,12 +16,12 @@ namespace General_Medical_System_Webapi.Controllers
     public class DrugstorageController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IDrugstorageBll _dirugstorageBll;
+        private readonly IDrugstorageBll _drugstorageBll;
 
-        public DrugstorageController(IMapper mapper, IDrugstorageBll dirugstorageBll)
+        public DrugstorageController(IMapper mapper, IDrugstorageBll drugstorageBll)
         {
             _mapper = mapper;
-            _dirugstorageBll = dirugstorageBll;
+            _drugstorageBll = drugstorageBll;
         }
 
         /// <summary>
@@ -29,10 +29,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey(int page,int limit)
+        public async Task<ApiResult> Qurey(int page,int limit,string applicanId)
         {
-            var dirugstorages = await _dirugstorageBll.GetAll().OrderBy(x => x.Createtime).Skip((page-1)* limit).Take(limit).ToListAsync();   
-            var drugstorageDtos = _mapper.Map<List<DrugstorageDto>>(dirugstorages);
+            //var dirugstorages = await _dirugstorageBll.GetAll().OrderBy(x => x.Createtime).Skip((page-1)* limit).Take(limit).ToListAsync();   
+            var drugstorages = await _drugstorageBll.Query(page, limit, applicanId);
+
+            var drugstorageDtos = _mapper.Map<List<DrugstorageDto>>(drugstorages);
             if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugstorageDto>>.SuccessResult(drugstorageDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
@@ -45,7 +47,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(Drugstorage drugstorage)
         {
-            if (await _dirugstorageBll.AddAsync(drugstorage)) return ApiResultHelp.SuccessResult();
+            if (await _drugstorageBll.AddAsync(drugstorage)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
     }
