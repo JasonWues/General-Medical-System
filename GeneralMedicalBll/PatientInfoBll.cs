@@ -20,7 +20,7 @@ namespace GeneralMedicalBll
 
             if (!string.IsNullOrEmpty(PatientName))
             {
-                patientInfo = patientInfo.Where(x => x.Status.Contains(PatientName));
+                patientInfo = patientInfo.Where(x => x.PatientName.Contains(PatientName));
                 count = await patientInfo.CountAsync();
             }
 

@@ -15,13 +15,11 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMenuInfoBll _menuInfoBll; 
-        private readonly IMapper _mapper;
 
         public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
         {
             _mapper = mapper;
             _menuInfoBll = menuInfoBll;
-            _mapper = mapper;
         }
 
         [HttpGet("MenuJson")]
@@ -52,7 +50,7 @@ namespace General_Medical_System_Webapi.Controllers
 
             var menuInfoDtos = _mapper.Map<List<MenuInfoDto>>(menuInfo);
 
-            if (menuInfoDtos.Count != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfoDtos, count);
+            if (menuInfoDtos.Count() != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfoDtos, count);
 
             return ApiResultHelp.ErrorResult(404,"无数据");
         }
