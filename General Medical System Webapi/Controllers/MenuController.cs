@@ -20,7 +20,7 @@ namespace General_Medical_System_Webapi.Controllers
             _menuInfoBll = menuInfoBll;
         }
 
-        [HttpGet("Json")]
+        [HttpGet("MenuJson")]
         public async Task<List<ParentMenuInfoDto>> GetMenuJson()
         {
             return new List<ParentMenuInfoDto>
