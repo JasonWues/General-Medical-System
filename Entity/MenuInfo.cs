@@ -18,7 +18,7 @@ namespace Entity
         [Column(TypeName = "varchar(32)")]
         public string? Icon { get; set; }
 
-        public int Sort { get; set; }
+        public int? Sort { get; set; }
 
         /// <summary>
         /// 链接
