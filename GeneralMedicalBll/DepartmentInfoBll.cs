@@ -24,7 +24,7 @@ namespace GeneralMedicalBll
                 count = departmentInfo.Count();
             }
 
-            return (await departmentInfo.OrderBy(d => d.Createtime).Skip((page - 1) * limit).Skip(limit).ToListAsync(),count);
+            return (await departmentInfo.OrderBy(d => d.Createtime).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
         }
     }
 }
