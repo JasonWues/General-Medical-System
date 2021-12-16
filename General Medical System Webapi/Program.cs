@@ -119,7 +119,7 @@ static void InitDB()
         MenuInfo parentMenu = new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
-            Title = "医院空间",
+            Title = "医院管理",
             Type = 0,
             Icon = "",
             Href = "",
