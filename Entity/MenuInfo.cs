@@ -2,10 +2,19 @@
 
 namespace Entity
 {
+    /// <summary>
+    /// 菜单表
+    /// </summary>
     public class MenuInfo : BaseId
     {
+        /// <summary>
+        /// 父级id
+        /// </summary>
         [Column(TypeName = "varchar(36)")]
         public string? ParentId { get; set; }
+        /// <summary>
+        /// 标题
+        /// </summary>
 
         [Column(TypeName = "nvarchar(16)")]
         public string Title { get; set; }
@@ -14,10 +23,15 @@ namespace Entity
         /// 0: 目录 1: 菜单
         /// </summary>
         public int Type { get; set; }
+        /// <summary>
+        /// 图标
+        /// </summary>
 
         [Column(TypeName = "varchar(32)")]
         public string? Icon { get; set; }
-
+        /// <summary>
+        /// 排序
+        /// </summary>
         public int Sort { get; set; }
 
         /// <summary>
