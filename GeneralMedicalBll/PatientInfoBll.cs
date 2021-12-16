@@ -12,7 +12,7 @@ namespace GeneralMedicalBll
             _iBaseDal = patientInfoDal;
         }
 
-        public async Task<(List<PatientInfo> patientInfos,int count)> Query(int page, int limit, string? PatientName)
+        public async Task<(List<PatientInfo> patientInfos,int count)> Query(int page, int limit, string? PatientName, string? PhoneNum)
         {
             var patientInfo = _iBaseDal.GetEntities;
 
@@ -20,7 +20,12 @@ namespace GeneralMedicalBll
 
             if (!string.IsNullOrEmpty(PatientName))
             {
-                patientInfo = patientInfo.Where(x => x.Status.Contains(PatientName));
+                patientInfo = patientInfo.Where(x => x.PatientName.Contains(PatientName));
+                count = await patientInfo.CountAsync();
+            }
+            if (!string.IsNullOrEmpty(PhoneNum))
+            {
+                patientInfo = patientInfo.Where(x => x.PhoneNum.Contains(PhoneNum));
                 count = await patientInfo.CountAsync();
             }
 
