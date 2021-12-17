@@ -45,8 +45,12 @@ namespace GeneralMedicalBll
                 var manufacturerInfo = _manufacturerInfoDal.GetTrackEntities;
 
                 // 获取Exel指定工作簿
-                ExcelWorksheet excelWorksheet = package.Workbook.Worksheets[1];
+                ExcelWorksheet excelWorksheet = package.Workbook.Worksheets[0];
 
+                if (excelWorksheet.Dimension == null)
+                {
+                    return (false, "Excel文件为空");
+                }
                 //全部行数
                 int rowNum = excelWorksheet.Dimension.Rows;
 

@@ -46,11 +46,6 @@ namespace Utility
             config.NewConfig<DrugStorage, DrugStorageDto>()
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
-            //MenuInfo
-            config.NewConfig<MenuInfo, MenuInfoDto>()
-                .Map(dest => dest.Type, src => src.Type == 0 ? "目录" : "菜单")
-                .Map(dest => dest.Opentype, src => src.Opentype == "_iframe" ? "正常打开" : "新建浏览器标签页");
-
             //Ward
             config.NewConfig<WardInfo, WardInfoDto>()
                 .Map(dest => dest.Type, src => src.Type == 0 ? "普通病房" : "重症病房")

@@ -4,9 +4,7 @@
     {
         public string Id { get; set; }
 
-        public string? ParentId { get; set; }
-
-        public string ParentName { get; set; }
+        public string? ParentTitle { get; set; }
 
         /// <summary>
         /// 标题

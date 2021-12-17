@@ -20,7 +20,7 @@
         /// <summary>
         /// 设置API调用结果为成功
         /// </summary>
-        /// <param name="message">自定义返回值</param>
+        /// <param name="message">自定义返回信息</param>
         /// <returns></returns>
         public static ApiResult SuccessResult(string message)
         {

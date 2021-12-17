@@ -48,9 +48,7 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var (menuInfo,count) = await _menuInfoBll.Query(page, limit, title);
 
-            var menuInfoDtos = _mapper.Map<List<MenuInfoDto>>(menuInfo);
-
-            if (menuInfoDtos.Count() != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfoDtos, count);
+            if (menuInfo.Count() != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfo, count);
 
             return ApiResultHelp.ErrorResult(404,"无数据");
         }
