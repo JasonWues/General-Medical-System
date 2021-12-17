@@ -66,8 +66,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var menuInfos = await _menuInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var menuDtos = _mapper.Map<MenuDto>(menuInfos);
-            if (menuDtos != null) return ApiResultHelp<MenuDto>.SuccessResult(menuDtos);
+            var menuDtos = _mapper.Map<MenuInfoDto>(menuInfos);
+            if (menuDtos != null) return ApiResultHelp<MenuInfoDto>.SuccessResult(menuDtos);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

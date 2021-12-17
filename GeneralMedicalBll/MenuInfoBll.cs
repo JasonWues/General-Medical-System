@@ -80,10 +80,11 @@ namespace GeneralMedicalBll
                            Id = x.Id,
                            Href = x.Href,
                            Opentype = x.Opentype,
-                           Icon = x.Icon,
-                           ParentId = x.Title,
+                           Icon = x.Icon, 
                            Sort = x.Sort,
                            Type = x.Type,
+                           Title = x.Title,
+                           ParentId = x.Title,
                        };
 
             int count = await menuInfo.CountAsync();

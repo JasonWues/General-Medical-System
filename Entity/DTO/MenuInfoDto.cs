@@ -5,10 +5,12 @@
         public string Id { get; set; }
 
         public string? ParentId { get; set; }
+
+        public string ParentName { get; set; }
+
         /// <summary>
         /// 标题
         /// </summary>
-
         public string Title { get; set; }
 
         public string Type { get; set; }
