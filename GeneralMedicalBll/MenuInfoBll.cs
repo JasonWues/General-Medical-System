@@ -71,6 +71,21 @@ namespace GeneralMedicalBll
         {
             var menuInfo = _iBaseDal.GetEntities;
 
+            menuInfo = from menuinfo in menuInfo
+                       join menuInfo2 in menuInfo
+                       on menuinfo.ParentId equals menuInfo2.Id into gruoing
+                       from x in gruoing
+                       select new MenuInfo
+                       {
+                           Id = x.Id,
+                           Href = x.Href,
+                           Opentype = x.Opentype,
+                           Icon = x.Icon,
+                           ParentId = x.Title,
+                           Sort = x.Sort,
+                           Type = x.Type,
+                       };
+
             int count = await menuInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(title))

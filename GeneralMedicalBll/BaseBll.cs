@@ -122,5 +122,15 @@ namespace GeneralMedicalBll
         {
             return await _iBaseDal.DeleteAsync(entities);
         }
+
+        public async Task AddAsync(List<TEntity> entities)
+        {
+            await _iBaseDal.AddAsync(entities);
+        }
+
+        public async Task UpdateAsync(List<TEntity> entities)
+        {
+            await _iBaseDal.UpdateAsync(entities);
+        }
     }
 }
