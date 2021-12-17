@@ -17,11 +17,12 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDoctorInfoBll _doctorInfoBll;
-
-        public DoctorController(IMapper mapper, IDoctorInfoBll doctorInfoBll)
+        private readonly IDepartmentInfoBll _departmentInfoBll;
+        public DoctorController(IMapper mapper, IDoctorInfoBll doctorInfoBll, IDepartmentInfoBll departmentInfoBll)
         {
             _mapper = mapper;
             _doctorInfoBll = doctorInfoBll;
+            _departmentInfoBll = departmentInfoBll;
         }
 
         /// <summary>
@@ -32,11 +33,11 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
-            var (doctors,count) = await _doctorInfoBll.Query(page,limit,doctorName,phoneNum);
-                
+            var (doctors, count) = await _doctorInfoBll.Query(page, limit, doctorName, phoneNum);
+
             //使用Mapster转换成Dto
             var doctorDtos = _mapper.Map<List<DoctorInfoDto>>(doctors);
-            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos,count);
+            if (doctorDtos.Count != 0) return ApiResultHelp<List<DoctorInfoDto>>.SuccessResult(doctorDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -118,5 +119,19 @@ namespace General_Medical_System_Webapi.Controllers
             if (await _doctorInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
+
+        [HttpGet("departmentOption")]
+        public async Task<List<DepartmentInfo>> GetSelectOption()
+        {
+            var option = await _departmentInfoBll.GetEntities.Select(x => new DepartmentInfo
+            {
+                Id = x.Id,
+                DepartmentName = x.DepartmentName,
+            }).ToListAsync();
+
+            if (option.Count != 0) return option;
+            return new List<DepartmentInfo>();
+        }
+
     }
 }
