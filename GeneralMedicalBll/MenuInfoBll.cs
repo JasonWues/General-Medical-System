@@ -83,7 +83,7 @@ namespace GeneralMedicalBll
                            Icon = x.Icon, 
                            Sort = x.Sort,
                            Type = x.Type,
-                           Title = x.Title,
+                           Title = menuinfo.Title,
                            ParentId = x.Title,
                        };
 
