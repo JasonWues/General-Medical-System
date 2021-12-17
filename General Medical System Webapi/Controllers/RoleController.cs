@@ -64,6 +64,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(RoleInfo roleInfo)
         {
+            roleInfo.Createtime = DateTime.Now;
             if (await _roleInfoBll.AddAsync(roleInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
