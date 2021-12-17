@@ -63,6 +63,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(DepartmentInfo departmentInfo)
         {
+            departmentInfo.Createtime = DateTime.Now;
             if (await _departmentInfoBll.AddAsync(departmentInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
