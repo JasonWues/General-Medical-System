@@ -9,7 +9,7 @@ using Utility;
 namespace General_Medical_System_Webapi.Controllers
 {
     /// <summary>
-    /// 部门控制器
+    /// 科室控制器
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
@@ -43,7 +43,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// Get api/Doctor/1
+        /// Get api/Department/1
         [HttpGet("{id}")]
         public async Task<ApiResult> Query(string id)
         {
@@ -57,12 +57,13 @@ namespace General_Medical_System_Webapi.Controllers
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="doctorInfo"></param>
+        /// <param name="departmentInfo"></param>
         /// <returns></returns>
-        /// post api/Doctor
+        /// post api/Department
         [HttpPost]
         public async Task<ApiResult> Add(DepartmentInfo departmentInfo)
         {
+            departmentInfo.Createtime = DateTime.Now;
             if (await _departmentInfoBll.AddAsync(departmentInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
@@ -76,7 +77,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="count"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        /// Patch api/Doctor/1
+        /// Patch api/Department/1
         [HttpPatch("{id}")]
         public async Task<ApiResult> Update(string id, string departmentName, string leaderId, int count, int status)
         {
@@ -108,7 +109,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// Delete api/Doctor/1
+        /// Delete api/Department/1
         [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {

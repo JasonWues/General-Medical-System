@@ -77,7 +77,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="departmentId"></param>
         /// <param name="status"></param>
         /// <param name="registeredPrice"></param>
-        /// <param name="phonenum"></param>
+        /// <param name="phoneNum"></param>
         /// <returns></returns>
         /// Patch api/Doctor/1
         [HttpPatch("{id}")]

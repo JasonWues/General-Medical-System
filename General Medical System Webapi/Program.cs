@@ -87,7 +87,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-//InitDB();
+InitDB();
 
 builder.Services.AddSwaggerGen();
 
@@ -175,16 +175,6 @@ static void InitDB()
             Title = "制造商管理",
             Href = "../Manufacturer/Table.html",
             Sort = 204,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            Id = Guid.NewGuid().ToString(),
-            ParentId = parentMenu.Id,
-            Title = "科室管理",
-            Href = "../Department/Table.html",
-            Sort = 205,
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
