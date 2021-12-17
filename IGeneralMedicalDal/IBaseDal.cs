@@ -157,5 +157,14 @@ namespace IGeneralMedicalDal
         /// <param name="entities"></param>
         /// <returns></returns>
         Task<bool> DeleteAsync(List<TEntity> entities);
+
+        /// <summary>
+        /// 批量添加(异步)
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task AddAsync(List<TEntity> entities);
+
+        Task UpdateAsync(List<TEntity> entities);
     }
 }

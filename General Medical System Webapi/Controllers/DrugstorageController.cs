@@ -13,12 +13,12 @@ namespace General_Medical_System_Webapi.Controllers
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
-    public class DrugstorageController : ControllerBase
+    public class DrugStorageController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IDrugstorageBll _drugstorageBll;
+        private readonly IDrugStorageBll _drugstorageBll;
 
-        public DrugstorageController(IMapper mapper, IDrugstorageBll drugstorageBll)
+        public DrugStorageController(IMapper mapper, IDrugStorageBll drugstorageBll)
         {
             _mapper = mapper;
             _drugstorageBll = drugstorageBll;
@@ -56,7 +56,10 @@ namespace General_Medical_System_Webapi.Controllers
             if(excelFiles != null)
             {
                 var stream = excelFiles.OpenReadStream();
+                var (isAdd,message) = await _drugstorageBll.UpLoad(stream);
 
+                if (isAdd)return ApiResultHelp.SuccessResult(message);
+                return ApiResultHelp.ErrorResult(405,message);
             }
             else
             {

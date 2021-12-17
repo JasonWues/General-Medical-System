@@ -7,11 +7,11 @@ using EFCore.BulkExtensions;
 
 namespace GeneralMedicalBll
 {
-    public class DrugstorageBll : BaseBll<DrugStorage>, IDrugstorageBll
+    public class DrugStorageBll : BaseBll<DrugStorage>, IDrugStorageBll
     {
         private readonly IDrugInfoDal _drugInfoDal;
         private readonly IManufacturerInfoDal _manufacturerInfoDal;
-        public DrugstorageBll(IDrugstorageDal drugStorageDal, IDrugInfoDal drugInfoDal, IManufacturerInfoDal manufacturerInfoDal)
+        public DrugStorageBll(IDrugStorageDal drugStorageDal, IDrugInfoDal drugInfoDal, IManufacturerInfoDal manufacturerInfoDal)
         {
             _iBaseDal = drugStorageDal;
             _drugInfoDal = drugInfoDal;
@@ -40,9 +40,9 @@ namespace GeneralMedicalBll
 
             using (var package = new ExcelPackage(stream))
             {
-                var drugInfo = _drugInfoDal.GetEntities;
+                var drugInfo = _drugInfoDal.GetTrackEntities;
 
-                var manufacturerInfo = _manufacturerInfoDal.GetEntities;
+                var manufacturerInfo = _manufacturerInfoDal.GetTrackEntities;
 
                 // 获取Exel指定工作簿
                 ExcelWorksheet excelWorksheet = package.Workbook.Worksheets[1];
@@ -80,7 +80,7 @@ namespace GeneralMedicalBll
                     //判断当前是否存在这个药品
                     if (!drugInfo.Any(x => x.DrugTitle == drugTitle))
                     {
-                        errorMsg = "请先添加该药品信息";
+                        errorMsg = string.Format("请先添加该药品信息,位于{0}",row);
                         return (false, errorMsg);
                     }
 
@@ -100,17 +100,20 @@ namespace GeneralMedicalBll
                         DrugId = drugEntity.Id,
                         ManufacturerId = manufacturerEntity.Id,
                         Count = count,
-                        //入库人
+                        //还需要入库人
                     });
 
                     drugEntity.Stock += count;
 
                     drugInfos.Add(drugEntity);
-
-                    await _iBaseDal.GetEntities.
                 }
 
+                await _iBaseDal.AddAsync(drugStorages);
+
+                await _drugInfoDal.UpdateAsync(drugInfos);
             }
+
+            return (true, "成功");
         }
     }
 }
