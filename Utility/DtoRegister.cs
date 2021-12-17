@@ -18,12 +18,12 @@ namespace Utility
 
             //Department
             config.NewConfig<DepartmentInfo, DepartmentDto>()
-                .Map(dest => dest.Status, src => src.Status == 0 ? "关闭" : "开启")
+                .Map(dest => dest.Status, src => src.Status == 0 ? "开启" : "关闭")
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
             //Drug
             config.NewConfig<DrugInfo, DrugInfoDto>()
-                .Map(dest => dest.Type, src => src.Type == 0 ? "处方药" : "处方药")
+                .Map(dest => dest.Type, src => src.Type == 0 ? "处方药" : "非处方药")
                 .Map(dest => dest.Price, src => (int)src.Price)
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
