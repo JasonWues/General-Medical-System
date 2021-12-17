@@ -26,7 +26,7 @@
         /// <summary>
         /// 手机号码
         /// </summary>
-        public string Phonenum { get; set; }
+        public string PhoneNum { get; set; }
 
         /// <summary>
         /// 患者状态
