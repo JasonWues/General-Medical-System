@@ -20,7 +20,7 @@
         /// <summary>
         /// 设置API调用结果为成功
         /// </summary>
-        /// <param name="resultObject">不需要从Data里面读取返回值对象时，存储简单的值对象或者string</param>
+        /// <param name="message">自定义返回值</param>
         /// <returns></returns>
         public static ApiResult SuccessResult(string message)
         {
