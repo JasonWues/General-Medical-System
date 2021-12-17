@@ -41,7 +41,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="drugstorage"></param>
+        /// <param name="drugStorage"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<ApiResult> Add(DrugStorage drugStorage)

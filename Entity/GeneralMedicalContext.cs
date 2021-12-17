@@ -26,7 +26,7 @@ namespace Entity
         public DbSet<DrugInfo> DrugInfo { get; set; }
         public DbSet<DrugInfo_ManufacturerInfo> Info_ManufacturerInfo { get; set; }
         public DbSet<DrugInfo_PatientInfo> DrugInfo_PatientInfo { get; set; }
-        public DbSet<Drugstorage> Drugstorage { get; set; }
+        public DbSet<DrugStorage> DrugStorage { get; set; }
         public DbSet<ManufacturerInfo> ManufacturerInfo { get; set; }
         public DbSet<PatientInfo> PatientInfo { get; set; }
         public DbSet<Register> Register { get; set; }
