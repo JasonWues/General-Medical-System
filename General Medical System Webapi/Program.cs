@@ -182,16 +182,6 @@ static void InitDB()
         {
             Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
-            Title = "科室管理",
-            Href = "../Department/Table.html",
-            Sort = 205,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            Id = Guid.NewGuid().ToString(),
-            ParentId = parentMenu.Id,
             Title = "菜单管理",
             Href = "../Menu/Table.html",
             Sort = 206,
