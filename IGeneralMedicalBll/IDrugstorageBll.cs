@@ -2,8 +2,8 @@
 
 namespace IGeneralMedicalBll
 {
-    public interface IDrugstorageBll : IBaseBll<Drugstorage>
+    public interface IDrugstorageBll : IBaseBll<DrugStorage>
     {
-        Task<(List<Drugstorage> drugstorages, int count)> Query(int page, int limit, string? applicanId);
+        Task<(List<DrugStorage> drugstorages, int count)> Query(int page, int limit, string? applicanId);
     }
 }

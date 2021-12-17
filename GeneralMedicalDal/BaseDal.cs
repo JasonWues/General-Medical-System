@@ -157,5 +157,10 @@ namespace GeneralMedicalDal
         {
             return await _DbContext.Set<TEntity>().Where(whereFunc).BatchUpdateAsync(entities) > 0;
         }
+
+        public async Task AddAsync(List<TEntity> entities)
+        {
+            await _DbContext.BulkInsertAsync(entities);
+        }
     }
 }

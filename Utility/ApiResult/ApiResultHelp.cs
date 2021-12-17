@@ -22,14 +22,14 @@
         /// </summary>
         /// <param name="resultObject">不需要从Data里面读取返回值对象时，存储简单的值对象或者string</param>
         /// <returns></returns>
-        public static ApiResult SuccessResult(string resultObject)
+        public static ApiResult SuccessResult(string message)
         {
             return new ApiResult
             {
                 Code = 200,
                 Success = true,
-                Message = "成功",
-                ResultObject = resultObject
+                Message = message,
+                ResultObject = string.Empty
             };
         }
 

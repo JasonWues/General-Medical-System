@@ -42,8 +42,8 @@ namespace Utility
             config.NewConfig<RoleInfo, RoleInfoDto>()
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
-            //Drugstorage
-            config.NewConfig<Drugstorage, DrugstorageDto>()
+            //DrugStorage
+            config.NewConfig<DrugStorage, DrugStorageDto>()
                 .Map(dest => dest.Createtime, src => src.Createtime.ToString("g"));
 
             //MenuInfo

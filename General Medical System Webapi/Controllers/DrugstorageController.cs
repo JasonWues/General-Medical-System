@@ -31,10 +31,10 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Qurey(int page,int limit,string? applicanId)
         {
-            var (drugstorages,count) = await _drugstorageBll.Query(page, limit, applicanId);
+            var (drugStorages, count) = await _drugstorageBll.Query(page, limit, applicanId);
             //使用Mapster转换成Dto
-            var drugstorageDtos = _mapper.Map<List<DrugstorageDto>>(drugstorages);
-            if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugstorageDto>>.SuccessResult(drugstorageDtos,count);
+            var drugstorageDtos = _mapper.Map<List<DrugStorageDto>>(drugStorages);
+            if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugStorageDto>>.SuccessResult(drugstorageDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -44,10 +44,24 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="drugstorage"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ApiResult> Add(Drugstorage drugstorage)
+        public async Task<ApiResult> Add(DrugStorage drugStorage)
         {
-            if (await _drugstorageBll.AddAsync(drugstorage)) return ApiResultHelp.SuccessResult();
+            if (await _drugstorageBll.AddAsync(drugStorage)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
+        }
+
+        [HttpPost("Upload")]
+        public async Task<ApiResult> Upload(IFormFile excelFiles)
+        {
+            if(excelFiles != null)
+            {
+                var stream = excelFiles.OpenReadStream();
+
+            }
+            else
+            {
+                return ApiResultHelp.ErrorResult(400,"无文件");
+            }
         }
     }
 }

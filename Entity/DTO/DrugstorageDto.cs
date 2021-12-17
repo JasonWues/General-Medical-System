@@ -1,6 +1,6 @@
 ﻿namespace Entity.DTO
 {
-    public record DrugstorageDto
+    public record DrugStorageDto
     {
         public string Id { get; set; }
         /// <summary>
@@ -19,14 +19,9 @@
         public int Count { get; set; }
 
         /// <summary>
-        /// 申请人
-        /// </summary>
-        public string ApplicantId { get; set; }
-
-        /// <summary>
         /// 入库人Id
         /// </summary>
-        public string OperatorId { get; set; }
+        public string? OperatorId { get; set; }
 
         /// <summary>
         /// 添加时间
