@@ -78,11 +78,11 @@ namespace GeneralMedicalBll
                        select new MenuInfo
                        {
                            Id = x.Id,
-                           Href = x.Href,
-                           Opentype = x.Opentype,
-                           Icon = x.Icon, 
-                           Sort = x.Sort,
-                           Type = x.Type,
+                           Href = menuinfo.Href,
+                           Opentype = menuinfo.Opentype,
+                           Icon = menuinfo.Icon, 
+                           Sort = menuinfo.Sort,
+                           Type = menuinfo.Type,
                            Title = menuinfo.Title,
                            ParentId = x.Title,
                        };
