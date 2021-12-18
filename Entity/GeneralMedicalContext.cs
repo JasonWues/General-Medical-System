@@ -14,7 +14,8 @@ namespace Entity
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(@"server=DESKTOP-QOGKNNM\SQLEXPRESS;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;");
-            optionsBuilder.UseSqlServer("server=.;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;");
+            //optionsBuilder.UseSqlServer("server=.;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;");
+            optionsBuilder.UseSqlServer(@"server=47.99.147.45;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Uid=sa;Pwd=234500Prz..;");
         }
 
         public DbSet<BehospitalizedInfo> Behospitalized { get; set; }
