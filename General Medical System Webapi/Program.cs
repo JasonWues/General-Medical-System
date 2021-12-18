@@ -240,6 +240,103 @@ static void InitDB()
         });
         #endregion
 
+        #region 初始化医生数据
+        context.DoctorInfo.AddRange(new DoctorInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DoctorName = "宋江",
+            Age = 35,
+            Sex = 0,
+            Status = 0,
+            RegisteredPrice = 5,
+            PhoneNum = "12345678911",
+            Password = "123456",
+            Createtime = DateTime.Now
+        }, new DoctorInfo()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DoctorName = "李逵",
+            Age = 33,
+            Sex = 0,
+            Status = 0,
+            RegisteredPrice = 3,
+            PhoneNum = "12345678119",
+            Password = "123456",
+            Createtime = DateTime.Now
+        });
+        #endregion
+
+        #region 初始化科室数据
+        context.DepartmentInfo.AddRange(new DepartmentInfo()
+        {
+            Id= Guid.NewGuid().ToString(),
+            DepartmentName = "儿科",
+            Count = 0,
+            Status= 0,
+            Createtime= DateTime.Now
+        },new DepartmentInfo {
+            Id = Guid.NewGuid().ToString(),
+            DepartmentName = "外科",
+            Count = 0,
+            Status = 0,
+            Createtime = DateTime.Now
+        });
+
+        #endregion
+
+        #region 初始化角色
+        context.RoleInfo.AddRange(new RoleInfo()
+        {
+            RoleName = "管理员",
+            Description = "我是管理员",
+            Authority = "管理员",
+            Sort = 0,
+            Createtime = DateTime.Now
+        }, new RoleInfo
+        {
+            RoleName = "宋江",
+            Description = "我是医生",
+            Authority = "医生",
+            Sort = 1,
+            Createtime = DateTime.Now
+
+        }, new RoleInfo
+        {
+            RoleName = "张三",
+            Description = "我是患者",
+            Authority = "患者",
+            Sort = 2,
+            Createtime = DateTime.Now
+        });
+
+        #endregion
+
+        #region 初始化患者数据
+        context.PatientInfo.AddRange(new PatientInfo()
+        {
+            WardId = Guid.NewGuid().ToString(),
+            PatientName = "张三",
+            Age = 20,
+            Sex = 0,
+            PhoneNum = "13909302941",
+            Password = "123456",
+            Status = 0,
+            Createtime = DateTime.Now
+        });
+
+        #endregion
+
+        #region 初始化制造商数据
+        context.ManufacturerInfo.AddRange(new ManufacturerInfo()
+        {
+            ManufacturerName =  "小葵花厂",
+            Contactperson = "小葵花",
+            Phonenum = "700800900",
+            Status = 1,
+            Createtime = DateTime.Now
+        });
+
+        #endregion
         context.SaveChanges();
     }
 }
