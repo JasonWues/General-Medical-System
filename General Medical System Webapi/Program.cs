@@ -88,7 +88,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-//InitDB();
+InitDB();
 
 builder.Services.AddSwaggerGen();
 
