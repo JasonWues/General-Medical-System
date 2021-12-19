@@ -24,7 +24,6 @@ Log.Information("Æô¶¯Ö÷»ú");
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Host.UseSerilog();
 
 //¿çÓò
@@ -33,7 +32,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy(name: MyAllowSpecificOrigins,
         builder =>
         {
-            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            builder.SetIsOriginAllowed(x => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
         });
 });
 
@@ -100,9 +99,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
