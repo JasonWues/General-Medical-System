@@ -22,7 +22,7 @@ namespace Entity
         /// <summary>
         /// 权限
         /// </summary>
-        [Column(TypeName = "varchar(36)")]
+        [Column(TypeName = "nvarchar(36)")]
         public string? Authority { get; set; }
 
         /// <summary>

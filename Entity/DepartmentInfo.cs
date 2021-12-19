@@ -10,7 +10,7 @@ namespace Entity
         /// <summary>
         /// 科室名称
         /// </summary>
-        [Column(TypeName = "varchar(36)")]
+        [Column(TypeName = "nvarchar(36)")]
         public string DepartmentName { get; set; }
 
         /// <summary>
