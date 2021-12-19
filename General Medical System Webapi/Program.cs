@@ -31,7 +31,7 @@ builder.Services.AddCors(opt =>
     opt.AddDefaultPolicy(
         builder =>
         {
-            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         });
 });
 
@@ -86,7 +86,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-InitDB();
+//InitDB();
 
 builder.Services.AddSwaggerGen();
 
@@ -98,9 +98,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
 
 app.UseHttpsRedirection();
+
+
+app.UseCors();
 
 app.UseAuthorization();
 
