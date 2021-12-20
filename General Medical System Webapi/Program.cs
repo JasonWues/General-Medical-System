@@ -113,7 +113,7 @@ app.Run();
 static void InitDB()
 {
     Log.Information("创建数据库");
-    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer(@"server=DESKTOP-QOGKNNM\SQLEXPRESS;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Integrated Security=true;").Options;
+    var contextOptions = new DbContextOptionsBuilder<GeneralMedicalContext>().UseSqlServer(@"server=47.99.147.45;database=GeneralMedicalSystem;Encrypt=True;TrustServerCertificate=True;Uid=sa;Pwd=234500Prz..;").Options;
     using (GeneralMedicalContext context = new(contextOptions))
     {
         context.Database.EnsureDeleted();

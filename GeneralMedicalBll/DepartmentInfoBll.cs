@@ -29,7 +29,7 @@ namespace GeneralMedicalBll
             var query = from department in departmentInfo
                         join doctor in _doctorInfoDal.GetEntities
                         on department.LeaderId equals doctor.Id into guoring
-                        from result in guoring
+                        from result in guoring.DefaultIfEmpty()
                         select new Department_Doctor
                         {
                             Id = department.Id,
