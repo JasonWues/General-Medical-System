@@ -18,9 +18,9 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDepartmentInfoBll _departmentInfoBll;
-        private readonly DoctorInfoBll _doctorInfoBll;
+        private readonly IDoctorInfoBll _doctorInfoBll;
 
-        public DepartmentController(IMapper mapper, IDepartmentInfoBll departmentInfoBll, DoctorInfoBll doctorInfoBll)
+        public DepartmentController(IMapper mapper, IDepartmentInfoBll departmentInfoBll, IDoctorInfoBll doctorInfoBll)
         {
             _mapper = mapper;
             _departmentInfoBll = departmentInfoBll;
