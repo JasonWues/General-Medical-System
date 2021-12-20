@@ -20,7 +20,7 @@ namespace GeneralMedicalBll
         {
             var doctorInfo = _iBaseDal.GetEntities;
 
-            int count = await doctorInfo.CountAsync();
+            int count = 0;
 
             if (!string.IsNullOrEmpty(doctorName))
             {
@@ -51,6 +51,7 @@ namespace GeneralMedicalBll
                             Age = doctor.Age,
                             Createtime = doctor.Createtime.ToString("g")
                         };
+            count = query.Count();
 
             return (await query.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
         }

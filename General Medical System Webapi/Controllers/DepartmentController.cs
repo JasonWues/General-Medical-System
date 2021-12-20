@@ -1,5 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
+using Entity.DTO.Join;
 using GeneralMedicalBll;
 using IGeneralMedicalBll;
 using MapsterMapper;
@@ -36,8 +37,7 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Query(int page, int limit, string? departmentName)
         {
             var (departments, count) = await _departmentInfoBll.Query(page, limit, departmentName);
-            var departmentDtos = _mapper.Map<List<DepartmentDto>>(departments);
-            if (departmentDtos.Count != 0) return ApiResultHelp<List<DepartmentDto>>.SuccessResult(departmentDtos,count);
+            if (departments.Count != 0) return ApiResultHelp<List<Department_Doctor>>.SuccessResult(departments, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -120,10 +120,10 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
         /// <summary>
-        /// 或取下拉选
+        /// 获取下拉选
         /// </summary>
         /// <returns></returns>
-        [HttpGet("DoctorOption")]
+        [HttpGet("doctorOption")]
         public async Task<List<DoctorInfo>> GetSelectOption()
         {
             var option=await _doctorInfoBll.GetEntities.Select(d=> new DoctorInfo
