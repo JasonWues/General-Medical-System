@@ -1,5 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
+using GeneralMedicalBll;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDepartmentInfoBll _departmentInfoBll;
+        private readonly DoctorInfoBll _doctorInfoBll;
 
-        public DepartmentController(IMapper mapper, IDepartmentInfoBll departmentInfoBll)
+        public DepartmentController(IMapper mapper, IDepartmentInfoBll departmentInfoBll, DoctorInfoBll doctorInfoBll)
         {
             _mapper = mapper;
             _departmentInfoBll = departmentInfoBll;
+            _doctorInfoBll = doctorInfoBll;
         }
 
         /// <summary>
@@ -115,6 +118,22 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (await _departmentInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
+        }
+        /// <summary>
+        /// 或取下拉选
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("DoctorOption")]
+        public async Task<List<DoctorInfo>> GetSelectOption()
+        {
+            var option=await _doctorInfoBll.GetEntities.Select(d=> new DoctorInfo
+            { 
+                Id = d.Id,
+                DoctorName = d.DoctorName,
+            
+            }).ToListAsync();
+            if(option.Count !=0)return option;
+            return new List<DoctorInfo>();
         }
     }
 }
