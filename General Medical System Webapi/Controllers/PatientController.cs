@@ -30,9 +30,9 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string? PatientName, string? PhoneNum)
+        public async Task<ApiResult> Query(int page, int limit,string? patientName, string? phoneNum)
         {
-            var (patients,count) = await _patientInfoBll.Query(page, limit, PatientName, PhoneNum);
+            var (patients,count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
             var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
@@ -73,20 +73,20 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="patientName"></param>
-        /// <param name="phonenum"></param>
+        /// <param name="phoneNum"></param>
         /// <param name="status"></param>
         /// <returns></returns>
         /// Update api/Patient/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string WardId, string PatientName, string PhoneNum, int Status)
+        public async Task<ApiResult> Update(string id, string wardId, string patientName, string phoneNum, int status)
         {
             var PatientInfo = await _patientInfoBll.FindAsync(id);
             if (PatientInfo != null)
             {
-                PatientInfo.WardId = WardId;
-                PatientInfo.PatientName = PatientName;
-                PatientInfo.PhoneNum = PhoneNum;
-                PatientInfo.Status = Status;
+                PatientInfo.WardId = wardId;
+                PatientInfo.PatientName = patientName;
+                PatientInfo.PhoneNum = phoneNum;
+                PatientInfo.Status = status;
 
                 if (await _patientInfoBll.UpdateAsync(PatientInfo))
                 {

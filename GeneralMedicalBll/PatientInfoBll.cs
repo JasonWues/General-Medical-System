@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeneralMedicalBll
 {
+    /// <summary>
+    /// 患者业务访问层
+    /// </summary>
     public class PatientInfoBll : BaseBll<PatientInfo>, IPatientInfoBll
     {
         public PatientInfoBll(IPatientInfoDal patientInfoDal)
