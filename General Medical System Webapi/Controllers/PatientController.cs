@@ -1,5 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
+using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IPatientInfoBll _patientInfoBll;
+        private readonly IWardInfoBll _wardInfoBll;
 
-        public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll)
+        public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll,IWardInfoBll wardInfoBll)
         {
             _mapper = mapper;
             _patientInfoBll = patientInfoBll;
+            _wardInfoBll = wardInfoBll;
         }
 
         /// <summary>
@@ -33,8 +36,8 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Query(int page, int limit,string? patientName, string? phoneNum)
         {
             var (patients,count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
-            var patientDtos = _mapper.Map<List<PatientDto>>(patients);
-            if (patientDtos.Count != 0) return ApiResultHelp<List<PatientDto>>.SuccessResult(patientDtos,count);
+            //var patientDtos = _mapper.Map<List<PatientDto>>(patients);
+            if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
