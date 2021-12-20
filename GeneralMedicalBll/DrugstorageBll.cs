@@ -64,7 +64,7 @@ namespace GeneralMedicalBll
 
                 for (int row = 2; row <= rowNum; row++)
                 {
-                    if (excelWorksheet.Cells[row, 1].Value == null || excelWorksheet.Cells[row, 2].Value == null || excelWorksheet.Cells[row, 3].Value == null || excelWorksheet.Cells[row, 4].Value == null)
+                    if (excelWorksheet.Cells[row, 1].Value == null || excelWorksheet.Cells[row, 2].Value == null || excelWorksheet.Cells[row, 3].Value == null)
                     {
                         continue;
                     }
@@ -76,7 +76,7 @@ namespace GeneralMedicalBll
                     var manufacturerName = excelWorksheet.Cells[row, 2].Value.ToString().Trim();
 
                     //药品数量
-                    int count = (int)excelWorksheet.Cells[row, 3].Value;
+                    int count = int.Parse(excelWorksheet.Cells[row, 3].Value.ToString());
 
                     //还缺少入库人，用当前登入人代替
 
@@ -84,14 +84,14 @@ namespace GeneralMedicalBll
                     //判断当前是否存在这个药品
                     if (!drugInfo.Any(x => x.DrugTitle == drugTitle))
                     {
-                        errorMsg = string.Format("请先添加该药品信息,位于{0}",row);
+                        errorMsg = string.Format("请先添加该药品信息,位于第{0}行",row);
                         return (false, errorMsg);
                     }
 
                     //判断当前是否存在这个生产厂家
                     if (!manufacturerInfo.Any(x => x.ManufacturerName == manufacturerName))
                     {
-                        errorMsg = string.Format("请先添加该生产厂家信息,位于{0}行",row);
+                        errorMsg = string.Format("请先添加该生产厂家信息,位于第{0}行",row);
                         return (false, errorMsg);
                     }
 
