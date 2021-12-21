@@ -9,7 +9,7 @@ using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -19,8 +19,8 @@ namespace General_Medical_System_Webapi.Controllers
             _doctorInfoBll = doctorInfoBll;
         }
 
-        [HttpPost("token")]
-        public async Task<ApiResult> Login(string phoneNum,string password)
+        [HttpPost]
+        public async Task<ApiResult> Login([FromForm] string phoneNum, [FromForm] string password)
         {
             var doctorInfo = _doctorInfoBll.GetEntities.Where(x => x.IsDelete == false);
             //MD5加密

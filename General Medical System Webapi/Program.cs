@@ -281,9 +281,9 @@ static void InitDB()
             Age = 35,
             Sex = 0,
             Status = 0,
-            RegisteredPrice = 5,
-            PhoneNum = "12345678911",
-            Password = "123456",
+            RegisteredPrice = 6,
+            PhoneNum = "123456",
+            Password = MD5Helper.MD5Encrypt32("123456"),
             Createtime = DateTime.Now
         }, new DoctorInfo()
         {
@@ -294,7 +294,7 @@ static void InitDB()
             Status = 0,
             RegisteredPrice = 3,
             PhoneNum = "12345678119",
-            Password = "123456",
+            Password = MD5Helper.MD5Encrypt32("123456"),
             Createtime = DateTime.Now
         });
         #endregion
