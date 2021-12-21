@@ -2,6 +2,7 @@
 using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace General_Medical_System_Webapi.Controllers
 {
     [Route("v1/api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MenuController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -22,6 +24,7 @@ namespace General_Medical_System_Webapi.Controllers
             _menuInfoBll = menuInfoBll;
         }
 
+        [AllowAnonymous]
         [HttpGet("MenuJson")]
         public async Task<List<ParentMenuInfoDto>> GetMenuJson()
         {

@@ -134,6 +134,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStatusCodePages();
+
 app.UseCors();
 
 app.UseAuthentication();//¼øÈ¨
@@ -404,7 +406,6 @@ public static class Extend
         })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
