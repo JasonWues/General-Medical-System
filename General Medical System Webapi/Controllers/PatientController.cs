@@ -19,6 +19,7 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IMapper _mapper;
         private readonly IPatientInfoBll _patientInfoBll;
         private readonly IWardInfoBll _wardInfoBll;
+       
 
         public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll,IWardInfoBll wardInfoBll)
         {
@@ -117,6 +118,19 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (await _patientInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
+        }
+
+        [HttpGet("wardInfoOption")]
+        public async Task<List<WardInfo>> GetSelectOption()
+        {
+            var option = await _wardInfoBll.GetEntities.Select(x => new WardInfo
+            {
+                Id = x.Id,
+                WardTitle = x.WardTitle,
+            }).ToListAsync();
+
+            if (option.Count != 0) return option;
+            return new List<WardInfo>();
         }
     }
 }
