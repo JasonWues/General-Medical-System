@@ -5,7 +5,10 @@ using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
 using Utility;
@@ -38,6 +41,36 @@ builder.Services.AddCors(opt =>
 builder.Services.AddControllers();
 builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
+
+
+InitDB();
+
+builder.Services.AddSwaggerGen(x =>
+{
+    x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Description = "直接在下框中输入Bearer {token} 注意两者之间是一个空格",
+        Name = "Authorization",
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    x.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 #region IOC
 
@@ -86,9 +119,9 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 #endregion Mapster
 
-//InitDB();
-
-builder.Services.AddSwaggerGen();
+#region JWT
+builder.Services.AddCustomJWT();
+#endregion
 
 var app = builder.Build();
 
@@ -98,13 +131,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
-
 
 app.UseCors();
 
-app.UseAuthorization();
+app.UseAuthentication();//鉴权
+
+app.UseAuthorization();//授权
 
 app.MapControllers();
 
@@ -338,5 +371,37 @@ static void InitDB()
 
         #endregion
         context.SaveChanges();
+    }
+}
+
+//扩展方法
+public static class Extend
+{
+    //Jwt
+    public static IServiceCollection AddCustomJWT(this IServiceCollection service)
+    {
+        service.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXXC-PRZ5-SAD-DFSFA-METATRX-ON")),
+                    ValidateIssuer = true,
+                    ValidIssuer = "https://localhost:7283",
+                    ValidateAudience = true,
+                    ValidAudience = "https://localhost:7283",
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(60)
+                };
+            });
+        return service;
     }
 }

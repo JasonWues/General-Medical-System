@@ -36,7 +36,6 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Query(int page, int limit,string? patientName, string? phoneNum)
         {
             var (patients,count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
-            //var patientDtos = _mapper.Map<List<PatientDto>>(patients);
             if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients,count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
@@ -117,6 +116,6 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (await _patientInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
-        }
+        } 
     }
 }
