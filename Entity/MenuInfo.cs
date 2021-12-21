@@ -12,6 +12,7 @@ namespace Entity
         /// </summary>
         [Column(TypeName = "varchar(36)")]
         public string? ParentId { get; set; }
+
         /// <summary>
         /// 标题
         /// </summary>
@@ -23,6 +24,7 @@ namespace Entity
         /// 0: 目录 1: 菜单
         /// </summary>
         public int Type { get; set; }
+
         /// <summary>
         /// 图标
         /// </summary>
@@ -42,6 +44,5 @@ namespace Entity
         /// 打开类型 当 type 为 1 时，openType 生效，_iframe 正常打开 _blank 新建浏览器标签页
         /// </summary>
         public string? Opentype { get; set; }
-
     }
 }

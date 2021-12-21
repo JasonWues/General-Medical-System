@@ -3,9 +3,7 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -16,7 +14,7 @@ namespace General_Medical_System_Webapi.Controllers
     public class MenuController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IMenuInfoBll _menuInfoBll; 
+        private readonly IMenuInfoBll _menuInfoBll;
 
         public MenuController(IMenuInfoBll menuInfoBll, IMapper mapper)
         {
@@ -39,6 +37,7 @@ namespace General_Medical_System_Webapi.Controllers
                 }
             };
         }
+
         /// <summary>
         /// 查询全部
         /// </summary>
@@ -47,13 +46,13 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="title"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string? title)
+        public async Task<ApiResult> Query(int page, int limit, string? title)
         {
-            var (menuInfo,count) = await _menuInfoBll.Query(page, limit, title);
+            var (menuInfo, count) = await _menuInfoBll.Query(page, limit, title);
 
             if (menuInfo.Count() != 0) return ApiResultHelp<List<MenuInfoDto>>.SuccessResult(menuInfo, count);
 
-            return ApiResultHelp.ErrorResult(404,"无数据");
+            return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
         /// <summary>
@@ -72,8 +71,6 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
-
-
         /// <summary>
         /// 添加
         /// </summary>
@@ -82,10 +79,9 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(MenuInfo menuInfo)
         {
-            if(await _menuInfoBll.AddAsync(menuInfo)) return ApiResultHelp.SuccessResult();
-            return ApiResultHelp.ErrorResult(405,"添加失败");
+            if (await _menuInfoBll.AddAsync(menuInfo)) return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(405, "添加失败");
         }
-
 
         /// <summary>
         /// 菜单表
@@ -130,7 +126,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpDelete("{id}")]
         public async Task<ApiResult> Delete(string id)
         {
-            if(await _menuInfoBll.DeleteAsync(id))return ApiResultHelp.SuccessResult();
+            if (await _menuInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
     }

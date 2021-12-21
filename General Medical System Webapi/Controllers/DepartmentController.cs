@@ -1,7 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
 using Entity.DTO.Join;
-using GeneralMedicalBll;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -119,6 +118,7 @@ namespace General_Medical_System_Webapi.Controllers
             if (await _departmentInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
+
         /// <summary>
         /// 获取下拉选
         /// </summary>
@@ -126,13 +126,12 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("doctorOption")]
         public async Task<List<DoctorInfo>> GetSelectOption()
         {
-            var option=await _doctorInfoBll.GetEntities.Select(d=> new DoctorInfo
-            { 
+            var option = await _doctorInfoBll.GetEntities.Select(d => new DoctorInfo
+            {
                 Id = d.Id,
                 DoctorName = d.DoctorName,
-            
             }).ToListAsync();
-            if(option.Count !=0)return option;
+            if (option.Count != 0) return option;
             return new List<DoctorInfo>();
         }
     }

@@ -3,6 +3,7 @@
     public class Department_Doctor
     {
         public string Id { get; set; }
+
         /// <summary>
         /// 科室名称
         /// </summary>

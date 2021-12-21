@@ -3,7 +3,6 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -17,6 +16,7 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDrugInfoBll _drugInfoBll;
+
         public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll)
         {
             _mapper = mapper;
@@ -29,12 +29,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Drug
         [HttpGet]
-        public async Task<ApiResult> Query(int page,int limit,string? drugTitle)
+        public async Task<ApiResult> Query(int page, int limit, string? drugTitle)
         {
-            var (drugs,count) = await _drugInfoBll.Query(page, limit, drugTitle);
+            var (drugs, count) = await _drugInfoBll.Query(page, limit, drugTitle);
             //使用Mapster转换成Dto
             var drugDtos = _mapper.Map<List<DrugInfoDto>>(drugs);
-            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugInfoDto>>.SuccessResult(drugDtos,count);
+            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugInfoDto>>.SuccessResult(drugDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -68,7 +68,6 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
 
-
         /// <summary>
         /// 按照id更新部分数据
         /// </summary>
@@ -83,7 +82,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Drug/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock,int warningcount,int type,int price,string manufacturerName)
+        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock, int warningcount, int type, int price, string manufacturerName)
         {
             var DrugInfo = await _drugInfoBll.FindAsync(id);
             if (DrugInfo != null)

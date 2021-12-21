@@ -24,7 +24,6 @@ namespace Entity
         /// </summary>
         public int Count { get; set; }
 
-
         /// <summary>
         /// 入库人Id
         /// </summary>

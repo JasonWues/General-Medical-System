@@ -16,6 +16,7 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IDoctorInfoBll _doctorInfoBll;
         private readonly IDoctorInfo_RoleInfoBll _doctorInfoRoleBll;
         private readonly IRoleInfoBll _roleInfoBll;
+
         public LoginController(IDoctorInfoBll doctorInfoBll, IDoctorInfo_RoleInfoBll doctorInfo_RoleInfoBll, IRoleInfoBll roleInfoBll)
         {
             _doctorInfoBll = doctorInfoBll;
@@ -35,22 +36,21 @@ namespace General_Medical_System_Webapi.Controllers
             {
                 //获取当前绑定的角色名称
                 var rolesName = await (from doctor in doctorInfo
-                            join doctor_role in _doctorInfoRoleBll.GetEntities
-                            on doctor.Id equals doctor_role.DoctorId
+                                       join doctor_role in _doctorInfoRoleBll.GetEntities
+                                       on doctor.Id equals doctor_role.DoctorId
 
-                            join role in _roleInfoBll.GetEntities
-                            on doctor_role.RoleId equals role.Id
-                            select role.RoleName).ToListAsync();
+                                       join role in _roleInfoBll.GetEntities
+                                       on doctor_role.RoleId equals role.Id
+                                       select role.RoleName).ToListAsync();
 
                 //该用户的声明（简单来说就是信息）
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,doctorEntity.DoctorName),
                     new Claim("Id",doctorEntity.Id),
-                    new Claim("PhoneNum",doctorEntity.PhoneNum), 
+                    new Claim("PhoneNum",doctorEntity.PhoneNum),
                 };
                 claims.AddRange(rolesName.Select(x => new Claim(ClaimTypes.Role, x)));
-
 
                 //加密密钥
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXXC-PRZ5-SAD-DFSFA-METATRX-ON"));
@@ -63,7 +63,7 @@ namespace General_Medical_System_Webapi.Controllers
                     audience: "https://localhost:7283",
                     claims: claims,
                     notBefore: DateTime.Now,
-                    expires: DateTime.Now.AddMinutes(10),
+                    expires: DateTime.Now.AddDays(7),
                     signingCredentials: creds
                     );
 
@@ -72,7 +72,7 @@ namespace General_Medical_System_Webapi.Controllers
             }
             else
             {
-                return ApiResultHelp.ErrorResult(404,"没有这个医生");
+                return ApiResultHelp.ErrorResult(404, "没有这个医生");
             }
         }
     }

@@ -42,7 +42,6 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
 
-
 //InitDB();
 
 //JWT
@@ -121,8 +120,10 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 #endregion Mapster
 
 #region JWT
+
 builder.Services.AddCustomJWT();
-#endregion
+
+#endregion JWT
 
 var app = builder.Build();
 
@@ -177,7 +178,7 @@ static void InitDB()
 
         context.RoleInfo.AddRange(RoleInfo, RoleInfo2);
 
-        #endregion
+        #endregion 初始化角色
 
         #region 初始化菜单
 
@@ -282,9 +283,11 @@ static void InitDB()
             Type = 1,
             Opentype = "_iframe"
         });
-        #endregion
+
+        #endregion 初始化菜单
 
         #region 初始化病房数据
+
         context.WardInfo.AddRange(new WardInfo()
         {
             Id = Guid.NewGuid().ToString(),
@@ -300,7 +303,8 @@ static void InitDB()
             Num = 2,
             Status = 1
         });
-        #endregion
+
+        #endregion 初始化病房数据
 
         #region 初始化医生数据
 
@@ -316,7 +320,7 @@ static void InitDB()
             Createtime = DateTime.Now
         };
 
-        context.DoctorInfo.AddRange(Doctor,new DoctorInfo()
+        context.DoctorInfo.AddRange(Doctor, new DoctorInfo()
         {
             DoctorName = "李逵",
             Age = 33,
@@ -327,7 +331,8 @@ static void InitDB()
             Password = MD5Helper.MD5Encrypt32("123456"),
             Createtime = DateTime.Now
         });
-        #endregion
+
+        #endregion 初始化医生数据
 
         #region 初始化医生角色数据
 
@@ -336,24 +341,26 @@ static void InitDB()
             DoctorId = Doctor.Id,
             RoleId = RoleInfo.Id,
             Createtime = DateTime.Now
-        },new DoctorInfo_RoleInfo()
+        }, new DoctorInfo_RoleInfo()
         {
-            DoctorId=Doctor.Id,
-            RoleId=RoleInfo2.Id,
-            Createtime=DateTime.Now
+            DoctorId = Doctor.Id,
+            RoleId = RoleInfo2.Id,
+            Createtime = DateTime.Now
         });
 
-        #endregion
+        #endregion 初始化医生角色数据
 
         #region 初始化科室数据
+
         context.DepartmentInfo.AddRange(new DepartmentInfo()
         {
-            Id= Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid().ToString(),
             DepartmentName = "儿科",
             Count = 0,
-            Status= 0,
-            Createtime= DateTime.Now
-        },new DepartmentInfo {
+            Status = 0,
+            Createtime = DateTime.Now
+        }, new DepartmentInfo
+        {
             Id = Guid.NewGuid().ToString(),
             DepartmentName = "外科",
             Count = 0,
@@ -361,9 +368,10 @@ static void InitDB()
             Createtime = DateTime.Now
         });
 
-        #endregion
-   
+        #endregion 初始化科室数据
+
         #region 初始化患者数据
+
         context.PatientInfo.AddRange(new PatientInfo()
         {
             WardId = Guid.NewGuid().ToString(),
@@ -376,19 +384,21 @@ static void InitDB()
             Createtime = DateTime.Now
         });
 
-        #endregion
+        #endregion 初始化患者数据
 
         #region 初始化制造商数据
+
         context.ManufacturerInfo.AddRange(new ManufacturerInfo()
         {
-            ManufacturerName =  "小葵花厂",
+            ManufacturerName = "小葵花厂",
             Contactperson = "小葵花",
             Phonenum = "700800900",
             Status = 1,
             Createtime = DateTime.Now
         });
 
-        #endregion
+        #endregion 初始化制造商数据
+
         context.SaveChanges();
     }
 }
@@ -417,7 +427,7 @@ public static class Extend
                     ValidateAudience = true,
                     ValidAudience = "https://localhost:7283",
                     ValidateLifetime = true,//是否验证失效时间
-                    ClockSkew = TimeSpan.FromMinutes(30)
+                    ClockSkew = TimeSpan.FromMilliseconds(40)
                 };
             });
         return service;

@@ -12,7 +12,7 @@ namespace GeneralMedicalBll
             _iBaseDal = drugInfoDal;
         }
 
-        public async Task<(List<DrugInfo> drugInfos,int count)> Query(int page, int limit, string? drugTitle)
+        public async Task<(List<DrugInfo> drugInfos, int count)> Query(int page, int limit, string? drugTitle)
         {
             var drugInfo = _iBaseDal.GetEntities;
 
@@ -24,8 +24,7 @@ namespace GeneralMedicalBll
                 count = await drugInfo.CountAsync();
             }
 
-            return (await drugInfo.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
-
+            return (await drugInfo.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }

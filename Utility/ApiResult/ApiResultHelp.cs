@@ -74,7 +74,7 @@
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static ApiResult<T> SuccessResult(T t,int? count = 0)
+        public static ApiResult<T> SuccessResult(T t, int? count = 0)
         {
             var result = new ApiResult<T>();
             result.Success = true;

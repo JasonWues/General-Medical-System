@@ -2,7 +2,6 @@
 {
     public record DepartmentDto
     {
-
         public string Id { get; set; }
         /// <summary>
         /// 科室名称

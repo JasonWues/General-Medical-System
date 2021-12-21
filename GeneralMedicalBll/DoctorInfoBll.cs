@@ -16,7 +16,7 @@ namespace GeneralMedicalBll
             _departmentInfoDal = departmentInfoDal;
         }
 
-        public async Task<(List<Doctor_Department> doctorInfos,int count)> Query(int page, int limit, string? doctorName, string? phoneNum)
+        public async Task<(List<Doctor_Department> doctorInfos, int count)> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
             var doctorInfo = _iBaseDal.GetEntities;
 
@@ -53,7 +53,7 @@ namespace GeneralMedicalBll
                         };
             count = query.Count();
 
-            return (await query.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
+            return (await query.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }
