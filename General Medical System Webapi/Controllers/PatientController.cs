@@ -20,7 +20,7 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IPatientInfoBll _patientInfoBll;
         private readonly IWardInfoBll _wardInfoBll;
 
-        public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll,IWardInfoBll wardInfoBll)
+        public PatientController(IMapper mapper, IPatientInfoBll patientInfoBll, IWardInfoBll wardInfoBll)
         {
             _mapper = mapper;
             _patientInfoBll = patientInfoBll;
@@ -33,7 +33,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Patient
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string? patientName, string? phoneNum)
+        public async Task<ApiResult> Query(int page, int limit, string? patientName, string? phoneNum)
         {
             var (patients,count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
             if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients,count);
@@ -116,6 +116,23 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (await _patientInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
-        } 
+        }
+
+
+        [HttpGet("wardOption")]
+        public async Task<List<WardInfo>>GetSelectOption()
+        {
+            var option = await _wardInfoBll.GetEntities.Select(x => new WardInfo
+            { 
+                Id = x.Id, 
+                WardTitle = x.WardTitle,
+            }).ToListAsync();
+
+            if (option.Count != 0) return option;
+            return new List<WardInfo>();
+        }
+
+
+
     }
 }
