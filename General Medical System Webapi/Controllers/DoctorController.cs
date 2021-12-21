@@ -3,6 +3,7 @@ using Entity.DTO;
 using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Utility;
@@ -14,6 +15,7 @@ namespace General_Medical_System_Webapi.Controllers
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DoctorController : ControllerBase
     {
         private readonly IMapper _mapper;
