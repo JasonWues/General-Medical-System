@@ -15,7 +15,6 @@ namespace General_Medical_System_Webapi.Controllers
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
-    [Authorize]
     public class DoctorController : ControllerBase
     {
         private readonly IMapper _mapper;

@@ -43,8 +43,9 @@ builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
 
 
-InitDB();
+//InitDB();
 
+//JWT
 builder.Services.AddSwaggerGen(x =>
 {
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -151,7 +152,33 @@ static void InitDB()
     {
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-            
+
+        #region 初始化角色
+
+        var RoleInfo = new RoleInfo()
+        {
+            RoleName = "管理员",
+            Description = "我是管理员",
+            Authority = "管理员",
+            Sort = 0,
+            Createtime = DateTime.Now
+        };
+
+        var RoleInfo2 = new RoleInfo
+        {
+            RoleName = "医生",
+            Description = "我是医生",
+            Authority = "医生",
+            Sort = 1,
+            Createtime = DateTime.Now
+        };
+
+        context.RoleInfo.AddRange(RoleInfo, RoleInfo2);
+
+        #endregion
+
+        #region 初始化菜单
+
         MenuInfo parentMenu = new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
@@ -161,7 +188,7 @@ static void InitDB()
             Href = "",
             Sort = 200
         };
-        #region 初始化菜单
+
         context.MenuInfo.AddRange(parentMenu, new MenuInfo()
         {
             Id = Guid.NewGuid().ToString(),
@@ -274,9 +301,9 @@ static void InitDB()
         #endregion
 
         #region 初始化医生数据
-        context.DoctorInfo.AddRange(new DoctorInfo()
+
+        var Doctor = new DoctorInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             DoctorName = "宋江",
             Age = 35,
             Sex = 0,
@@ -285,9 +312,10 @@ static void InitDB()
             PhoneNum = "123456",
             Password = MD5Helper.MD5Encrypt32("123456"),
             Createtime = DateTime.Now
-        }, new DoctorInfo()
+        };
+
+        context.DoctorInfo.AddRange(Doctor,new DoctorInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             DoctorName = "李逵",
             Age = 33,
             Sex = 0,
@@ -297,6 +325,22 @@ static void InitDB()
             Password = MD5Helper.MD5Encrypt32("123456"),
             Createtime = DateTime.Now
         });
+        #endregion
+
+        #region 初始化医生角色数据
+
+        context.AddRange(new DoctorInfo_RoleInfo()
+        {
+            DoctorId = Doctor.Id,
+            RoleId = RoleInfo.Id,
+            Createtime = DateTime.Now
+        },new DoctorInfo_RoleInfo()
+        {
+            DoctorId=Doctor.Id,
+            RoleId=RoleInfo2.Id,
+            Createtime=DateTime.Now
+        });
+
         #endregion
 
         #region 初始化科室数据
@@ -316,34 +360,7 @@ static void InitDB()
         });
 
         #endregion
-
-        #region 初始化角色
-        context.RoleInfo.AddRange(new RoleInfo()
-        {
-            RoleName = "管理员",
-            Description = "我是管理员",
-            Authority = "管理员",
-            Sort = 0,
-            Createtime = DateTime.Now
-        }, new RoleInfo
-        {
-            RoleName = "宋江",
-            Description = "我是医生",
-            Authority = "医生",
-            Sort = 1,
-            Createtime = DateTime.Now
-
-        }, new RoleInfo
-        {
-            RoleName = "张三",
-            Description = "我是患者",
-            Authority = "患者",
-            Sort = 2,
-            Createtime = DateTime.Now
-        });
-
-        #endregion
-
+   
         #region 初始化患者数据
         context.PatientInfo.AddRange(new PatientInfo()
         {
@@ -377,7 +394,7 @@ static void InitDB()
 //扩展方法
 public static class Extend
 {
-    //Jwt
+    //鉴权认证
     public static IServiceCollection AddCustomJWT(this IServiceCollection service)
     {
         service.AddAuthentication(x =>
@@ -391,15 +408,15 @@ public static class Extend
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = true,//是否验证SecurityKey
                     IssuerSigningKey =
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXXC-PRZ5-SAD-DFSFA-METATRX-ON")),
                     ValidateIssuer = true,
                     ValidIssuer = "https://localhost:7283",
                     ValidateAudience = true,
                     ValidAudience = "https://localhost:7283",
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(60)
+                    ValidateLifetime = true,//是否验证失效时间
+                    ClockSkew = TimeSpan.FromMinutes(30)
                 };
             });
         return service;

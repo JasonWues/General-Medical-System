@@ -14,9 +14,13 @@ namespace General_Medical_System_Webapi.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IDoctorInfoBll _doctorInfoBll;
-        public LoginController(IDoctorInfoBll doctorInfoBll)
+        private readonly IDoctorInfo_RoleInfoBll _doctorInfoRoleBll;
+        private readonly IRoleInfoBll _roleInfoBll;
+        public LoginController(IDoctorInfoBll doctorInfoBll, IDoctorInfo_RoleInfoBll doctorInfo_RoleInfoBll, IRoleInfoBll roleInfoBll)
         {
             _doctorInfoBll = doctorInfoBll;
+            _doctorInfoRoleBll = doctorInfo_RoleInfoBll;
+            _roleInfoBll = roleInfoBll;
         }
 
         [HttpPost]
@@ -29,12 +33,24 @@ namespace General_Medical_System_Webapi.Controllers
             var doctorEntity = await _doctorInfoBll.GetEntities.FirstAsync(x => x.PhoneNum == phoneNum && x.Password == pwd);
             if (doctorEntity != null)
             {
-                var claims = new Claim[]
+                //获取当前绑定的角色名称
+                var rolesName = await (from doctor in doctorInfo
+                            join doctor_role in _doctorInfoRoleBll.GetEntities
+                            on doctor.Id equals doctor_role.DoctorId
+
+                            join role in _roleInfoBll.GetEntities
+                            on doctor_role.RoleId equals role.Id
+                            select role.RoleName).ToListAsync();
+
+                //该用户的声明（简单来说就是信息）
+                var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,doctorEntity.DoctorName),
                     new Claim("Id",doctorEntity.Id),
-                    new Claim("PhoneNum",doctorEntity.PhoneNum)
+                    new Claim("PhoneNum",doctorEntity.PhoneNum), 
                 };
+                claims.AddRange(rolesName.Select(x => new Claim(ClaimTypes.Role, x)));
+
 
                 //加密密钥
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXXC-PRZ5-SAD-DFSFA-METATRX-ON"));
