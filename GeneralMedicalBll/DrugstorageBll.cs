@@ -1,4 +1,5 @@
 ﻿using Entity;
+using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace GeneralMedicalBll
         private readonly IDoctorInfoDal _doctorInfoDal;
         private readonly IManufacturerInfoDal _manufacturerInfoDal;
 
+
         public DrugStorageBll(IDrugStorageDal drugStorageDal, IDrugInfoDal drugInfoDal, IManufacturerInfoDal manufacturerInfoDal, IDoctorInfoDal doctorInfoDal)
         {
             _iBaseDal = drugStorageDal;
@@ -20,22 +22,59 @@ namespace GeneralMedicalBll
             _doctorInfoDal = doctorInfoDal;
         }
 
-        public async Task<(List<DrugStorage> drugstorages, int count)> Query(int page, int limit, string? OperatorId)
+
+        public async Task<(List<DrugStorage_Drug_Manufacturer_Doctor> drugstorages, int count)> Query(int page, int limit, int? type)
         {
             var drugstorage = _iBaseDal.GetEntities;
 
-            int count = await drugstorage.CountAsync();
+            int count = 0;
 
-            if (!string.IsNullOrEmpty(OperatorId))
+            if (type != null)
             {
-                drugstorage = drugstorage.Where(x => x.OperatorId.Contains(OperatorId));
-                count = await drugstorage.CountAsync();
+                drugstorage = drugstorage.Where(d => d.Type == type);
+                count = drugstorage.Count();
             }
 
-            return (await drugstorage.OrderBy(x => x.DrugId).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
+
+            var query = from drugStor in drugstorage
+                        join dr in _drugInfoDal.GetEntities
+                        on drugStor.DrugId equals dr.Id into drugStoring1
+                        from drugStordr in drugStoring1.DefaultIfEmpty()
+
+                        join manu in _manufacturerInfoDal.GetEntities
+                        on drugStor.ManufacturerId equals manu.Id into drugManuing2
+                        from result in drugManuing2.DefaultIfEmpty()
+
+                        join doctor in _doctorInfoDal.GetEntities
+                        on drugStor.OperatorId equals doctor.Id into doctorguoring
+                        from doctorOperatorId in doctorguoring.DefaultIfEmpty()
+
+                        join doctorOut in _doctorInfoDal.GetEntities
+                        on drugStor.OutgoerId equals doctorOut.Id into doctorguoring2
+                        from doctorOut in doctorguoring2.DefaultIfEmpty()
+
+                        select new DrugStorage_Drug_Manufacturer_Doctor
+                        {
+                            Id = drugStor.Id,
+                            Count = drugStor.Count,
+                            ManufacturerId = drugStor.ManufacturerId,
+                            ManufacturerName = result.ManufacturerName,
+                            DrugId = drugStor.DrugId,
+                            DrugTitle = drugStordr.DrugTitle,
+                            OutgoerId = drugStor.Id,
+                            OutDoctorName = doctorOut.DoctorName,
+                            OperatorId = drugStor.OperatorId,
+                            OperatorDoctorName = doctorOperatorId.DoctorName,
+                            Type = drugStor.Type == 0 ? "出库" : "入库",
+                            Createtime = drugStor.Createtime.ToString("g")
+                        };
+
+            count = query.Count();
+            return (await query.OrderBy(x => x.Count).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
+
         }
 
-        public async Task<(bool isAdd, string message)> UpLoad(Stream stream,string currentDoctorName)
+        public async Task<(bool isAdd, string message)> UpLoad(Stream stream, string currentDoctorName)
         {
             //许可证
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -80,7 +119,7 @@ namespace GeneralMedicalBll
                     //药品数量
                     int count = int.Parse(excelWorksheet.Cells[row, 3].Value.ToString());
 
-                    
+
 
                     //判断当前是否存在这个药品
                     if (!drugInfo.Any(x => x.DrugTitle == drugTitle))

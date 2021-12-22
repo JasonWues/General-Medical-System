@@ -18,6 +18,15 @@ namespace Entity
         /// </summary>
         [Column(TypeName = "varchar(36)")]
         public string DrugId { get; set; }
+        /// <summary>
+        /// 出库人
+        /// </summary>
+        public string OutgoerId { get; set; }
+
+        /// <summary>
+        /// 0出库1入库
+        /// </summary>
+        public int Type { get; set; }
 
         /// <summary>
         /// 数量

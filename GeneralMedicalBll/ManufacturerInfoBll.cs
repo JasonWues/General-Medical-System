@@ -12,6 +12,8 @@ namespace GeneralMedicalBll
             _iBaseDal = manufacturerInfoDal;
         }
 
+
+
         public async Task<(List<ManufacturerInfo> manufacturerInfos, int count)> Query(int page, int limit, string? manufacturerName, string? contactperson)
         {
             var manufacturerInfo = _iBaseDal.GetEntities;
