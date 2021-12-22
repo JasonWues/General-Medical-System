@@ -427,7 +427,7 @@ public static class Extend
                     ValidateAudience = true,
                     ValidAudience = "https://localhost:7283",
                     ValidateLifetime = true,//是否验证失效时间
-                    ClockSkew = TimeSpan.FromMilliseconds(40)
+                    ClockSkew = TimeSpan.FromMilliseconds(40)//缓冲时间
                 };
             });
         return service;

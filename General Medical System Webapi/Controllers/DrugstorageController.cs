@@ -53,11 +53,9 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost("Upload")]
         public async Task<ApiResult> Upload(IFormFile excelFiles)
         {
-
             if (excelFiles != null)
             {
-                var currentDoctorName = HttpContext.User.Identity.Name;
-                
+                var currentDoctorName = HttpContext.User.Identity.Name;               
 
                 var stream = excelFiles.OpenReadStream();
                 var (isAdd, message) = await _drugstorageBll.UpLoad(stream, currentDoctorName);
@@ -69,6 +67,12 @@ namespace General_Medical_System_Webapi.Controllers
             {
                 return ApiResultHelp.ErrorResult(400, "无文件");
             }
+        }
+
+        public async Task<FileResult> DownLoad()
+        {
+
+            return File();
         }
     }
 }

@@ -70,6 +70,10 @@ namespace General_Medical_System_Webapi.Controllers
         {
             doctorInfo.Createtime = DateTime.Now;
             doctorInfo.Password = MD5Helper.MD5Encrypt32(doctorInfo.Password);
+            if(await _doctorInfoBll.AnyAsync(x => x.DoctorName == doctorInfo.DoctorName))
+            {
+                return ApiResultHelp.ErrorResult(404, "当前医生已存在");
+            }
             if (await _doctorInfoBll.AddAsync(doctorInfo)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
