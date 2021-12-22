@@ -49,9 +49,9 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var manufacturerInfos = await _manufacturerInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var ManufacturerInfoDtos = _mapper.Map<ManufacturerInfoDto>(manufacturerInfos);
+            //var ManufacturerInfoDtos = _mapper.Map<ManufacturerInfoDto>(manufacturerInfos);
 
-            if (ManufacturerInfoDtos != null) return ApiResultHelp<ManufacturerInfoDto>.SuccessResult(ManufacturerInfoDtos);
+            if (manufacturerInfos != null) return ApiResultHelp<ManufacturerInfo>.SuccessResult(manufacturerInfos);
 
             return ApiResultHelp.ErrorResult(404, "无数据");
         }

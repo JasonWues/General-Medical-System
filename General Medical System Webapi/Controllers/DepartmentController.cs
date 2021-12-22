@@ -51,8 +51,8 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var departments = await _departmentInfoBll.FindAsync(id);
             //使用Mapster转换成Dto
-            var departmentDtos = _mapper.Map<DepartmentDto>(departments);
-            if (departmentDtos != null) return ApiResultHelp<DepartmentDto>.SuccessResult(departmentDtos);
+            //var departmentDtos = _mapper.Map<DepartmentDto>(departments);
+            if (departments != null) return ApiResultHelp<DepartmentInfo>.SuccessResult(departments);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
