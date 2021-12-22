@@ -121,11 +121,17 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet("wardOption")]
         public async Task<List<WardInfo>> GetSelectOption()
         {
-            var option = await _wardInfoBll.GetEntities.Select(x => new WardInfo
+            //await _patientInfoBll.GetEntities.Where(p=>p.WardId)
+            //await _wardInfoBll.GetEntities.Where(w=>w.)
+
+
+            var option = await _wardInfoBll.GetEntities.Where(w => w.Status == 1).Select(x => new WardInfo
             {
                 Id = x.Id,
                 WardTitle = x.WardTitle,
             }).ToListAsync();
+
+
 
             if (option.Count != 0) return option;
             return new List<WardInfo>();

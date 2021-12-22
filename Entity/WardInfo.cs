@@ -19,12 +19,12 @@ namespace Entity
         public int Type { get; set; }
 
         /// <summary>
-        /// 病房床位
+        /// 病房床位 大于4满
         /// </summary>
         public int Num { get; set; }
 
         /// <summary>
-        /// 病房状态
+        /// 病房状态/满、空
         /// </summary>
         public int Status { get; set; }
     }

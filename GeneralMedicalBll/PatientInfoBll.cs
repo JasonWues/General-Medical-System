@@ -23,7 +23,11 @@ namespace GeneralMedicalBll
         {
             var patientInfo = _iBaseDal.GetEntities;
 
+
             int count = 0;
+
+
+
 
             if (!string.IsNullOrEmpty(patientName))
             {

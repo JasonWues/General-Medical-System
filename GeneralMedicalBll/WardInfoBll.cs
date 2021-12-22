@@ -19,6 +19,9 @@ namespace GeneralMedicalBll
         {
             var wardInfo = _iBaseDal.GetEntities;
 
+
+
+
             int count = await wardInfo.CountAsync();
 
             if (!string.IsNullOrEmpty(wardTitle))

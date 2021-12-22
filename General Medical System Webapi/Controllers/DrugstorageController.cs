@@ -20,16 +20,19 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IDrugStorageBll _drugstorageBll;
         private readonly IDrugInfoBll _drugInfoBll;
         private readonly IManufacturerInfoBll _manufacturerInfoBll;
+        private readonly IDoctorInfoBll _doctorInfoBll;
         public DrugStorageController(IMapper mapper
             , IDrugStorageBll drugstorageBll
             , IDrugInfoBll drugInfoBll
             , IManufacturerInfoBll manufacturerInfoBll
+            , IDoctorInfoBll doctorInfoBll
             )
         {
             _mapper = mapper;
             _drugstorageBll = drugstorageBll;
             _drugInfoBll=drugInfoBll;
             _manufacturerInfoBll = manufacturerInfoBll;
+            _doctorInfoBll = doctorInfoBll;
         }
 
         /// <summary>
@@ -39,15 +42,7 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Qurey(int page, int limit, int? type)
         {
-            //var (patients, count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
-            //if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients, count);
-          
-
-            //var (departments, count) = await _departmentInfoBll.Query(page, limit, departmentName);
-            //if (departments.Count != 0) return ApiResultHelp<List<Department_Doctor>>.SuccessResult(departments, count);
-
-            
-
+         
             var (drugStorages, count) = await _drugstorageBll.Query(page, limit, type);
             
             if (drugStorages.Count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer_Doctor>>.SuccessResult(drugStorages, count);
@@ -119,5 +114,6 @@ namespace General_Medical_System_Webapi.Controllers
             if (option.Count != 0) return option;
             return new List<ManufacturerInfo>();
         }
+
     }
 }
