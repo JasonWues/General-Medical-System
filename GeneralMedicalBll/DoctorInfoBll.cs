@@ -18,7 +18,7 @@ namespace GeneralMedicalBll
 
         public async Task<(List<Doctor_Department> doctorInfos, int count)> Query(int page, int limit, string? doctorName, string? phoneNum)
         {
-            var doctorInfo = _iBaseDal.GetEntities;
+            var doctorInfo = _iBaseDal.GetEntities.Where(x => x.IsDelete == false);
 
             int count = 0;
 

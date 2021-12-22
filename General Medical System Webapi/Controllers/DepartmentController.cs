@@ -66,8 +66,13 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Add(DepartmentInfo departmentInfo)
         {
             departmentInfo.Createtime = DateTime.Now;
+            if(await _departmentInfoBll.AnyAsync(x => x.DepartmentName == departmentInfo.DepartmentName))
+            {
+                return ApiResultHelp.ErrorResult(404, "科室名称重复");
+            }
+
             if (await _departmentInfoBll.AddAsync(departmentInfo)) return ApiResultHelp.SuccessResult();
-            return ApiResultHelp.ErrorResult(405, "添加失败");
+            return ApiResultHelp.ErrorResult(404, "添加失败");
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
 
@@ -12,6 +13,7 @@ namespace General_Medical_System_Webapi.Controllers
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WardController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -63,8 +65,12 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(WardInfo wardInfo)
         {
+            if(await _wardInfoBll.AnyAsync(x => x.WardTitle == wardInfo.WardTitle))
+            {
+                return ApiResultHelp.ErrorResult(404, "病房重复");
+            }
             if (await _wardInfoBll.AddAsync(wardInfo)) return ApiResultHelp.SuccessResult();
-            return ApiResultHelp.ErrorResult(405, "添加失败");
+            return ApiResultHelp.ErrorResult(404, "添加失败");
         }
 
         /// <summary>
