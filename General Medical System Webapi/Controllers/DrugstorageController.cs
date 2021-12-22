@@ -118,10 +118,10 @@ namespace General_Medical_System_Webapi.Controllers
             return new List<ManufacturerInfo>();
         }
 
-        public async Task<FileResult> DownLoad()
-        {
+        //public async Task<FileResult> DownLoad()
+        //{
 
-            return File();
-        }
+        //    return File();
+        //}
     }
 }
