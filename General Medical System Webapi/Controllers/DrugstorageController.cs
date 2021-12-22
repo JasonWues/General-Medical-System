@@ -4,6 +4,7 @@ using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -36,7 +37,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey(int page, int limit, string? applicanId)
+        public async Task<ApiResult> Qurey(int page, int limit, int? type)
         {
             //var (patients, count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
             //if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients, count);
@@ -45,11 +46,11 @@ namespace General_Medical_System_Webapi.Controllers
             //var (departments, count) = await _departmentInfoBll.Query(page, limit, departmentName);
             //if (departments.Count != 0) return ApiResultHelp<List<Department_Doctor>>.SuccessResult(departments, count);
 
+            
 
-            var (drugStorages, count) = await _drugstorageBll.Query(page, limit, operatorId);
-            //使用Mapster转换成Dto
-            var drugstorageDtos = _mapper.Map<List<DrugStorageDto>>(drugStorages);
-            if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugStorageDto>>.SuccessResult(drugstorageDtos, count);
+            var (drugStorages, count) = await _drugstorageBll.Query(page, limit, type);
+            
+            if (drugStorages.Count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer_Doctor>>.SuccessResult(drugStorages, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

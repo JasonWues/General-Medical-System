@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.DTO.Join
 {
-    public class DrugStorage_Drug_Manufacturer
+    public class DrugStorage_Drug_Manufacturer_Doctor
     {
         public string Id { get; set; }
         /// <summary>
@@ -16,7 +16,27 @@ namespace Entity.DTO.Join
 
         public string? ManufacturerName { get; set; }
 
+        /// <summary>
+        /// 出库人
+        /// </summary>
+        public string OutgoerId { get; set; }
 
+        /// <summary>
+        /// 出库医生姓名
+        /// </summary>
+  
+        public string OutDoctorName { get; set; }
+
+        /// <summary>
+        /// 入库医生姓名
+        /// </summary>
+
+        public string OperatorDoctorName { get; set; }
+
+        /// <summary>
+        /// 0出库1入库
+        /// </summary>
+        public string Type { get; set; }
 
         /// <summary>
         /// 药品名称

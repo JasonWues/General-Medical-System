@@ -42,7 +42,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
 
-//InitDB();
+InitDB();
 
 //JWT
 builder.Services.AddSwaggerGen(x =>
