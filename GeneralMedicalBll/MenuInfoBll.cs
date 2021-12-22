@@ -83,7 +83,7 @@ namespace GeneralMedicalBll
                         from x in gruoing.DefaultIfEmpty()
                         select new MenuInfoDto
                         {
-                            Id = x.Id,
+                            Id = menuinfo.Id,
                             Href = menuinfo.Href,
                             Opentype = menuinfo.Opentype == "_iframe" ? "正常打开" : "新建浏览器标签页",
                             Icon = menuinfo.Icon,

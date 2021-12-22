@@ -58,8 +58,34 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Add(DrugStorage drugStorage)
         {
             drugStorage.Createtime = DateTime.Now;
+            var currentDoctorName = HttpContext.User.Identity.Name;
+            if(drugStorage.Type == 0)//出库
+            {
+                if (!string.IsNullOrEmpty(currentDoctorName))
+                {
+                    var doctorEntity = await _doctorInfoBll.GetEntities.Select(x => new DoctorInfo { Id = x.Id, DoctorName = x.DoctorName }).FirstAsync(x => x.DoctorName == currentDoctorName);
+                    drugStorage.OutgoerId = doctorEntity.Id;
+                }
+                else
+                {
+                    return ApiResultHelp.ErrorResult(404, "未登入");
+                }
+            }
+            else if(drugStorage.Type == 1)//入库
+            {
+                if (!string.IsNullOrEmpty(currentDoctorName))
+                {
+                    var doctorEntity = await _doctorInfoBll.GetEntities.Select(x => new DoctorInfo { Id = x.Id, DoctorName = x.DoctorName }).FirstAsync(x => x.DoctorName == currentDoctorName);
+                    drugStorage.OperatorId = doctorEntity.Id;
+                }
+                else
+                {
+                    return ApiResultHelp.ErrorResult(404, "未登入");
+                }
+            }
+
             if (await _drugstorageBll.AddAsync(drugStorage)) return ApiResultHelp.SuccessResult();
-            return ApiResultHelp.ErrorResult(405, "添加失败");
+            return ApiResultHelp.ErrorResult(404, "添加失败");
         }
 
         [HttpPost("Upload")]
@@ -67,6 +93,7 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (excelFiles != null)
             {
+                //获取当前登入人信息
                 var currentDoctorName = HttpContext.User.Identity.Name;               
 
                 var stream = excelFiles.OpenReadStream();

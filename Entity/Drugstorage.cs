@@ -21,7 +21,7 @@ namespace Entity
         /// <summary>
         /// 出库人
         /// </summary>
-        public string OutgoerId { get; set; }
+        public string? OutgoerId { get; set; }
 
         /// <summary>
         /// 0出库1入库

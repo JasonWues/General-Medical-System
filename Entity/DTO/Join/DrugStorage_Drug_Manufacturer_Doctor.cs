@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entity.DTO.Join
+﻿namespace Entity.DTO.Join
 {
     public class DrugStorage_Drug_Manufacturer_Doctor
     {
@@ -12,20 +6,14 @@ namespace Entity.DTO.Join
         /// <summary>
         /// 厂家名称
         /// </summary>
-        public string? ManufacturerId { get; set; }
-
         public string? ManufacturerName { get; set; }
 
-        /// <summary>
-        /// 出库人
-        /// </summary>
-        public string OutgoerId { get; set; }
 
         /// <summary>
         /// 出库医生姓名
         /// </summary>
-  
-        public string OutDoctorName { get; set; }
+
+        public string OutgoerDoctorName { get; set; }
 
         /// <summary>
         /// 入库医生姓名
@@ -38,10 +26,6 @@ namespace Entity.DTO.Join
         /// </summary>
         public string Type { get; set; }
 
-        /// <summary>
-        /// 药品名称
-        /// </summary>
-        public string DrugId { get; set; }
         public string DrugTitle { get; set; }
 
         /// <summary>
@@ -49,12 +33,6 @@ namespace Entity.DTO.Join
         /// </summary>
         public int Count { get; set; }
 
-
-        /// <summary>
-        /// 入库人Id
-        /// </summary>
- 
-        public string? OperatorId { get; set; }
 
         /// <summary>
         /// 添加时间

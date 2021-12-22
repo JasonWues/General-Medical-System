@@ -25,48 +25,43 @@ namespace GeneralMedicalBll
 
         public async Task<(List<DrugStorage_Drug_Manufacturer_Doctor> drugstorages, int count)> Query(int page, int limit, int? type)
         {
-            var drugstorage = _iBaseDal.GetEntities;
+            var drugStorage = _iBaseDal.GetEntities;
 
             int count = 0;
 
             if (type != null)
             {
-                drugstorage = drugstorage.Where(d => d.Type == type);
-                count = drugstorage.Count();
+                drugStorage = drugStorage.Where(d => d.Type == type);
+                count = drugStorage.Count();
             }
 
-
-            var query = from drugStor in drugstorage
+            var query = from drugstorage in drugStorage
                         join dr in _drugInfoDal.GetEntities
-                        on drugStor.DrugId equals dr.Id into drugStoring1
-                        from drugStordr in drugStoring1.DefaultIfEmpty()
+                        on drugstorage.DrugId equals dr.Id into drugstorage_drug
+                        from drugStordr in drugstorage_drug.DefaultIfEmpty()
 
-                        join manu in _manufacturerInfoDal.GetEntities
-                        on drugStor.ManufacturerId equals manu.Id into drugManuing2
-                        from result in drugManuing2.DefaultIfEmpty()
+                        join manufacturer in _manufacturerInfoDal.GetEntities
+                        on drugstorage.ManufacturerId equals manufacturer.Id into drugstorage_manufacturer
+                        from result in drugstorage_manufacturer.DefaultIfEmpty()
 
                         join doctor in _doctorInfoDal.GetEntities
-                        on drugStor.OperatorId equals doctor.Id into doctorguoring
-                        from doctorOperatorId in doctorguoring.DefaultIfEmpty()
+                        on drugstorage.OperatorId equals doctor.Id into drugstorage_doctor
+                        from doctorOperator in drugstorage_doctor.DefaultIfEmpty()
 
                         join doctorOut in _doctorInfoDal.GetEntities
-                        on drugStor.OutgoerId equals doctorOut.Id into doctorguoring2
-                        from doctorOut in doctorguoring2.DefaultIfEmpty()
+                        on drugstorage.OutgoerId equals doctorOut.Id into drugstorage_doctorOut
+                        from doctorOut in drugstorage_doctorOut.DefaultIfEmpty()
 
                         select new DrugStorage_Drug_Manufacturer_Doctor
                         {
-                            Id = drugStor.Id,
-                            Count = drugStor.Count,
-                            ManufacturerId = drugStor.ManufacturerId,
+                            Id = drugstorage.Id,
+                            Count = drugstorage.Count,
                             ManufacturerName = result.ManufacturerName,
-                            DrugId = drugStor.DrugId,
                             DrugTitle = drugStordr.DrugTitle,
-                            OutgoerId = drugStor.Id,
-                            OutDoctorName = doctorOut.DoctorName,
-                            OperatorId = drugStor.OperatorId,
-                            OperatorDoctorName = doctorOperatorId.DoctorName,
-                            Type = drugStor.Type == 0 ? "出库" : "入库",
-                            Createtime = drugStor.Createtime.ToString("g")
+                            OutgoerDoctorName = doctorOut.DoctorName,
+                            OperatorDoctorName = doctorOperator.DoctorName,
+                            Type = drugstorage.Type == 0 ? "出库" : "入库",
+                            Createtime = drugstorage.Createtime.ToString("g")
                         };
 
             count = query.Count();

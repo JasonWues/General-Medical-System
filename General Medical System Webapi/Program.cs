@@ -226,7 +226,7 @@ static void InitDB()
         {
             Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
-            Title = "药品库存管理",
+            Title = "药品库存记录",
             Href = "../Drugstorage/Table.html",
             Sort = 203,
             Icon = "",
