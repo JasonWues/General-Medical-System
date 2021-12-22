@@ -4,6 +4,7 @@ using IGeneralMedicalDal;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using EFCore.BulkExtensions;
+using Entity.DTO.Join;
 
 namespace GeneralMedicalBll
 {
@@ -18,21 +19,41 @@ namespace GeneralMedicalBll
             _manufacturerInfoDal = manufacturerInfoDal;
         }
 
-        public async Task<(List<DrugStorage> drugstorages, int count)> Query(int page, int limit, string? OperatorId)
+
+        public async Task<(List<DrugStorage_Drug_Manufacturer> drugstorages, int count)> Query(int page, int limit, string? operatorId)
         {
             var drugstorage = _iBaseDal.GetEntities;
-
+           
             int count = await drugstorage.CountAsync();
 
-            if (!string.IsNullOrEmpty(OperatorId))
+            if (!string.IsNullOrEmpty(operatorId))
             {
-                drugstorage = drugstorage.Where(x => x.OperatorId.Contains(OperatorId));
-                count = await drugstorage.CountAsync();
+                drugstorage= drugstorage.Where(d=>d.OperatorId.Contains(operatorId));
+                count = drugstorage.Count();
             }
 
-            return (await drugstorage.OrderBy(x => x.DrugId).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
-        }
+       
+                         var query = from drugStor in drugstorage
+                                     join dr in _drugInfoDal.GetEntities
+                                     on drugStor.DrugId equals dr.Id into drugStoring1
+                                     from drugStordr in drugStoring1.DefaultIfEmpty()
+                                     join manu in _manufacturerInfoDal.GetEntities
+                                     on drugStor.ManufacturerId equals manu.Id into drugManuing2
+                                     from result in drugManuing2.DefaultIfEmpty()
+                                     select new DrugStorage_Drug_Manufacturer
+                                     {
+                                         Id = drugStor.Id,
+                                         Count = drugStor.Count,
+                                         ManufacturerName = result.ManufacturerName,
+                                         DrugTitle = drugStordr.DrugTitle,
+                                         OperatorId = drugStor.OperatorId,
+                                         Createtime = drugStor.Createtime.ToString("g")
+                                     };
 
+            count = query.Count();
+            return (await query.OrderBy(x => x.Count).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
+
+        }
         public async Task<(bool isAdd, string message)> UpLoad(Stream stream)
         {
             //许可证

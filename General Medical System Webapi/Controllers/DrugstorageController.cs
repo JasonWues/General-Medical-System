@@ -1,5 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
+using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,18 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDrugStorageBll _drugstorageBll;
-
-        public DrugStorageController(IMapper mapper, IDrugStorageBll drugstorageBll)
+        private readonly IDrugInfoBll _drugInfoBll;
+        private readonly IManufacturerInfoBll _manufacturerInfoBll;
+        public DrugStorageController(IMapper mapper
+            , IDrugStorageBll drugstorageBll
+            , IDrugInfoBll drugInfoBll
+            , IManufacturerInfoBll manufacturerInfoBll
+            )
         {
             _mapper = mapper;
             _drugstorageBll = drugstorageBll;
+            _drugInfoBll=drugInfoBll;
+            _manufacturerInfoBll = manufacturerInfoBll;
         }
 
         /// <summary>
@@ -29,12 +37,20 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey(int page,int limit,string? applicanId)
+        public async Task<ApiResult> Qurey(int page,int limit,string? operatorId)
         {
-            var (drugStorages, count) = await _drugstorageBll.Query(page, limit, applicanId);
+            //var (patients, count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
+            //if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients, count);
+          
+
+            //var (departments, count) = await _departmentInfoBll.Query(page, limit, departmentName);
+            //if (departments.Count != 0) return ApiResultHelp<List<Department_Doctor>>.SuccessResult(departments, count);
+
+
+            var (drugStorages, count) = await _drugstorageBll.Query(page, limit, operatorId);
             //使用Mapster转换成Dto
-            var drugstorageDtos = _mapper.Map<List<DrugStorageDto>>(drugStorages);
-            if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugStorageDto>>.SuccessResult(drugstorageDtos,count);
+            //var drugstorageDtos = _mapper.Map<List<DrugStorage_Drug_Manufacturer>>(drugStorages);
+            if (drugStorages.Count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer>>.SuccessResult(drugStorages, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -66,6 +82,38 @@ namespace General_Medical_System_Webapi.Controllers
             {
                 return ApiResultHelp.ErrorResult(400,"无文件");
             }
+        }
+        /// <summary>
+        /// 药品下拉选
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("DrugOption")]
+        public async Task<List<DrugInfo>> ListSelectOption()
+        {
+            var option = await _drugInfoBll.GetEntities.Select(x => new DrugInfo
+            {
+
+                Id = x.Id,
+                DrugTitle = x.DrugTitle,
+            }).ToListAsync();
+
+            if (option.Count != 0) return option;
+            return new List<DrugInfo>();
+        }
+        /// <summary>
+        /// 生产厂家下拉选
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ManufacturerOption")]
+        public async Task<List<ManufacturerInfo>> ListSelectOption2()
+        {
+            var option = await _manufacturerInfoBll.GetEntities.Select(x => new ManufacturerInfo
+            {
+                Id = x.Id,
+                ManufacturerName = x.ManufacturerName,
+            }).ToListAsync();
+            if (option.Count != 0) return option;
+            return new List<ManufacturerInfo>();
         }
     }
 }
