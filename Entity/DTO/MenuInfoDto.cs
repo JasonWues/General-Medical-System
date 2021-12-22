@@ -12,6 +12,7 @@
         public string Title { get; set; }
 
         public string Type { get; set; }
+
         /// <summary>
         /// 图标
         /// </summary>

@@ -8,6 +8,6 @@ namespace IGeneralMedicalBll
         //Task<(List<DrugStorage> drugstorages, int count)> Query(int page, int limit, string? applicanId);
         Task<(List<DrugStorage_Drug_Manufacturer> drugstorages, int count)> Query(int page, int limit, string? operatorId);
 
-        Task<(bool isAdd, string message)> UpLoad(Stream stream);
+        Task<(bool isAdd, string message)> UpLoad(Stream stream, string currentDoctorName);
     }
 }

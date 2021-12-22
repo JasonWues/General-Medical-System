@@ -3,6 +3,7 @@
     public class Patient_Ward
     {
         public string Id { get; set; }
+
         // <summary>
         /// 病房Id
         /// </summary>
@@ -10,7 +11,7 @@
 
         /// <summary>
         /// 病房标题
-        /// </summary> 
+        /// </summary>
         public string WardTitle { get; set; }
 
         /// <summary>
@@ -32,7 +33,6 @@
         /// 手机号码
         /// </summary>
         public string PhoneNum { get; set; }
-
 
         /// <summary>
         /// 患者状态

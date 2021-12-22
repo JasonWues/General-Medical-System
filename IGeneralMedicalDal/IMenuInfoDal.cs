@@ -4,6 +4,5 @@ namespace IGeneralMedicalDal
 {
     public interface IMenuInfoDal : IBaseDal<MenuInfo>
     {
-
     }
 }

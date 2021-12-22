@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeneralMedicalBll
 {
-    public class MenuInfoBll : BaseBll<MenuInfo>,IMenuInfoBll
+    public class MenuInfoBll : BaseBll<MenuInfo>, IMenuInfoBll
     {
         public MenuInfoBll(IMenuInfoDal menuInfoDal)
         {
             _iBaseDal = menuInfoDal;
         }
 
-        public void RecursionMenu(List<ParentMenuInfoDto> parentMenuDtoInfos,List<MenuInfo> menus)
+        public void RecursionMenu(List<ParentMenuInfoDto> parentMenuDtoInfos, List<MenuInfo> menus)
         {
             foreach (var item in parentMenuDtoInfos)
             {
@@ -33,7 +33,6 @@ namespace GeneralMedicalBll
             }
         }
 
-
         public async Task<List<ParentMenuInfoDto>> GetMenuJson()
         {
             var allMenuInfo = await _iBaseDal.GetAll().OrderBy(x => x.Sort).ToListAsync();
@@ -46,7 +45,6 @@ namespace GeneralMedicalBll
                 Icon = x.Icon,
                 Type = x.Type,
                 Href = x.Href,
-
             }).ToList();
 
             foreach (var parentMenuInfoDto in parentMenuInfoDtos)
@@ -58,7 +56,7 @@ namespace GeneralMedicalBll
                     Icon = x.Icon,
                     Title = x.Title,
                     Type = x.Type,
-                    Opentype = x.Opentype 
+                    Opentype = x.Opentype
                 }).ToList();
                 parentMenuInfoDto.Children = childMenus;
                 RecursionMenu(parentMenuInfoDto.Children, allMenuInfo);
@@ -67,7 +65,7 @@ namespace GeneralMedicalBll
             return parentMenuInfoDtos;
         }
 
-        public async Task<(List<MenuInfoDto> menuInfos,int count)> Query(int page, int limit,string? title)
+        public async Task<(List<MenuInfoDto> menuInfos, int count)> Query(int page, int limit, string? title)
         {
             var menuInfo = _iBaseDal.GetEntities;
 
@@ -80,22 +78,22 @@ namespace GeneralMedicalBll
             }
 
             var query = from menuinfo in menuInfo
-                       join d in menuInfo
-                       on menuinfo.ParentId equals d.Id into gruoing
-                       from x in gruoing.DefaultIfEmpty()
-                       select new MenuInfoDto
-                       {
-                           Id = x.Id,
-                           Href = menuinfo.Href,
-                           Opentype = menuinfo.Opentype == "_iframe" ? "正常打开" : "新建浏览器标签页",
-                           Icon = menuinfo.Icon, 
-                           Sort = menuinfo.Sort,
-                           Type = menuinfo.Type == 0 ? "目录" : "菜单",
-                           Title = menuinfo.Title,
-                           ParentTitle = x.Title,
-                       };
-            
-            return (await query.Skip((page-1) * limit).Take(limit).ToListAsync(),count);
+                        join d in menuInfo
+                        on menuinfo.ParentId equals d.Id into gruoing
+                        from x in gruoing.DefaultIfEmpty()
+                        select new MenuInfoDto
+                        {
+                            Id = x.Id,
+                            Href = menuinfo.Href,
+                            Opentype = menuinfo.Opentype == "_iframe" ? "正常打开" : "新建浏览器标签页",
+                            Icon = menuinfo.Icon,
+                            Sort = menuinfo.Sort,
+                            Type = menuinfo.Type == 0 ? "目录" : "菜单",
+                            Title = menuinfo.Title,
+                            ParentTitle = x.Title,
+                        };
+
+            return (await query.Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }

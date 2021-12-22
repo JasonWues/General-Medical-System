@@ -35,8 +35,8 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpGet]
         public async Task<ApiResult> Query(int page, int limit, string? patientName, string? phoneNum)
         {
-            var (patients,count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
-            if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients,count);
+            var (patients, count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
+            if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -118,21 +118,17 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
 
-
         [HttpGet("wardOption")]
-        public async Task<List<WardInfo>>GetSelectOption()
+        public async Task<List<WardInfo>> GetSelectOption()
         {
             var option = await _wardInfoBll.GetEntities.Select(x => new WardInfo
-            { 
-                Id = x.Id, 
+            {
+                Id = x.Id,
                 WardTitle = x.WardTitle,
             }).ToListAsync();
 
             if (option.Count != 0) return option;
             return new List<WardInfo>();
         }
-
-
-
     }
 }

@@ -3,7 +3,6 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -30,12 +29,12 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Get api/Role
         [HttpGet]
-        public async Task<ApiResult> Query(int page, int limit,string? roleName)
+        public async Task<ApiResult> Query(int page, int limit, string? roleName)
         {
-            var (roles,count) = await _roleInfoBll.Query(page, limit, roleName);
+            var (roles, count) = await _roleInfoBll.Query(page, limit, roleName);
             //使用Mapster转换成Dto
             var roleDtos = _mapper.Map<List<RoleInfoDto>>(roles);
-            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos,count);
+            if (roleDtos.Count != 0) return ApiResultHelp<List<RoleInfoDto>>.SuccessResult(roleDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

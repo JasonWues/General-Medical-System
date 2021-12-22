@@ -14,7 +14,8 @@ namespace GeneralMedicalBll
         {
             _iBaseDal = wardInfoDal;
         }
-        public async Task<(List<WardInfo>,int count)> Query(int page, int limit, string? wardTitle)
+
+        public async Task<(List<WardInfo>, int count)> Query(int page, int limit, string? wardTitle)
         {
             var wardInfo = _iBaseDal.GetEntities;
 

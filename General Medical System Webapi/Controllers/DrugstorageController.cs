@@ -4,7 +4,6 @@ using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -37,7 +36,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResult> Qurey(int page,int limit,string? operatorId)
+        public async Task<ApiResult> Qurey(int page, int limit, string? applicanId)
         {
             //var (patients, count) = await _patientInfoBll.Query(page, limit, patientName, phoneNum);
             //if (patients.Count != 0) return ApiResultHelp<List<Patient_Ward>>.SuccessResult(patients, count);
@@ -49,8 +48,8 @@ namespace General_Medical_System_Webapi.Controllers
 
             var (drugStorages, count) = await _drugstorageBll.Query(page, limit, operatorId);
             //使用Mapster转换成Dto
-            //var drugstorageDtos = _mapper.Map<List<DrugStorage_Drug_Manufacturer>>(drugStorages);
-            if (drugStorages.Count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer>>.SuccessResult(drugStorages, count);
+            var drugstorageDtos = _mapper.Map<List<DrugStorageDto>>(drugStorages);
+            if (drugstorageDtos.Count != 0) return ApiResultHelp<List<DrugStorageDto>>.SuccessResult(drugstorageDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 
@@ -70,17 +69,21 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost("Upload")]
         public async Task<ApiResult> Upload(IFormFile excelFiles)
         {
-            if(excelFiles != null)
-            {
-                var stream = excelFiles.OpenReadStream();
-                var (isAdd,message) = await _drugstorageBll.UpLoad(stream);
 
-                if (isAdd)return ApiResultHelp.SuccessResult(message);
-                return ApiResultHelp.ErrorResult(405,message);
+            if (excelFiles != null)
+            {
+                var currentDoctorName = HttpContext.User.Identity.Name;
+                
+
+                var stream = excelFiles.OpenReadStream();
+                var (isAdd, message) = await _drugstorageBll.UpLoad(stream, currentDoctorName);
+
+                if (isAdd) return ApiResultHelp.SuccessResult(message);
+                return ApiResultHelp.ErrorResult(405, message);
             }
             else
             {
-                return ApiResultHelp.ErrorResult(400,"无文件");
+                return ApiResultHelp.ErrorResult(400, "无文件");
             }
         }
         /// <summary>

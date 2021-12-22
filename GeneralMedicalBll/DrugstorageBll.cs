@@ -3,20 +3,21 @@ using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
-using EFCore.BulkExtensions;
-using Entity.DTO.Join;
 
 namespace GeneralMedicalBll
 {
     public class DrugStorageBll : BaseBll<DrugStorage>, IDrugStorageBll
     {
         private readonly IDrugInfoDal _drugInfoDal;
+        private readonly IDoctorInfoDal _doctorInfoDal;
         private readonly IManufacturerInfoDal _manufacturerInfoDal;
-        public DrugStorageBll(IDrugStorageDal drugStorageDal, IDrugInfoDal drugInfoDal, IManufacturerInfoDal manufacturerInfoDal)
+
+        public DrugStorageBll(IDrugStorageDal drugStorageDal, IDrugInfoDal drugInfoDal, IManufacturerInfoDal manufacturerInfoDal, IDoctorInfoDal doctorInfoDal)
         {
             _iBaseDal = drugStorageDal;
             _drugInfoDal = drugInfoDal;
             _manufacturerInfoDal = manufacturerInfoDal;
+            _doctorInfoDal = doctorInfoDal;
         }
 
 
@@ -54,7 +55,8 @@ namespace GeneralMedicalBll
             return (await query.OrderBy(x => x.Count).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
 
         }
-        public async Task<(bool isAdd, string message)> UpLoad(Stream stream)
+
+        public async Task<(bool isAdd, string message)> UpLoad(Stream stream,string currentDoctorName)
         {
             //许可证
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -99,22 +101,23 @@ namespace GeneralMedicalBll
                     //药品数量
                     int count = int.Parse(excelWorksheet.Cells[row, 3].Value.ToString());
 
-                    //还缺少入库人，用当前登入人代替
-
+                    
 
                     //判断当前是否存在这个药品
                     if (!drugInfo.Any(x => x.DrugTitle == drugTitle))
                     {
-                        errorMsg = string.Format("请先添加该药品信息,位于第{0}行",row);
+                        errorMsg = string.Format("请先添加该药品信息,位于第{0}行", row);
                         return (false, errorMsg);
                     }
 
                     //判断当前是否存在这个生产厂家
                     if (!manufacturerInfo.Any(x => x.ManufacturerName == manufacturerName))
                     {
-                        errorMsg = string.Format("请先添加该生产厂家信息,位于第{0}行",row);
+                        errorMsg = string.Format("请先添加该生产厂家信息,位于第{0}行", row);
                         return (false, errorMsg);
                     }
+
+                    var doctorEntity = await _doctorInfoDal.GetEntities.FirstAsync(x => x.DoctorName == currentDoctorName);
 
                     var drugEntity = await drugInfo.SingleOrDefaultAsync(x => x.DrugTitle == drugTitle);
 
@@ -125,7 +128,7 @@ namespace GeneralMedicalBll
                         DrugId = drugEntity.Id,
                         ManufacturerId = manufacturerEntity.Id,
                         Count = count,
-                        //还需要入库人
+                        OperatorId = doctorEntity.Id
                     });
 
                     drugEntity.Stock += count;

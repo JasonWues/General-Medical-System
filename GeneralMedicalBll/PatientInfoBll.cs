@@ -13,13 +13,13 @@ namespace GeneralMedicalBll
     {
         private readonly IWardInfoDal _wardInfoDal;
 
-        public PatientInfoBll(IPatientInfoDal patientInfoDal,IWardInfoDal wardInfoDal)
+        public PatientInfoBll(IPatientInfoDal patientInfoDal, IWardInfoDal wardInfoDal)
         {
             _iBaseDal = patientInfoDal;
             _wardInfoDal = wardInfoDal;
         }
 
-        public async Task<(List<Patient_Ward> patientInfos,int count)> Query(int page, int limit, string? patientName, string? phoneNum)
+        public async Task<(List<Patient_Ward> patientInfos, int count)> Query(int page, int limit, string? patientName, string? phoneNum)
         {
             var patientInfo = _iBaseDal.GetEntities;
 
@@ -54,7 +54,7 @@ namespace GeneralMedicalBll
                         };
             count = query.Count();
 
-            return (await query.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(),count);
+            return (await query.OrderBy(x => x.Status).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }

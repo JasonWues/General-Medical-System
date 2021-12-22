@@ -21,6 +21,7 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IMapper _mapper;
         private readonly IDoctorInfoBll _doctorInfoBll;
         private readonly IDepartmentInfoBll _departmentInfoBll;
+
         public DoctorController(IMapper mapper, IDoctorInfoBll doctorInfoBll, IDepartmentInfoBll departmentInfoBll)
         {
             _mapper = mapper;
@@ -134,6 +135,5 @@ namespace General_Medical_System_Webapi.Controllers
             if (option.Count != 0) return option;
             return new List<DepartmentInfo>();
         }
-
     }
 }
