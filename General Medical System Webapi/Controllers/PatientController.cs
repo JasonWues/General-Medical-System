@@ -136,5 +136,23 @@ namespace General_Medical_System_Webapi.Controllers
             if (option.Count != 0) return option;
             return new List<WardInfo>();
         }
+
+        /// <summary>
+        /// 批量删除(有软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete("Batch")]
+        public async Task<ApiResult> BatchDelete(string[] ids)
+        {
+            bool isSuccess = await _patientInfoBll.UpdateAsync(x => ids.Contains(x.Id), x => new PatientInfo()
+            {
+                IsDelete = true,
+                Deletetime = DateTime.Now,
+            });
+
+            if (isSuccess) return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(404, "删除失败");
+        }
     }
 }

@@ -130,5 +130,18 @@ namespace General_Medical_System_Webapi.Controllers
             if (await _menuInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
+
+        /// <summary>
+        /// 批量删除(无软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete("Batch")]
+        public async Task<ApiResult> BatchDeleteDelete(string[] ids)
+        {
+            bool isSuccess = await _menuInfoBll.DeleteAsync(x => ids.Contains(x.Id));
+            if (isSuccess) return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(404, "删除失败");
+        }
     }
 }
