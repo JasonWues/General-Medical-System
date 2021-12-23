@@ -66,7 +66,28 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Add(PatientInfo patientInfo)
         {
             patientInfo.Createtime = DateTime.Now;
-            if (await _patientInfoBll.AddAsync(patientInfo)) return ApiResultHelp.SuccessResult();
+
+            WardInfo wardInfo = await _wardInfoBll.GetEntities.FirstAsync(x => x.Id == patientInfo.WardId && x.Status == 1);
+
+            if (wardInfo.Num == 0)
+            {
+                return ApiResultHelp.ErrorResult(405, "该病房床位已满");
+            }
+            else
+            {
+                wardInfo.Num -= 1;
+                await _wardInfoBll.UpdateAsync(wardInfo);
+
+                if (wardInfo.Num == 0)
+                {
+                    wardInfo.Status = 0;
+                    await _wardInfoBll.UpdateAsync(wardInfo);
+                }
+
+                if (await _patientInfoBll.AddAsync(patientInfo)) return ApiResultHelp.SuccessResult();
+            }
+
+
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
 
@@ -82,6 +103,8 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPatch("{id}")]
         public async Task<ApiResult> Update(string id, string wardId, string patientName, string phoneNum, int status)
         {
+            WardInfo wardInfo = await _wardInfoBll.GetEntities.FirstAsync(x => x.Id == wardId && x.Status == 0);
+
             var PatientInfo = await _patientInfoBll.FindAsync(id);
             if (PatientInfo != null)
             {
@@ -92,6 +115,15 @@ namespace General_Medical_System_Webapi.Controllers
 
                 if (await _patientInfoBll.UpdateAsync(PatientInfo))
                 {
+                    if (wardInfo != null)
+                    {
+                        wardInfo.Num += 1;
+                        wardInfo.Status = 1;
+
+                        await _wardInfoBll.UpdateAsync(wardInfo);
+
+                    }
+
                     return ApiResultHelp.SuccessResult();
                 }
                 else
@@ -135,6 +167,24 @@ namespace General_Medical_System_Webapi.Controllers
 
             if (option.Count != 0) return option;
             return new List<WardInfo>();
+        }
+
+        /// <summary>
+        /// 批量删除(有软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete("Batch")]
+        public async Task<ApiResult> BatchDelete(string[] ids)
+        {
+            bool isSuccess = await _patientInfoBll.UpdateAsync(x => ids.Contains(x.Id), x => new PatientInfo()
+            {
+                IsDelete = true,
+                Deletetime = DateTime.Now,
+            });
+
+            if (isSuccess) return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(404, "删除失败");
         }
     }
 }

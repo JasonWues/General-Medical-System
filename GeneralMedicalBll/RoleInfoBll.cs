@@ -17,7 +17,7 @@ namespace GeneralMedicalBll
 
         public async Task<(List<RoleInfo> roleInfos, int count)> Query(int page, int limit, string? roleName)
         {
-            var roleInfo = _iBaseDal.GetEntities;
+            var roleInfo = _iBaseDal.GetEntities.Where(x => x.IsDelete == false);
 
             int count = await roleInfo.CountAsync();
 

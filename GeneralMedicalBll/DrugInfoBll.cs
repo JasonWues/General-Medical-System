@@ -14,7 +14,7 @@ namespace GeneralMedicalBll
 
         public async Task<(List<DrugInfo> drugInfos, int count)> Query(int page, int limit, string? drugTitle)
         {
-            var drugInfo = _iBaseDal.GetEntities;
+            var drugInfo = _iBaseDal.GetEntities.Where(x => x.IsDelete == false);
 
             int count = await drugInfo.CountAsync();
 
