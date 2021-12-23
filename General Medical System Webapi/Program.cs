@@ -44,7 +44,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAuthorization(opt =>
 {
-    opt.AddPolicy("General Policy", opt => opt.RequireRole("管理员","医生"));
+    opt.AddPolicy("General Policy", opt => opt.RequireRole("管理员", "医生"));
 });
 
 InitDB();
@@ -190,107 +190,126 @@ static void InitDB()
 
         #region 初始化菜单
 
-        MenuInfo parentMenu = new MenuInfo()
+        MenuInfo hospitaltMenu = new MenuInfo()
         {
-
             Title = "医院管理",
+            Type = 0,
+            Icon = "",
+            Href = "",
+            Sort = 100
+        };
+        MenuInfo patientMenu = new MenuInfo()
+        {
+            Title = "患者管理",
             Type = 0,
             Icon = "",
             Href = "",
             Sort = 200
         };
-
-        context.MenuInfo.AddRange(parentMenu, new MenuInfo()
+        MenuInfo drugMenu = new MenuInfo()
         {
-            ParentId = parentMenu.Id,
-            Title = "医生管理",
-            Href = "../Doctor/Table.html",
-            Sort = 200,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "科室管理",
-            Href = "../Department/Table.html",
-            Sort = 201,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
             Title = "药品管理",
-            Href = "../Drug/Table.html",
-            Sort = 202,
+            Type = 0,
             Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "药品库存记录",
-            Href = "../Drugstorage/Table.html",
-            Sort = 203,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "制造商管理",
-            Href = "../Manufacturer/Table.html",
-            Sort = 204,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "菜单管理",
-            Href = "../Menu/Table.html",
-            Sort = 206,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            Id = Guid.NewGuid().ToString(),
-            ParentId = parentMenu.Id,
-            Title = "患者管理",
-            Href = "../Patient/Table.html",
-            Sort = 207,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "角色管理",
-            Href = "../Role/Table.html",
-            Sort = 208,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        }, new MenuInfo()
-        {
-            ParentId = parentMenu.Id,
-            Title = "病房管理",
-            Href = "../Ward/Table.html",
-            Sort = 209,
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe"
-        },new MenuInfo()
-        {
-            Title = "挂号管理",
-            Href = "../Register/Table.html",
-            Icon = "",
-            Type = 1,
-            Opentype = "_iframe",
-            Sort = 300,
-        });
+            Href = "",
+            Sort = 300
+        };
+
+        context.MenuInfo.AddRange(hospitaltMenu,
+            patientMenu,
+            drugMenu,
+            new MenuInfo()
+            {
+                ParentId = hospitaltMenu.Id,
+                Title = "医生管理",
+                Href = "../Doctor/Table.html",
+                Sort = 101,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = hospitaltMenu.Id,
+                Title = "科室管理",
+                Href = "../Department/Table.html",
+                Sort = 102,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = drugMenu.Id,
+                Title = "药品管理",
+                Href = "../Drug/Table.html",
+                Sort = 301,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = drugMenu.Id,
+                Title = "药品库存记录",
+                Href = "../Drugstorage/Table.html",
+                Sort = 302,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = drugMenu.Id,
+                Title = "制造商管理",
+                Href = "../Manufacturer/Table.html",
+                Sort = 303,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = hospitaltMenu.Id,
+                Title = "菜单管理",
+                Href = "../Menu/Table.html",
+                Sort = 103,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                Id = Guid.NewGuid().ToString(),
+                ParentId = patientMenu.Id,
+                Title = "患者管理",
+                Href = "../Patient/Table.html",
+                Sort = 201,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = hospitaltMenu.Id,
+                Title = "角色管理",
+                Href = "../Role/Table.html",
+                Sort = 104,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = patientMenu.Id,
+                Title = "病房管理",
+                Href = "../Ward/Table.html",
+                Sort = 202,
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe"
+            }, new MenuInfo()
+            {
+                ParentId = patientMenu.Id,
+                Title = "挂号管理",
+                Href = "../Register/Table.html",
+                Icon = "",
+                Type = 1,
+                Opentype = "_iframe",
+                Sort = 203,
+            });
 
         #endregion 初始化菜单
 
@@ -421,7 +440,7 @@ public static class Extend
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            
+
         })
             .AddJwtBearer(options =>
             {
