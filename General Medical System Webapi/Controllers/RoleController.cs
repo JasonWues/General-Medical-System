@@ -16,11 +16,13 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRoleInfoBll _roleInfoBll;
+        private readonly IDoctorInfo_RoleInfoBll _doctorInfo_RoleInfoBll;
 
-        public RoleController(IMapper mapper, IRoleInfoBll roleInfoBll)
+        public RoleController(IMapper mapper, IRoleInfoBll roleInfoBll, IDoctorInfo_RoleInfoBll doctorInfo_RoleInfoBll)
         {
             _mapper = mapper;
             _roleInfoBll = roleInfoBll;
+            _doctorInfo_RoleInfoBll = doctorInfo_RoleInfoBll;
         }
 
         /// <summary>
@@ -132,5 +134,22 @@ namespace General_Medical_System_Webapi.Controllers
             if (isSuccess) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(404, "删除失败");
         }
+
+        ////测试代码
+
+        ///// <summary>
+        ///// 绑定角色
+        ///// </summary>
+        ///// <param name="doctor_Roleinfo"></param>
+        ///// <returns></returns>
+        //[HttpPatch]
+        //public async Task<ApiResult> Bindrole(DoctorInfo_RoleInfo doctor_Roleinfo)
+        //{
+        //    doctor_Roleinfo.Createtime = DateTime.Now;
+
+        //    if (await _doctorInfo_RoleInfoBll.AddAsync(doctor_Roleinfo)) return ApiResultHelp.SuccessResult();
+
+        //    return ApiResultHelp.ErrorResult(404, "绑定失败");
+        //}
     }
 }
