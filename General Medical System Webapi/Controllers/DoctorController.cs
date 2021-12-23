@@ -141,8 +141,12 @@ namespace General_Medical_System_Webapi.Controllers
             return new List<DepartmentInfo>();
         }
 
-
-        [HttpPost("batch")]
+        /// <summary>
+        /// 批量删除(有软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete("Batch")]
         public async Task<ApiResult> BatchDelete(string[] ids)
         {
             bool isSuccess =  await _doctorInfoBll.UpdateAsync(x => ids.Contains(x.Id), x => new DoctorInfo()

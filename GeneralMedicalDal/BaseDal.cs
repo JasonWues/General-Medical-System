@@ -172,5 +172,10 @@ namespace GeneralMedicalDal
         {
             await _DbContext.BulkUpdateAsync(entities);
         }
+
+        public async Task<bool> DeleteAsync(Expression<Func<TEntity,bool>> whereFunc)
+        {
+            return await _DbContext.Set<TEntity>().Where(whereFunc).BatchDeleteAsync() > 0;
+        }
     }
 }

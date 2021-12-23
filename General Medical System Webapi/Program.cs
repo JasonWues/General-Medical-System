@@ -47,7 +47,7 @@ builder.Services.AddAuthorization(opt =>
     opt.AddPolicy("General Policy", opt => opt.RequireRole("管理员","医生"));
 });
 
-//InitDB();
+InitDB();
 
 #region SwaggerGen添加JWT
 
