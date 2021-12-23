@@ -34,7 +34,6 @@ namespace General_Medical_System_Webapi.Controllers
         public async Task<ApiResult> Query(int page, int limit, string? wardTitle)
         {
             var (wards, count) = await _wardInfoBll.Query(page, limit, wardTitle);
-            //使用Mapster转换成Dto
             var wardDtos = _mapper.Map<List<WardInfoDto>>(wards);
             if (wardDtos.Count != 0) return ApiResultHelp<List<WardInfoDto>>.SuccessResult(wardDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
@@ -121,5 +120,20 @@ namespace General_Medical_System_Webapi.Controllers
             if (await _wardInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
         }
+
+
+        /// <summary>
+        /// 批量删除(无软删除)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete("Batch")]
+        public async Task<ApiResult> BatchDeleteDelete(string[] ids)
+        {
+            bool isSuccess = await _wardInfoBll.DeleteAsync(x => ids.Contains(x.Id));
+            if (isSuccess) return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(404, "删除失败");
+        }
+
     }
 }
