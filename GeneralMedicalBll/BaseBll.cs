@@ -132,5 +132,15 @@ namespace GeneralMedicalBll
         {
             await _iBaseDal.UpdateAsync(entities);
         }
+
+        public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TEntity>> updateFunc)
+        {
+            return await _iBaseDal.UpdateAsync(whereFunc,updateFunc);
+        }
+
+        public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> whereFunc)
+        {
+            return await _iBaseDal.DeleteAsync(whereFunc);
+        }
     }
 }
