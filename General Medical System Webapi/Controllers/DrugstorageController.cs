@@ -45,7 +45,7 @@ namespace General_Medical_System_Webapi.Controllers
          
             var (drugStorages, count) = await _drugstorageBll.Query(page, limit, type);
             
-            if (drugStorages.Count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer_Doctor>>.SuccessResult(drugStorages, count);
+            if (count != 0) return ApiResultHelp<List<DrugStorage_Drug_Manufacturer_Doctor>>.SuccessResult(drugStorages, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

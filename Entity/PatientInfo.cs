@@ -14,6 +14,11 @@ namespace Entity
         public string WardId { get; set; }
 
         /// <summary>
+        /// 医生Id
+        /// </summary>
+        public string? DoctorId { get; set; }
+
+        /// <summary>
         /// 患者姓名
         /// </summary>
         [Column(TypeName = "nvarchar(36)")]

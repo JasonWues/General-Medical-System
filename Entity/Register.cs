@@ -8,10 +8,10 @@ namespace Entity
     public class Register : BaseId
     {
         /// <summary>
-        /// 患者姓名
+        /// 患者Id
         /// </summary>
-        [Column(TypeName = "nvarchar(24)")]
-        public string Name { get; set; }
+        [Column(TypeName = "nvarchar(36)")]
+        public string PatientId { get; set; }
 
         /// <summary>
         /// 医生Id

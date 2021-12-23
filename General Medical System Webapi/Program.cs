@@ -192,7 +192,7 @@ static void InitDB()
 
         MenuInfo parentMenu = new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
+
             Title = "医院管理",
             Type = 0,
             Icon = "",
@@ -202,7 +202,6 @@ static void InitDB()
 
         context.MenuInfo.AddRange(parentMenu, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "医生管理",
             Href = "../Doctor/Table.html",
@@ -212,7 +211,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "科室管理",
             Href = "../Department/Table.html",
@@ -222,7 +220,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "药品管理",
             Href = "../Drug/Table.html",
@@ -232,7 +229,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "药品库存记录",
             Href = "../Drugstorage/Table.html",
@@ -242,7 +238,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "制造商管理",
             Href = "../Manufacturer/Table.html",
@@ -252,7 +247,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "菜单管理",
             Href = "../Menu/Table.html",
@@ -272,7 +266,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "角色管理",
             Href = "../Role/Table.html",
@@ -282,7 +275,6 @@ static void InitDB()
             Opentype = "_iframe"
         }, new MenuInfo()
         {
-            Id = Guid.NewGuid().ToString(),
             ParentId = parentMenu.Id,
             Title = "病房管理",
             Href = "../Ward/Table.html",
@@ -290,6 +282,14 @@ static void InitDB()
             Icon = "",
             Type = 1,
             Opentype = "_iframe"
+        },new MenuInfo()
+        {
+            Title = "挂号管理",
+            Href = "../Register/Table.html",
+            Icon = "",
+            Type = 1,
+            Opentype = "_iframe",
+            Sort = 300,
         });
 
         #endregion 初始化菜单
