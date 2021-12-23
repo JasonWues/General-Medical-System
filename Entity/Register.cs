@@ -33,5 +33,10 @@ namespace Entity
         /// 支付时间
         /// </summary>
         public DateTime Paymenttime { get; set; }
+
+        /// <summary>
+        /// 就诊时间
+        /// </summary>
+        public DateTime Treatmenttime { get; set; }
     }
 }
