@@ -1,4 +1,5 @@
-﻿using IGeneralMedicalBll;
+﻿using EFCore.BulkExtensions;
+using IGeneralMedicalBll;
 using IGeneralMedicalDal;
 using System.Linq.Expressions;
 
@@ -131,6 +132,11 @@ namespace GeneralMedicalBll
         public async Task UpdateAsync(List<TEntity> entities)
         {
             await _iBaseDal.UpdateAsync(entities);
+        }
+
+        public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TEntity>> updateFunc)
+        {
+            return await _iBaseDal.Where(whereFunc).BatchUpdateAsync(updateFunc) > 0;
         }
     }
 }

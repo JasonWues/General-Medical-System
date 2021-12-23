@@ -42,9 +42,15 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<GeneralMedicalContext>();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("General Policy", opt => opt.RequireRole("管理员","医生"));
+});
+
 //InitDB();
 
-//JWT
+#region SwaggerGen添加JWT
+
 builder.Services.AddSwaggerGen(x =>
 {
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -71,6 +77,8 @@ builder.Services.AddSwaggerGen(x =>
         }
     });
 });
+
+#endregion
 
 #region IOC
 
@@ -413,6 +421,7 @@ public static class Extend
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            
         })
             .AddJwtBearer(options =>
             {

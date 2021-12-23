@@ -15,7 +15,8 @@ namespace General_Medical_System_Webapi.Controllers
     /// </summary>
     [Route("v1/api/[controller]")]
     [ApiController]
-    [Authorize]
+    //权限
+    [Authorize(Policy = "General Policy")]
     public class DoctorController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -138,6 +139,20 @@ namespace General_Medical_System_Webapi.Controllers
 
             if (option.Count != 0) return option;
             return new List<DepartmentInfo>();
+        }
+
+
+        [HttpPost("batch")]
+        public async Task<ApiResult> BatchDelete(string[] ids)
+        {
+            bool isSuccess =  await _doctorInfoBll.UpdateAsync(x => ids.Contains(x.Id), x => new DoctorInfo()
+            {
+                IsDelete = true,
+                Deletetime = DateTime.Now,
+            });
+
+            if (isSuccess)return ApiResultHelp.SuccessResult();
+            return ApiResultHelp.ErrorResult(404, "删除失败");
         }
     }
 }

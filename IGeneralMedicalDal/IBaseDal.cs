@@ -157,7 +157,6 @@ namespace IGeneralMedicalDal
         /// <param name="entities"></param>
         /// <returns></returns>
         Task<bool> DeleteAsync(List<TEntity> entities);
-
         /// <summary>
         /// 批量添加(异步)
         /// </summary>
@@ -171,5 +170,13 @@ namespace IGeneralMedicalDal
         /// <param name="entities"></param>
         /// <returns></returns>
         Task UpdateAsync(List<TEntity> entities);
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="whereFunc">修改条件</param>
+        /// <param name="UpdateFunc">修改数据</param>
+        /// <returns></returns>
+        Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TEntity>> updateFunc);
     }
 }
