@@ -29,5 +29,10 @@
         /// 支付时间
         /// </summary>
         public string Paymenttime { get; set; }
+
+        /// <summary>
+        /// 就诊时间
+        /// </summary>
+        public string Treatmenttime { get; set; }
     }
 }

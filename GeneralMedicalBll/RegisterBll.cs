@@ -35,7 +35,7 @@ namespace GeneralMedicalBll
                         from result in Register_doctor.DefaultIfEmpty()
 
                         join patient in _patientInfoDal.GetEntities.Where(x => x.IsDelete == false)
-                        on Register.DoctorId equals patient.Id into Register_patient
+                        on Register.PatientId equals patient.Id into Register_patient
                         from result2 in Register_patient.DefaultIfEmpty()
 
                         select new Register_Doctor_Patient
@@ -45,7 +45,8 @@ namespace GeneralMedicalBll
                             DoctorName = result.DoctorName,
                             Status = Register.Status == 0 ? "未接诊" : "已接诊",
                             Registertime = Register.Registertime.ToString("g"),
-                            Paymenttime = Register.Paymenttime.ToString("g")
+                            Paymenttime = Register.Paymenttime.ToString("g"),
+                            Treatmenttime = Register.Treatmenttime.ToString("g")
                         };
             count = query.Count();
 
