@@ -16,7 +16,7 @@ namespace Entity
         /// <summary>
         /// 单位
         /// </summary>
-        [Column(TypeName = "varchar(10)")]
+        [Column(TypeName = "nvarchar(10)")]
         public string Unit { get; set; }
 
         /// <summary>
