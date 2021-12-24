@@ -3,6 +3,7 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -16,11 +17,13 @@ namespace General_Medical_System_Webapi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDrugInfoBll _drugInfoBll;
+        private readonly IManufacturerInfoBll _manufacturerBll;
 
-        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll)
+        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll,IManufacturerInfoBll manufacturerInfoBll)
         {
             _mapper = mapper;
             _drugInfoBll = drugInfoBll;
+            _manufacturerBll = manufacturerInfoBll;
         }
 
         /// <summary>
@@ -121,6 +124,22 @@ namespace General_Medical_System_Webapi.Controllers
         {
             if (await _drugInfoBll.DeleteAsync(id)) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(405, "删除失败");
+        }
+
+        /// <summary>
+        /// 获取下拉选
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("manufacturerOption")]
+        public async Task<List<ManufacturerInfo>> GetSelectOption()
+        {
+            var option = await _manufacturerBll.GetEntities.Select(d => new ManufacturerInfo
+            {
+                Id = d.Id,
+                ManufacturerName = d.ManufacturerName,
+            }).ToListAsync();
+            if (option.Count != 0) return option;
+            return new List<ManufacturerInfo>();
         }
 
         /// <summary>
