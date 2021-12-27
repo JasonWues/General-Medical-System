@@ -1,5 +1,6 @@
 ﻿using Entity;
 using Entity.DTO;
+using Entity.DTO.Join;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -36,8 +37,9 @@ namespace General_Medical_System_Webapi.Controllers
         {
             var (drugs, count) = await _drugInfoBll.Query(page, limit, drugTitle);
             //使用Mapster转换成Dto
-            var drugDtos = _mapper.Map<List<DrugInfoDto>>(drugs);
-            if (drugDtos.Count != 0) return ApiResultHelp<List<DrugInfoDto>>.SuccessResult(drugDtos, count);
+            var drugDtos = _mapper.Map<List<DrugInfo_ManufacturerInfoJoin>>(drugs);
+            if (count != 0) return ApiResultHelp<List<DrugInfo_ManufacturerInfoJoin>>
+                    .SuccessResult(drugDtos, count);
             return ApiResultHelp.ErrorResult(404, "无数据");
         }
 

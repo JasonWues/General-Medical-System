@@ -1,28 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Entity
+namespace Entity.DTO.Join
 {
-    /// <summary>
-    /// 药品表
-    /// </summary>
-    public class DrugInfo : BaseId
+    public class DrugInfo_ManufacturerInfoJoin
     {
+        public string Id { get; set; }
+        /// <summary>
+        /// 生产厂家Id
+        /// </summary>
+        public string ManufacturerId { get; set; }
+
+        public string ManufacturerName { get; set;}
+
+        /// <summary>
+        /// 药品Id
+        /// </summary>
+        public string DrugId { get; set; }
         /// <summary>
         /// 药品名称
         /// </summary>
-        [Column(TypeName = "nvarchar(26)")]
         public string DrugTitle { get; set; }
-
-        /// <summary>
-        /// 生产厂家
-        /// </summary>
-        [Column(TypeName = "nvarchar(36)")]
-        public string ManufacturerName { get; set; }
 
         /// <summary>
         /// 单位
         /// </summary>
-        [Column(TypeName = "nvarchar(10)")]
         public string Unit { get; set; }
 
         /// <summary>
@@ -38,20 +43,18 @@ namespace Entity
         /// <summary>
         /// 类别
         /// </summary>
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 价格
         /// </summary>
-        [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
- 
 
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime Createtime { get; set; }
+        public string Createtime { get; set; }
 
         /// <summary>
         /// 软删除
