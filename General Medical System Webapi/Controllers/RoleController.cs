@@ -3,6 +3,7 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -145,20 +146,20 @@ namespace General_Medical_System_Webapi.Controllers
         /// 获取用户备选数据
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{roleId}")]
-        public async Task<ApiResult> GetBindUserInfo(string roleInfoId)
+        [HttpGet("Transfer")]
+        public async Task<ApiResult> GetBindUserInfo(string roleId)
         {
             //查询用户信息下拉选数据
-            var doctorInfoOptions = _doctorInfoBll.GetEntities.Where(d=> d.IsDelete==false).Select(x => new DoctorInfo
+            var doctorInfoOptions = await _doctorInfoBll.GetEntities.Where(d=> d.IsDelete==false).Select(x => new DoctorInfo
             {
                 Id = x.Id,
                 DoctorName = x.DoctorName
-            });
+            }).ToListAsync();
             //获取当前角色已绑定的用户id集合
-            var doctorInfoIds = _doctorInfo_RoleInfoBll.GetEntities.Where(d=>d.RoleId == roleInfoId).Select(x=> new DoctorInfo_RoleInfo
+            var doctorInfoIds = await _doctorInfo_RoleInfoBll.GetEntities.Where(d=>d.RoleId == roleId).Select(x=> new DoctorInfo_RoleInfo
             {
                 DoctorId = x.DoctorId
-            });
+            }).ToListAsync();
 
             var option = new
             {

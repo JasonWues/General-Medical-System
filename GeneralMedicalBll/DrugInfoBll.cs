@@ -11,13 +11,13 @@ namespace GeneralMedicalBll
         private readonly IDrugInfo_ManufacturerInfoDal _drugInfo_ManufacturerInfoDal;
         private readonly IManufacturerInfoDal _manufacturerInfoDal;
         public DrugInfoBll(IDrugInfoDal drugInfoDal
-            ,IDrugInfo_ManufacturerInfoDal drugInfo_ManufacturerInfoDal
+            , IDrugInfo_ManufacturerInfoDal drugInfo_ManufacturerInfoDal
             , IManufacturerInfoDal manufacturerInfoDal
             )
         {
             _iBaseDal = drugInfoDal;
             _drugInfo_ManufacturerInfoDal = drugInfo_ManufacturerInfoDal;
-            _manufacturerInfoDal=manufacturerInfoDal;
+            _manufacturerInfoDal = manufacturerInfoDal;
 
         }
 
@@ -49,7 +49,7 @@ namespace GeneralMedicalBll
                             Createtime = d.Createtime.ToString("g"),
                             ManufacturerName = dmm.ManufacturerName
                         };
-            count=query.Count();
+            count = query.Count();
             return (await drugInfo.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
