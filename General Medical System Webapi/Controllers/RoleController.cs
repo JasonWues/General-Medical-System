@@ -3,6 +3,7 @@ using Entity.DTO;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Utility;
 
 namespace General_Medical_System_Webapi.Controllers
@@ -17,12 +18,18 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IMapper _mapper;
         private readonly IRoleInfoBll _roleInfoBll;
         private readonly IDoctorInfo_RoleInfoBll _doctorInfo_RoleInfoBll;
+        private readonly IDoctorInfoBll _doctorInfoBll;
 
-        public RoleController(IMapper mapper, IRoleInfoBll roleInfoBll, IDoctorInfo_RoleInfoBll doctorInfo_RoleInfoBll)
+        public RoleController(
+            IMapper mapper,
+            IRoleInfoBll roleInfoBll,
+            IDoctorInfo_RoleInfoBll doctorInfo_RoleInfoBll,
+            IDoctorInfoBll doctorInfoBll)
         {
             _mapper = mapper;
             _roleInfoBll = roleInfoBll;
             _doctorInfo_RoleInfoBll = doctorInfo_RoleInfoBll;
+            _doctorInfoBll = doctorInfoBll;
         }
 
         /// <summary>
@@ -135,21 +142,52 @@ namespace General_Medical_System_Webapi.Controllers
             return ApiResultHelp.ErrorResult(404, "删除失败");
         }
 
+        /// <summary>
+        /// 获取用户备选数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Transfer")]
+        public async Task<ApiResult> GetBindUserInfo(string roleId)
+        {
+            //查询用户信息下拉选数据
+            var doctorInfoOptions = await _doctorInfoBll.GetEntities.Where(d=> d.IsDelete==false).Select(x => new DoctorInfo
+            {
+                Id = x.Id,
+                DoctorName = x.DoctorName
+            }).ToListAsync();
+            //获取当前角色已绑定的用户id集合
+            var doctorInfoIds = await _doctorInfo_RoleInfoBll.GetEntities.Where(d=>d.RoleId == roleId).Select(x=> new DoctorInfo_RoleInfo
+            {
+                DoctorId = x.DoctorId
+            }).ToListAsync();
+
+            var option = new
+            {
+                doctorInfoOptions,
+                doctorInfoIds
+            };
+
+            if (option != null) return ApiResultHelp.SuccessResult(option);
+            return ApiResultHelp.ErrorResult(404, "未查询到对应数据");
+        }
+
+
+
         ////测试代码
 
-        ///// <summary>
-        ///// 绑定角色
-        ///// </summary>
-        ///// <param name="doctor_Roleinfo"></param>
-        ///// <returns></returns>
-        //[HttpPatch]
-        //public async Task<ApiResult> Bindrole(DoctorInfo_RoleInfo doctor_Roleinfo)
-        //{
-        //    doctor_Roleinfo.Createtime = DateTime.Now;
+        /// <summary>
+        /// 绑定角色
+        /// </summary>
+        /// <param name="doctor_Roleinfo"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        public async Task<ApiResult> Bindrole(DoctorInfo_RoleInfo doctor_Roleinfo)
+        {
+            doctor_Roleinfo.Createtime = DateTime.Now;
 
-        //    if (await _doctorInfo_RoleInfoBll.AddAsync(doctor_Roleinfo)) return ApiResultHelp.SuccessResult();
+            if (await _doctorInfo_RoleInfoBll.AddAsync(doctor_Roleinfo)) return ApiResultHelp.SuccessResult();
 
-        //    return ApiResultHelp.ErrorResult(404, "绑定失败");
-        //}
+            return ApiResultHelp.ErrorResult(404, "绑定失败");
+        }
     }
 }
