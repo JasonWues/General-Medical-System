@@ -1,6 +1,7 @@
 ﻿using Entity;
 using Entity.DTO;
 using Entity.DTO.Join;
+using GeneralMedicalBll;
 using IGeneralMedicalBll;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IMapper _mapper;
         private readonly IDrugInfoBll _drugInfoBll;
         private readonly IManufacturerInfoBll _manufacturerBll;
+        private readonly IDrugInfo_ManufacturerInfoBll _drugInfo_Manufacturer;
 
-        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll,IManufacturerInfoBll manufacturerInfoBll)
+        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll,IManufacturerInfoBll manufacturerInfoBll, IDrugInfo_ManufacturerInfoBll drugInfo_Manufacturer)
         {
             _mapper = mapper;
             _drugInfoBll = drugInfoBll;
             _manufacturerBll = manufacturerInfoBll;
+            _drugInfo_Manufacturer = drugInfo_Manufacturer;
         }
 
         /// <summary>
@@ -68,8 +71,18 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(DrugInfo drugInfo)
         {
+            DrugInfo_ManufacturerInfo dm = new DrugInfo_ManufacturerInfo();
+
             drugInfo.Createtime = DateTime.Now;
-            if (await _drugInfoBll.AddAsync(drugInfo)) return ApiResultHelp.SuccessResult();
+
+            dm.DrugId = drugInfo.Id;
+
+            dm.ManufacturerId = drugInfo.ManufacturerId;
+
+            dm.Createtime = DateTime.Now;
+
+            if (await _drugInfoBll.AddAsync(drugInfo) && await _drugInfo_Manufacturer.AddAsync(dm)) return ApiResultHelp.SuccessResult();
+
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
 
@@ -87,10 +100,11 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Drug/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock, int warningcount, int type, int price, string manufacturerName)
+        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock, int warningcount, int type, int price,string manufacturerId)
         {
             var DrugInfo = await _drugInfoBll.FindAsync(id);
-            if (DrugInfo != null)
+            var dm = await _drugInfo_Manufacturer.GetEntities.FirstOrDefaultAsync(x => x.DrugId ==  DrugInfo.Id);
+            if (DrugInfo != null && dm != null)
             {
                 DrugInfo.DrugTitle = drugTitle;
                 DrugInfo.Unit = unit;
@@ -98,9 +112,11 @@ namespace General_Medical_System_Webapi.Controllers
                 DrugInfo.Warningcount = warningcount;
                 DrugInfo.Type = type;
                 DrugInfo.Price = price;
-                DrugInfo.ManufacturerName = manufacturerName;
+                DrugInfo.ManufacturerId = manufacturerId;
 
-                if (await _drugInfoBll.UpdateAsync(DrugInfo))
+                dm.ManufacturerId = manufacturerId;
+        
+                if (await _drugInfoBll.UpdateAsync(DrugInfo) && await _drugInfo_Manufacturer.UpdateAsync(dm))
                 {
                     return ApiResultHelp.SuccessResult();
                 }

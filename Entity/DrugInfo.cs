@@ -13,11 +13,12 @@ namespace Entity
         [Column(TypeName = "nvarchar(26)")]
         public string DrugTitle { get; set; }
 
+
         /// <summary>
-        /// 生产厂家
+        /// 厂家id
         /// </summary>
-        [Column(TypeName = "nvarchar(36)")]
-        public string ManufacturerName { get; set; }
+        [Column(TypeName = "varchar(36)")]
+        public string ManufacturerId { get; set; }
 
         /// <summary>
         /// 单位

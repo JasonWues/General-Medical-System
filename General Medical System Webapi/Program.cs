@@ -47,7 +47,7 @@ builder.Services.AddAuthorization(opt =>
     opt.AddPolicy("General Policy", opt => opt.RequireRole("管理员", "医生"));
 });
 
-//InitDB();
+InitDB();
 
 #region SwaggerGen添加JWT
 
@@ -415,16 +415,19 @@ static void InitDB()
 
         #region 初始化制造商数据
 
-        context.ManufacturerInfo.AddRange(new ManufacturerInfo()
+        ManufacturerInfo manufacturerInfo = new ManufacturerInfo
         {
             ManufacturerName = "小葵花厂",
             Contactperson = "小葵花",
             Phonenum = "700800900",
             Status = 1,
             Createtime = DateTime.Now
-        });
+        };
+
+        context.ManufacturerInfo.AddRange(manufacturerInfo);
 
         #endregion 初始化制造商数据
+
 
         context.SaveChanges();
     }
