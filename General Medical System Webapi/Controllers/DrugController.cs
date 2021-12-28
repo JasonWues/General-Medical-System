@@ -69,7 +69,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// post api/Drug
         [HttpPost]
-        public async Task<ApiResult> Add(DrugInfo drugInfo,string ManufacturerId)
+        public async Task<ApiResult> Add(DrugInfo drugInfo)
         {
             DrugInfo_ManufacturerInfo dm = new DrugInfo_ManufacturerInfo();
 
@@ -77,11 +77,11 @@ namespace General_Medical_System_Webapi.Controllers
 
             dm.DrugId = drugInfo.Id;
 
-            dm.ManufacturerId = ManufacturerId;
+            dm.ManufacturerId = drugInfo.ManufacturerId;
 
-            await _drugInfo_Manufacturer.AddAsync(dm);
+            dm.Createtime = DateTime.Now;
 
-            if (await _drugInfoBll.AddAsync(drugInfo)) return ApiResultHelp.SuccessResult();
+            if (await _drugInfoBll.AddAsync(drugInfo) && await _drugInfo_Manufacturer.AddAsync(dm)) return ApiResultHelp.SuccessResult();
 
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
@@ -100,10 +100,11 @@ namespace General_Medical_System_Webapi.Controllers
         /// <returns></returns>
         /// Patch api/Drug/1
         [HttpPatch("{id}")]
-        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock, int warningcount, int type, int price)
+        public async Task<ApiResult> Update(string id, string drugTitle, string unit, int stock, int warningcount, int type, int price,string manufacturerId)
         {
             var DrugInfo = await _drugInfoBll.FindAsync(id);
-            if (DrugInfo != null)
+            var dm = await _drugInfo_Manufacturer.GetEntities.FirstOrDefaultAsync(x => x.DrugId ==  DrugInfo.Id);
+            if (DrugInfo != null && dm != null)
             {
                 DrugInfo.DrugTitle = drugTitle;
                 DrugInfo.Unit = unit;
@@ -111,9 +112,11 @@ namespace General_Medical_System_Webapi.Controllers
                 DrugInfo.Warningcount = warningcount;
                 DrugInfo.Type = type;
                 DrugInfo.Price = price;
-        
+                DrugInfo.ManufacturerId = manufacturerId;
 
-                if (await _drugInfoBll.UpdateAsync(DrugInfo))
+                dm.ManufacturerId = manufacturerId;
+        
+                if (await _drugInfoBll.UpdateAsync(DrugInfo) && await _drugInfo_Manufacturer.UpdateAsync(dm))
                 {
                     return ApiResultHelp.SuccessResult();
                 }

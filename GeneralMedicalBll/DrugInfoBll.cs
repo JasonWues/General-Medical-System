@@ -50,7 +50,7 @@ namespace GeneralMedicalBll
                             ManufacturerName = dmm.ManufacturerName
                         };
             count = query.Count();
-            return (await drugInfo.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
+            return (await query.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }

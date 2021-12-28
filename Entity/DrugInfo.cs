@@ -15,6 +15,12 @@ namespace Entity
 
 
         /// <summary>
+        /// 厂家id
+        /// </summary>
+        [Column(TypeName = "varchar(36)")]
+        public string ManufacturerId { get; set; }
+
+        /// <summary>
         /// 单位
         /// </summary>
         [Column(TypeName = "nvarchar(10)")]
