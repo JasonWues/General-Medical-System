@@ -156,10 +156,7 @@ namespace General_Medical_System_Webapi.Controllers
                 DoctorName = x.DoctorName
             }).ToListAsync();
             //获取当前角色已绑定的用户id集合
-            var doctorInfoIds = await _doctorInfo_RoleInfoBll.GetEntities.Where(d=>d.RoleId == roleId).Select(x=> new DoctorInfo_RoleInfo
-            {
-                DoctorId = x.DoctorId
-            }).ToListAsync();
+            List<string> doctorInfoIds = await _doctorInfo_RoleInfoBll.GetEntities.Where(d=>d.RoleId == roleId).Select(x=> x.DoctorId).ToListAsync();
 
             var option = new
             {
@@ -178,15 +175,39 @@ namespace General_Medical_System_Webapi.Controllers
         /// <summary>
         /// 绑定角色
         /// </summary>
-        /// <param name="doctor_Roleinfo"></param>
+        /// <param name="doctorInfo_RoleInfo"></param>
         /// <returns></returns>
-        [HttpPatch]
-        public async Task<ApiResult> Bindrole(DoctorInfo_RoleInfo doctor_Roleinfo)
+        [HttpPost("doctorInfo_RoleInfo")]
+        public async Task<ApiResult> Bindrole(string roleId, string[] doctorIds)
         {
-            doctor_Roleinfo.Createtime = DateTime.Now;
+            DateTime now = DateTime.Now;
 
-            if (await _doctorInfo_RoleInfoBll.AddAsync(doctor_Roleinfo)) return ApiResultHelp.SuccessResult();
+            //获取当前角色已绑定的用户id集合
+            var doctorInfo_roleInfos = await _doctorInfo_RoleInfoBll.GetEntities.Where(d => d.RoleId == roleId).ToListAsync();
 
+            foreach (var item in doctorInfo_roleInfos)
+            {
+                if (!doctorIds.Contains(item.DoctorId))
+                {
+                    //userInfoIds不存在的用户id就删除
+                    _doctorInfo_RoleInfoBll.Delete(item.Id);
+                }
+            }
+            foreach (var item in doctorIds)
+            {
+                //如果已经存在的用户就不添加，不存在的才添加
+                if (!_doctorInfo_RoleInfoBll.Any(a => a.DoctorId == item))
+                {
+                    DoctorInfo_RoleInfo doctorInfo_RoleInfo = new DoctorInfo_RoleInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Createtime = now,
+                        RoleId = roleId,
+                        DoctorId = item
+                    };
+                    if (await _doctorInfo_RoleInfoBll.AddAsync(doctorInfo_RoleInfo)) return ApiResultHelp.SuccessResult();
+                }
+            }
             return ApiResultHelp.ErrorResult(404, "绑定失败");
         }
     }

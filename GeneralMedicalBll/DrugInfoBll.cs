@@ -21,7 +21,7 @@ namespace GeneralMedicalBll
 
         }
 
-        public async Task<(List<DrugInfo> drugInfos, int count)> Query(int page, int limit, string? drugTitle)
+        public async Task<(List<DrugInfo_ManufacturerInfoJoin> drugInfos, int count)> Query(int page, int limit, string? drugTitle)
         {
             var drugInfo = _iBaseDal.GetEntities;
             int count = 0;
@@ -50,7 +50,7 @@ namespace GeneralMedicalBll
                             ManufacturerName = dmm.ManufacturerName
                         };
             count = query.Count();
-            return (await drugInfo.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
+            return (await query.OrderBy(x => x.Type).Skip((page - 1) * limit).Take(limit).ToListAsync(), count);
         }
     }
 }
