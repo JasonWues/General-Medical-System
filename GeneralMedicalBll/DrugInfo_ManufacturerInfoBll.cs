@@ -10,5 +10,7 @@ namespace GeneralMedicalBll
         {
             _iBaseDal = drugInfo_ManufacturerInfoDal;
         }
+
+       
     }
 }
