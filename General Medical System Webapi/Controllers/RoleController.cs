@@ -182,6 +182,9 @@ namespace General_Medical_System_Webapi.Controllers
         {
             DateTime now = DateTime.Now;
 
+
+            List<DoctorInfo_RoleInfo> doctorInfo_RoleInfos = new List<DoctorInfo_RoleInfo>();
+
             //获取当前角色已绑定的用户id集合
             var doctorInfo_roleInfos = await _doctorInfo_RoleInfoBll.GetEntities.Where(d => d.RoleId == roleId).ToListAsync();
 
@@ -198,16 +201,18 @@ namespace General_Medical_System_Webapi.Controllers
                 //如果已经存在的用户就不添加，不存在的才添加
                 if (!_doctorInfo_RoleInfoBll.Any(a => a.DoctorId == item))
                 {
-                    DoctorInfo_RoleInfo doctorInfo_RoleInfo = new DoctorInfo_RoleInfo()
+
+                    doctorInfo_RoleInfos.Add(new DoctorInfo_RoleInfo
                     {
                         Id = Guid.NewGuid().ToString(),
                         Createtime = now,
                         RoleId = roleId,
                         DoctorId = item
-                    };
-                    if (await _doctorInfo_RoleInfoBll.AddAsync(doctorInfo_RoleInfo)) return ApiResultHelp.SuccessResult();
+                    });
                 }
             }
+            await _doctorInfo_RoleInfoBll.AddAsync(doctorInfo_RoleInfos);
+            if (await _doctorInfo_RoleInfoBll.SaveChangesAsync() > 0) return ApiResultHelp.SuccessResult();
             return ApiResultHelp.ErrorResult(404, "绑定失败");
         }
     }
