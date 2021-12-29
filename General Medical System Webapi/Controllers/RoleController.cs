@@ -177,11 +177,10 @@ namespace General_Medical_System_Webapi.Controllers
         /// </summary>
         /// <param name="doctorInfo_RoleInfo"></param>
         /// <returns></returns>
-        [HttpPost("doctorInfo_RoleInfo")]
+        [HttpPost("doctorInfo_RoleInfo/{roleId}")]
         public async Task<ApiResult> Bindrole(string roleId, string[] doctorIds)
         {
             DateTime now = DateTime.Now;
-
 
             List<DoctorInfo_RoleInfo> doctorInfo_RoleInfos = new List<DoctorInfo_RoleInfo>();
 
@@ -201,10 +200,8 @@ namespace General_Medical_System_Webapi.Controllers
                 //如果已经存在的用户就不添加，不存在的才添加
                 if (!_doctorInfo_RoleInfoBll.Any(a => a.DoctorId == item))
                 {
-
                     doctorInfo_RoleInfos.Add(new DoctorInfo_RoleInfo
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Createtime = now,
                         RoleId = roleId,
                         DoctorId = item
