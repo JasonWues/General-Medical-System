@@ -192,13 +192,13 @@ namespace General_Medical_System_Webapi.Controllers
                 if (!doctorIds.Contains(item.DoctorId))
                 {
                     //userInfoIds不存在的用户id就删除
-                    _doctorInfo_RoleInfoBll.Delete(item.Id);
+                   await  _doctorInfo_RoleInfoBll.DeleteAsync(item.Id);
                 }
             }
             foreach (var item in doctorIds)
             {
                 //如果已经存在的用户就不添加，不存在的才添加
-                if (!_doctorInfo_RoleInfoBll.Any(a => a.DoctorId == item))
+                if (!await _doctorInfo_RoleInfoBll.AnyAsync(a => a.DoctorId == item))
                 {
                     doctorInfo_RoleInfos.Add(new DoctorInfo_RoleInfo
                     {
@@ -208,9 +208,10 @@ namespace General_Medical_System_Webapi.Controllers
                     });
                 }
             }
+
             await _doctorInfo_RoleInfoBll.AddAsync(doctorInfo_RoleInfos);
-            if (await _doctorInfo_RoleInfoBll.SaveChangesAsync() > 0) return ApiResultHelp.SuccessResult();
-            return ApiResultHelp.ErrorResult(404, "绑定失败");
+            await _doctorInfoBll.SaveChangesAsync();
+            return ApiResultHelp.SuccessResult();
         }
     }
 }
