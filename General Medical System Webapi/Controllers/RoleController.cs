@@ -191,20 +191,21 @@ namespace General_Medical_System_Webapi.Controllers
             {
                 if (!doctorIds.Contains(item.DoctorId))
                 {
+                    Console.WriteLine(item.DoctorId);
                     //userInfoIds不存在的用户id就删除
                    await  _doctorInfo_RoleInfoBll.DeleteAsync(item.Id);
                 }
             }
-            foreach (var item in doctorIds)
+            foreach (var doctorid in doctorIds)
             {
                 //如果已经存在的用户就不添加，不存在的才添加
-                if (!await _doctorInfo_RoleInfoBll.AnyAsync(a => a.DoctorId == item))
+                if (!await _doctorInfo_RoleInfoBll.Where(x => x.RoleId == roleId).AnyAsync(x => x.DoctorId == doctorid))
                 {
                     doctorInfo_RoleInfos.Add(new DoctorInfo_RoleInfo
                     {
                         Createtime = now,
                         RoleId = roleId,
-                        DoctorId = item
+                        DoctorId = doctorid
                     });
                 }
             }
