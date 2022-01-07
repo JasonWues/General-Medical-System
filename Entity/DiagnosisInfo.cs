@@ -17,7 +17,7 @@ namespace Entity
         /// 医生Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string DoctorId { get; set; }
+        public string? DoctorId { get; set; }
 
         /// <summary>
         /// 诊断意见

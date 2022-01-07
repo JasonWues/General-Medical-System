@@ -17,7 +17,7 @@ namespace Entity
         /// 药品Id
         /// </summary>
         [Column(TypeName = "varchar(36)")]
-        public string DrugidId { get; set; }
+        public string DrugId { get; set; }
 
         /// <summary>
         /// 添加时间
