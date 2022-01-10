@@ -21,13 +21,17 @@ namespace General_Medical_System_Webapi.Controllers
         private readonly IDrugInfoBll _drugInfoBll;
         private readonly IManufacturerInfoBll _manufacturerBll;
         private readonly IDrugInfo_ManufacturerInfoBll _drugInfo_Manufacturer;
+        private readonly IDrugStorageBll _drugStorageBll;
+        private readonly IDoctorInfoBll _doctorInfoBll;
 
-        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll,IManufacturerInfoBll manufacturerInfoBll, IDrugInfo_ManufacturerInfoBll drugInfo_Manufacturer)
+        public DrugController(IMapper mapper, IDrugInfoBll drugInfoBll,IManufacturerInfoBll manufacturerInfoBll, IDrugInfo_ManufacturerInfoBll drugInfo_Manufacturer, IDrugStorageBll drugStorageBll, IDoctorInfoBll doctorInfoBll)
         {
             _mapper = mapper;
             _drugInfoBll = drugInfoBll;
             _manufacturerBll = manufacturerInfoBll;
             _drugInfo_Manufacturer = drugInfo_Manufacturer;
+            _drugStorageBll = drugStorageBll;
+            _doctorInfoBll = doctorInfoBll;
         }
 
         /// <summary>
@@ -71,17 +75,33 @@ namespace General_Medical_System_Webapi.Controllers
         [HttpPost]
         public async Task<ApiResult> Add(DrugInfo drugInfo)
         {
-            DrugInfo_ManufacturerInfo dm = new DrugInfo_ManufacturerInfo();
+            var currentDoctorName = HttpContext.User.Identity.Name;
+
+            DrugInfo_ManufacturerInfo dm = new DrugInfo_ManufacturerInfo()
+            {
+
+                DrugId = drugInfo.Id,
+
+                ManufacturerId = drugInfo.ManufacturerId,
+
+                Createtime = DateTime.Now,
+            };
 
             drugInfo.Createtime = DateTime.Now;
 
-            dm.DrugId = drugInfo.Id;
+            var doctorId = await _doctorInfoBll.GetEntities.Where(x => x.DoctorName == currentDoctorName).Select(x => x.Id).FirstOrDefaultAsync();
 
-            dm.ManufacturerId = drugInfo.ManufacturerId;
+            DrugStorage drugStorage = new DrugStorage()
+            {
+                DrugId = drugInfo.Id,
+                ManufacturerId = drugInfo.ManufacturerId,
+                Count = drugInfo.Stock,
+                Type = 1,
+                OperatorId = doctorId,
+                Createtime = DateTime.Now,
+            };
 
-            dm.Createtime = DateTime.Now;
-
-            if (await _drugInfoBll.AddAsync(drugInfo) && await _drugInfo_Manufacturer.AddAsync(dm)) return ApiResultHelp.SuccessResult();
+            if (await _drugInfoBll.AddAsync(drugInfo) && await _drugInfo_Manufacturer.AddAsync(dm) && await _drugStorageBll.AddAsync(drugStorage)) return ApiResultHelp.SuccessResult();
 
             return ApiResultHelp.ErrorResult(405, "添加失败");
         }
@@ -96,7 +116,7 @@ namespace General_Medical_System_Webapi.Controllers
         /// <param name="warningcount"></param>
         /// <param name="type"></param>
         /// <param name="price"></param>
-        /// <param name="manufacturerName"></param>
+        /// <param name="manufacturerId"></param>
         /// <returns></returns>
         /// Patch api/Drug/1
         [HttpPatch("{id}")]

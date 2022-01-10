@@ -42,6 +42,7 @@ namespace GeneralMedicalBll
                         {
                             Id = Register.Id,
                             PatientName = result2.PatientName,
+                            PatientId = result2.Id,
                             DoctorName = result.DoctorName,
                             Status = Register.Status == 0 ? "未接诊" : "已接诊",
                             Registertime = Register.Registertime.ToString("g"),

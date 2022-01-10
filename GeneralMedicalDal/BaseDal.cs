@@ -165,7 +165,7 @@ namespace GeneralMedicalDal
 
         public async Task AddAsync(List<TEntity> entities)
         {
-            await _DbContext.AddRangeAsync(entities);
+            await _DbContext.BulkInsertAsync(entities);
         }
 
         public async Task UpdateAsync(List<TEntity> entities)

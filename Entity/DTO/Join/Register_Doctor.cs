@@ -11,6 +11,11 @@
         public string PatientName { get; set; }
 
         /// <summary>
+        /// 患者Id
+        /// </summary>
+        public string PatientId { get; set; }
+
+        /// <summary>
         /// 医生Id
         /// </summary>
         public string DoctorName { get; set; }

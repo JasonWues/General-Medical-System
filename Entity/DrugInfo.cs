@@ -47,8 +47,6 @@ namespace Entity
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
- 
-
         /// <summary>
         /// 添加时间
         /// </summary>
